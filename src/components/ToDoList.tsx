@@ -14,16 +14,19 @@ export type TaskType = {
 };
 
 type PropsType = {
+  id: string;
   title: string;
   tasks: Array<TaskType>;
-  removeTask: (id: string) => void;
-  filterTasks: (value: FilterValuesType) => void;
-  addTask: (title: string) => void;
-  changeTaskProgress: (id: string, isDone: boolean) => void;
+  removeTask: (taskId: string, todoListId: string) => void;
+  filterTasks: (value: FilterValuesType, todoListId: string) => void;
+  addTask: (title: string, todoListId: string) => void;
+  changeTaskProgress: (id: string, isDone: boolean, todoListId: string) => void;
   filter: FilterValuesType;
+  removeTodoList: (todoListId: string) => void;
 };
 
 export function ToDoList({
+  id,
   title,
   tasks,
   removeTask,
@@ -31,35 +34,40 @@ export function ToDoList({
   addTask,
   changeTaskProgress,
   filter,
+  removeTodoList
 }: PropsType) {
   const [newTaskTitle, setNewTaskTitle] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
-  const onSetNewTaskTitle = (e: ChangeEvent<HTMLInputElement>) =>
-    setNewTaskTitle(e.currentTarget.value);
+  const onDeleteTodoListHandler = () => removeTodoList(id);
+
+  const onSetNewTaskTitle = (e: ChangeEvent<HTMLInputElement>) => setNewTaskTitle(e.currentTarget.value);
+
   const onAddTaskHandler = () => {
     if (newTaskTitle.trim()) {
-      addTask(newTaskTitle.trim());
+      addTask(newTaskTitle.trim(), id);
       setNewTaskTitle("");
     } else {
       setError("Input is required");
     }
   };
+
   const onEnterPressHandler = (e: KeyboardEvent) => {
     setError(null);
     if (e.key === "Enter") {
       onAddTaskHandler();
     }
   };
+
   const onAllClickHandler = () => {
-    filterTasks("all");
+    filterTasks("all", id);
   };
-  const onActiveClickHandler = () => filterTasks("active");
-  const onCompletedClickHandler = () => filterTasks("completed");
+  const onActiveClickHandler = () => filterTasks("active", id);
+  const onCompletedClickHandler = () => filterTasks("completed", id);
 
   return (
     <CardWrapper>
-      <h2>{title}</h2>
+      <h2>{title} <button onClick={onDeleteTodoListHandler}>x</button></h2>
       <div>
         <Input
           type="text"
@@ -73,9 +81,9 @@ export function ToDoList({
       </div>
       <TasksWrapper>
         {tasks.map((task) => {
-          const onRemoveHandler = () => removeTask(task.id);
+          const onRemoveHandler = () => removeTask(task.id, id);
           const onCheckHandler = (e: ChangeEvent<HTMLInputElement>) =>
-            changeTaskProgress(task.id, e.currentTarget.checked);
+            changeTaskProgress(task.id, e.currentTarget.checked, id);
           return (
             <TaskWrapper key={task.id} $isDone={task.isDone}>
               <input
@@ -90,8 +98,7 @@ export function ToDoList({
         })}
       </TasksWrapper>
       <div>
-        <FilterButton onClick={onAllClickHandler}
-                      $active={filter === "all"}>
+        <FilterButton onClick={onAllClickHandler} $active={filter === "all"}>
           All
         </FilterButton>
         <FilterButton
