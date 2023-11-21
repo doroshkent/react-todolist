@@ -53,6 +53,7 @@ function App() {
         filterTasks={changeFilter}
         addTask={addTask}
         changeTaskProgress={changeTaskProgress}
+        filter={filter}
       />
     </AppWrapper>
   );

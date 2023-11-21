@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const TasksWrapper = styled.ul`
+export const ErrorMessage = styled.p`
   margin: 5px;
-  padding: 10px;
+  color: red;
 `;

@@ -2,7 +2,10 @@ import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import { CardWrapper } from "styles/cards/CardWrapper";
 import { TasksWrapper } from "styles/cards/TasksWrapper";
 import { TaskWrapper } from "styles/cards/TaskWrapper";
+import { FilterButton } from "styles/common/FilterButton";
+import { Input } from "styles/common/Input";
 import { FilterValuesType } from "../App";
+import { ErrorMessage } from "../styles/common/ErrorMessage";
 
 export type TaskType = {
   id: string;
@@ -17,6 +20,7 @@ type PropsType = {
   filterTasks: (value: FilterValuesType) => void;
   addTask: (title: string) => void;
   changeTaskProgress: (id: string, isDone: boolean) => void;
+  filter: FilterValuesType;
 };
 
 export function ToDoList({
@@ -26,33 +30,46 @@ export function ToDoList({
   filterTasks,
   addTask,
   changeTaskProgress,
+  filter,
 }: PropsType) {
   const [newTaskTitle, setNewTaskTitle] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+
   const onSetNewTaskTitle = (e: ChangeEvent<HTMLInputElement>) =>
     setNewTaskTitle(e.currentTarget.value);
   const onAddTaskHandler = () => {
-    addTask(newTaskTitle);
-    setNewTaskTitle("");
+    if (newTaskTitle.trim()) {
+      addTask(newTaskTitle.trim());
+      setNewTaskTitle("");
+    } else {
+      setError("Input is required");
+    }
   };
   const onEnterPressHandler = (e: KeyboardEvent) => {
+    setError(null);
     if (e.key === "Enter") {
       onAddTaskHandler();
     }
   };
-  const onAllClickHandler = () => filterTasks("all");
+  const onAllClickHandler = () => {
+    filterTasks("all");
+  };
   const onActiveClickHandler = () => filterTasks("active");
   const onCompletedClickHandler = () => filterTasks("completed");
+
   return (
     <CardWrapper>
       <h2>{title}</h2>
       <div>
-        <input
+        <Input
           type="text"
           value={newTaskTitle}
           onChange={onSetNewTaskTitle}
           onKeyDown={onEnterPressHandler}
+          $error={error}
         />
         <button onClick={onAddTaskHandler}>+</button>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
       </div>
       <TasksWrapper>
         {tasks.map((task) => {
@@ -60,7 +77,7 @@ export function ToDoList({
           const onCheckHandler = (e: ChangeEvent<HTMLInputElement>) =>
             changeTaskProgress(task.id, e.currentTarget.checked);
           return (
-            <TaskWrapper key={task.id}>
+            <TaskWrapper key={task.id} $isDone={task.isDone}>
               <input
                 type="checkbox"
                 onChange={onCheckHandler}
@@ -73,9 +90,22 @@ export function ToDoList({
         })}
       </TasksWrapper>
       <div>
-        <button onClick={onAllClickHandler}>All</button>
-        <button onClick={onActiveClickHandler}>Active</button>
-        <button onClick={onCompletedClickHandler}>Completed</button>
+        <FilterButton onClick={onAllClickHandler}
+                      $active={filter === "all"}>
+          All
+        </FilterButton>
+        <FilterButton
+          onClick={onActiveClickHandler}
+          $active={filter === "active"}
+        >
+          Active
+        </FilterButton>
+        <FilterButton
+          onClick={onCompletedClickHandler}
+          $active={filter === "completed"}
+        >
+          Completed
+        </FilterButton>
       </div>
     </CardWrapper>
   );
