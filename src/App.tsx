@@ -28,6 +28,14 @@ function App() {
     setTasks([newTask, ...tasks]);
   };
 
+  const changeTaskProgress = (id: string, isDone: boolean) => {
+    const task = tasks.find((t) => t.id === id);
+    if (task) {
+      task.isDone = isDone;
+    }
+    setTasks([...tasks]);
+  };
+
   let tasksForTodoList = tasks;
   if (filter === "active") {
     tasksForTodoList = tasks.filter((t) => !t.isDone);
@@ -44,6 +52,7 @@ function App() {
         removeTask={removeTask}
         filterTasks={changeFilter}
         addTask={addTask}
+        changeTaskProgress={changeTaskProgress}
       />
     </AppWrapper>
   );

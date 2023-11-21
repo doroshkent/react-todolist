@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, MouseEvent, useState } from "react";
+import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import { CardWrapper } from "styles/cards/CardWrapper";
 import { TasksWrapper } from "styles/cards/TasksWrapper";
 import { TaskWrapper } from "styles/cards/TaskWrapper";
@@ -16,6 +16,7 @@ type PropsType = {
   removeTask: (id: string) => void;
   filterTasks: (value: FilterValuesType) => void;
   addTask: (title: string) => void;
+  changeTaskProgress: (id: string, isDone: boolean) => void;
 };
 
 export function ToDoList({
@@ -24,6 +25,7 @@ export function ToDoList({
   removeTask,
   filterTasks,
   addTask,
+  changeTaskProgress,
 }: PropsType) {
   const [newTaskTitle, setNewTaskTitle] = useState<string>("");
   const onSetNewTaskTitle = (e: ChangeEvent<HTMLInputElement>) =>
@@ -55,9 +57,15 @@ export function ToDoList({
       <TasksWrapper>
         {tasks.map((task) => {
           const onRemoveHandler = () => removeTask(task.id);
+          const onCheckHandler = (e: ChangeEvent<HTMLInputElement>) =>
+            changeTaskProgress(task.id, e.currentTarget.checked);
           return (
             <TaskWrapper key={task.id}>
-              <input type="checkbox" checked={task.isDone} />
+              <input
+                type="checkbox"
+                onChange={onCheckHandler}
+                checked={task.isDone}
+              />
               <span>{task.title}</span>
               <button onClick={onRemoveHandler}>X</button>
             </TaskWrapper>
