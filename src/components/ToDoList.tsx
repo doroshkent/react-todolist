@@ -1,11 +1,10 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from "react";
+import React, { ChangeEvent } from "react";
 import { CardWrapper } from "styles/cards/CardWrapper";
 import { TasksWrapper } from "styles/cards/TasksWrapper";
 import { TaskWrapper } from "styles/cards/TaskWrapper";
 import { FilterButton } from "styles/common/FilterButton";
-import { Input } from "styles/common/Input";
 import { FilterValuesType } from "../App";
-import { ErrorMessage } from "../styles/common/ErrorMessage";
+import { AddItemForm } from "./AddItemForm";
 
 export type TaskType = {
   id: string;
@@ -16,7 +15,7 @@ export type TaskType = {
 type PropsType = {
   id: string;
   title: string;
-  tasks: Array<TaskType>;
+  tasks: TaskType[];
   removeTask: (taskId: string, todoListId: string) => void;
   filterTasks: (value: FilterValuesType, todoListId: string) => void;
   addTask: (title: string, todoListId: string) => void;
@@ -34,29 +33,11 @@ export function ToDoList({
   addTask,
   changeTaskProgress,
   filter,
-  removeTodoList
+  removeTodoList,
 }: PropsType) {
-  const [newTaskTitle, setNewTaskTitle] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
-
   const onDeleteTodoListHandler = () => removeTodoList(id);
-
-  const onSetNewTaskTitle = (e: ChangeEvent<HTMLInputElement>) => setNewTaskTitle(e.currentTarget.value);
-
-  const onAddTaskHandler = () => {
-    if (newTaskTitle.trim()) {
-      addTask(newTaskTitle.trim(), id);
-      setNewTaskTitle("");
-    } else {
-      setError("Input is required");
-    }
-  };
-
-  const onEnterPressHandler = (e: KeyboardEvent) => {
-    setError(null);
-    if (e.key === "Enter") {
-      onAddTaskHandler();
-    }
+  const addNewTask = (title: string) => {
+    addTask(title, id);
   };
 
   const onAllClickHandler = () => {
@@ -67,18 +48,10 @@ export function ToDoList({
 
   return (
     <CardWrapper>
-      <h2>{title} <button onClick={onDeleteTodoListHandler}>x</button></h2>
-      <div>
-        <Input
-          type="text"
-          value={newTaskTitle}
-          onChange={onSetNewTaskTitle}
-          onKeyDown={onEnterPressHandler}
-          $error={error}
-        />
-        <button onClick={onAddTaskHandler}>+</button>
-        {error && <ErrorMessage>{error}</ErrorMessage>}
-      </div>
+      <h2>
+        {title} <button onClick={onDeleteTodoListHandler}>x</button>
+      </h2>
+      <AddItemForm addItem={addNewTask} />
       <TasksWrapper>
         {tasks.map((task) => {
           const onRemoveHandler = () => removeTask(task.id, id);
