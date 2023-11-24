@@ -5,6 +5,7 @@ import { TaskWrapper } from "styles/cards/TaskWrapper";
 import { FilterButton } from "styles/common/FilterButton";
 import { FilterValuesType } from "../App";
 import { AddItemForm } from "./AddItemForm";
+import { EditableSpan } from "./EditableSpan";
 
 export type TaskType = {
   id: string;
@@ -20,8 +21,10 @@ type PropsType = {
   filterTasks: (value: FilterValuesType, todoListId: string) => void;
   addTask: (title: string, todoListId: string) => void;
   changeTaskProgress: (id: string, isDone: boolean, todoListId: string) => void;
+  renameTask: (taskId: string, newTitle: string, id: string) => void;
   filter: FilterValuesType;
   removeTodoList: (todoListId: string) => void;
+  renameTodoList: (todoListId: string, newTitle: string) => void;
 };
 
 export function ToDoList({
@@ -32,10 +35,14 @@ export function ToDoList({
   filterTasks,
   addTask,
   changeTaskProgress,
+  renameTask,
   filter,
   removeTodoList,
+  renameTodoList,
 }: PropsType) {
   const onDeleteTodoListHandler = () => removeTodoList(id);
+  const onRenameTodoListHandler = (newTitle: string) =>
+    renameTodoList(id, newTitle);
   const addNewTask = (title: string) => {
     addTask(title, id);
   };
@@ -49,7 +56,8 @@ export function ToDoList({
   return (
     <CardWrapper>
       <h2>
-        {title} <button onClick={onDeleteTodoListHandler}>x</button>
+        <EditableSpan title={title} renameItem={onRenameTodoListHandler} />{" "}
+        <button onClick={onDeleteTodoListHandler}>x</button>
       </h2>
       <AddItemForm addItem={addNewTask} />
       <TasksWrapper>
@@ -57,6 +65,9 @@ export function ToDoList({
           const onRemoveHandler = () => removeTask(task.id, id);
           const onCheckHandler = (e: ChangeEvent<HTMLInputElement>) =>
             changeTaskProgress(task.id, e.currentTarget.checked, id);
+          const onRenameHandler = (newTitle: string) => {
+            renameTask(task.id, newTitle, id);
+          };
           return (
             <TaskWrapper key={task.id} $isDone={task.isDone}>
               <input
@@ -64,7 +75,7 @@ export function ToDoList({
                 onChange={onCheckHandler}
                 checked={task.isDone}
               />
-              <span>{task.title}</span>
+              <EditableSpan title={task.title} renameItem={onRenameHandler} />
               <button onClick={onRemoveHandler}>X</button>
             </TaskWrapper>
           );

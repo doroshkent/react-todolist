@@ -13,7 +13,7 @@ export function AddItemForm({ addItem }: AddItemFormProps) {
   const onSetNewItemTitle = (e: ChangeEvent<HTMLInputElement>) =>
     setNewItemTitle(e.currentTarget.value);
 
-  const onAddTaskHandler = () => {
+  const onAddItemHandler = () => {
     if (newItemTitle.trim()) {
       addItem(newItemTitle.trim());
       setNewItemTitle("");
@@ -25,7 +25,7 @@ export function AddItemForm({ addItem }: AddItemFormProps) {
   const onEnterPressHandler = (e: KeyboardEvent) => {
     setError(null);
     if (e.key === "Enter") {
-      onAddTaskHandler();
+      onAddItemHandler();
     }
   };
   return (
@@ -37,7 +37,7 @@ export function AddItemForm({ addItem }: AddItemFormProps) {
         onKeyDown={onEnterPressHandler}
         $error={error}
       />
-      <button onClick={onAddTaskHandler}>+</button>
+      <button onClick={onAddItemHandler}>+</button>
       {error && <ErrorMessage>{error}</ErrorMessage>}
     </>
   );

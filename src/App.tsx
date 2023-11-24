@@ -14,7 +14,7 @@ type TodoListType = {
 };
 
 interface TasksStateType {
-  [key: string]: TaskType[]
+  [key: string]: TaskType[];
 }
 
 function App() {
@@ -45,19 +45,26 @@ function App() {
     delete tasksObj[todoListId];
     setTasks({ ...tasksObj });
   };
+  const renameTodoList = (todoListId: string, newTitle: string) => {
+    const todolist = todoLists.find((tl) => tl.id === todoListId);
+    if (todolist) {
+      todolist.title = newTitle;
+      setTodoLists([...todoLists]);
+    }
+  };
 
   const addTodoList = (title: string) => {
     const todoList: TodoListType = {
       id: v4(),
       title: title,
       filter: "all",
-    }
+    };
     setTodoLists([todoList, ...todoLists]);
     setTasks({
       ...tasksObj,
       [todoList.id]: [],
-    })
-  }
+    });
+  };
 
   const removeTask = (taskId: string, todoListId: string) => {
     const tasks = tasksObj[todoListId];
@@ -97,6 +104,14 @@ function App() {
       setTasks({ ...tasksObj });
     }
   };
+  const renameTask = (id: string, newTitle: string, todoListId: string) => {
+    const tasks = tasksObj[todoListId];
+    const task = tasks.find((t) => t.id === id);
+    if (task) {
+      task.title = newTitle;
+      setTasks({ ...tasksObj });
+    }
+  };
 
   return (
     <AppWrapper>
@@ -119,8 +134,10 @@ function App() {
             filterTasks={changeFilter}
             addTask={addTask}
             changeTaskProgress={changeTaskProgress}
+            renameTask={renameTask}
             filter={tl.filter}
             removeTodoList={removeTodoList}
+            renameTodoList={renameTodoList}
           />
         );
       })}
