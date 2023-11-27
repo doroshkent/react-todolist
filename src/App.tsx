@@ -6,6 +6,7 @@ import { AddItemForm } from "./components/AddItemForm";
 import LoginIcon from "@mui/icons-material/Login";
 import {
   AppBar,
+  Box,
   Container,
   Grid,
   IconButton,
@@ -122,7 +123,7 @@ function App() {
   };
 
   return (
-    <div>
+    <Box width={"100%"} minHeight="100vh" sx={{ backgroundColor: "#f5f5f5" }}>
       <AppBar position="static">
         <Toolbar>
           <Grid
@@ -146,7 +147,7 @@ function App() {
           </Grid>
         </Toolbar>
       </AppBar>
-      <Container maxWidth={"xl"}>
+      <Container maxWidth={"xl"} sx={{ marginTop: "15px" }}>
         <Grid container spacing={2}>
           {todoLists.map((tl) => {
             let tasksForTodoList = tasksObj[tl.id];
@@ -177,7 +178,7 @@ function App() {
           })}
         </Grid>
       </Container>
-    </div>
+    </Box>
   );
 }
 

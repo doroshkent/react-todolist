@@ -1,22 +1,23 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
+import { TextField } from "@mui/material";
 
-interface EditableSpanPropsType {
+interface EditableItemPropsType {
   title: string;
   renameItem: (title: string) => void;
+  toggleEditMode: (toggleValue: boolean) => void;
 }
 
-export function EditableSpan({ title, renameItem }: EditableSpanPropsType) {
-  const [editMode, setEditMode] = useState(false);
-  const [newTitle, setNewTitle] = useState("");
+export function EditItem({
+  title,
+  renameItem,
+  toggleEditMode,
+}: EditableItemPropsType) {
+  const [newTitle, setNewTitle] = useState(title);
   const [error, setError] = useState<string | null>(null);
 
-  const activateEditMode = () => {
-    setEditMode(true);
-    setNewTitle(title);
-  };
   const activateViewMode = () => {
     if (newTitle.trim()) {
-      setEditMode(false);
+      toggleEditMode(false);
       renameItem(newTitle.trim());
     } else {
       setError("Input is required");
@@ -34,18 +35,19 @@ export function EditableSpan({ title, renameItem }: EditableSpanPropsType) {
     setNewTitle(e.currentTarget.value);
   };
 
-  return editMode ? (
+  return (
     <>
-      <input
+      <TextField
+        variant={"standard"}
+        size={"small"}
         value={newTitle}
         onChange={onChangeTitleHandler}
         onBlur={activateViewMode}
         onKeyDown={onEnterPressHandler}
         autoFocus
+        error={!!error}
+        fullWidth
       />
-      {error && <div>{error}</div>}
     </>
-  ) : (
-    <span onDoubleClick={activateEditMode}>{title}</span>
   );
 }

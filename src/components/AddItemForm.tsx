@@ -1,14 +1,14 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {Grid, IconButton, TextField, Tooltip} from "@mui/material";
-import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import {ItemsType} from "../App";
+import React, { ChangeEvent, KeyboardEvent, useState } from "react";
+import { Grid, IconButton, TextField, Tooltip } from "@mui/material";
+import { ItemsType } from "../App";
+import AddIcon from "@mui/icons-material/Add";
 
 type AddItemFormProps = {
   addItem: (title: string) => void;
   item: ItemsType;
 };
 
-export function AddItemForm({addItem, item}: AddItemFormProps) {
+export function AddItemForm({ addItem, item }: AddItemFormProps) {
   const [newItemTitle, setNewItemTitle] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
@@ -27,15 +27,18 @@ export function AddItemForm({addItem, item}: AddItemFormProps) {
   const onEnterPressHandler = (e: KeyboardEvent) => {
     setError(null);
     if (e.key === "Enter") {
+      e.preventDefault();
       onAddItemHandler();
     }
   };
   return (
     <Grid container alignItems={"center"}>
-      <Grid item sx={{ position: 'relative' }}>
+      <Grid item sx={{ position: "relative" }}>
         <TextField
+          fullWidth
+          multiline
+          maxRows={4}
           variant={"outlined"}
-          sx={{marginLeft: "10px"}}
           size={"small"}
           label={`New ${item}`}
           margin={"normal"}
@@ -47,13 +50,15 @@ export function AddItemForm({addItem, item}: AddItemFormProps) {
           onKeyDown={onEnterPressHandler}
         />
         <Tooltip title={"Add"} arrow>
-          <IconButton sx={{
-            position: 'absolute',
-            top: '19%',
-             // Adjust this value for horizontal positioning
-          }}
-            onClick={onAddItemHandler} disabled={!newItemTitle}>
-            <ControlPointIcon/>
+          <IconButton
+            sx={{
+              position: "absolute",
+              top: "19%",
+            }}
+            onClick={onAddItemHandler}
+            disabled={!newItemTitle}
+          >
+            <AddIcon />
           </IconButton>
         </Tooltip>
       </Grid>

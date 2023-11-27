@@ -1,8 +1,19 @@
-import React, { ChangeEvent } from "react";
+import React, { useState } from "react";
 import { FilterValuesType } from "../App";
 import { AddItemForm } from "./AddItemForm";
-import { EditableSpan } from "./EditableSpan";
-import { Paper } from "@mui/material";
+import { EditItem } from "./EditItem";
+import {
+  Button,
+  ButtonGroup,
+  Card,
+  Grid,
+  IconButton,
+  List,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
+import { Task } from "./Task";
 
 export type TaskType = {
   id: string;
@@ -37,6 +48,10 @@ export function ToDoList({
   removeTodoList,
   renameTodoList,
 }: PropsType) {
+  const [titleEditMode, setTitleEditMode] = useState(false);
+
+  const toggleTitleEditMode = (toggleValue: boolean) =>
+    setTitleEditMode(toggleValue);
   const onDeleteTodoListHandler = () => removeTodoList(id);
   const onRenameTodoListHandler = (newTitle: string) =>
     renameTodoList(id, newTitle);
@@ -51,36 +66,80 @@ export function ToDoList({
   const onCompletedClickHandler = () => filterTasks("completed", id);
 
   return (
-    <Paper>
-      <h2>
-        <EditableSpan title={title} renameItem={onRenameTodoListHandler} />{" "}
-        <button onClick={onDeleteTodoListHandler}>x</button>
-      </h2>
-      <AddItemForm addItem={addNewTask} item="task" />
-      {tasks.map((task) => {
-        const onRemoveHandler = () => removeTask(task.id, id);
-        const onCheckHandler = (e: ChangeEvent<HTMLInputElement>) =>
-          changeTaskProgress(task.id, e.currentTarget.checked, id);
-        const onRenameHandler = (newTitle: string) => {
-          renameTask(task.id, newTitle, id);
-        };
-        return (
-          <li key={task.id}>
-            <input
-              type="checkbox"
-              onChange={onCheckHandler}
-              checked={task.isDone}
-            />
-            <EditableSpan title={task.title} renameItem={onRenameHandler} />
-            <button onClick={onRemoveHandler}>X</button>
-          </li>
-        );
-      })}
-      <div>
-        <button onClick={onAllClickHandler}>All</button>
-        <button onClick={onActiveClickHandler}>Active</button>
-        <button onClick={onCompletedClickHandler}>Completed</button>
-      </div>
-    </Paper>
+    <Card sx={{ padding: "15px", width: "300px" }}>
+      <Grid container flexDirection={"column"}>
+        <Grid
+          item
+          container
+          justifyContent={"space-between"}
+          alignItems={"center"}
+        >
+          <Grid item>
+            {titleEditMode ? (
+              <EditItem
+                title={title}
+                renameItem={onRenameTodoListHandler}
+                toggleEditMode={toggleTitleEditMode}
+              />
+            ) : (
+              <Typography
+                variant={"h5"}
+                onDoubleClick={() => toggleTitleEditMode(true)}
+              >
+                {title}
+              </Typography>
+            )}
+          </Grid>
+          <Grid item>
+            <Tooltip title={"Remove"}>
+              <IconButton onClick={onDeleteTodoListHandler}>
+                <ClearIcon />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <AddItemForm addItem={addNewTask} item="task" />
+        </Grid>
+        <Grid item>
+          <List>
+            {tasks.map((task) => (
+              <Task
+                key={task.id}
+                title={task.title}
+                taskId={task.id}
+                todoListId={id}
+                removeTask={removeTask}
+                renameTask={renameTask}
+                changeTaskProgress={changeTaskProgress}
+                isDone={task.isDone}
+              />
+            ))}
+          </List>
+        </Grid>
+        <Grid item alignSelf={"center"}>
+          <ButtonGroup size={"small"}>
+            <Button
+              variant={filter === "all" ? "contained" : "outlined"}
+              onClick={onAllClickHandler}
+            >
+              All
+            </Button>
+            <Button
+              variant={filter === "active" ? "contained" : "outlined"}
+              onClick={onActiveClickHandler}
+            >
+              Active
+            </Button>
+            <Button
+              variant={filter === "completed" ? "contained" : "outlined"}
+              onClick={onCompletedClickHandler}
+            >
+              Completed
+            </Button>
+          </ButtonGroup>
+        </Grid>
+      </Grid>
+    </Card>
   );
 }
