@@ -1,11 +1,8 @@
 import React, { ChangeEvent } from "react";
-import { CardWrapper } from "styles/cards/CardWrapper";
-import { TasksWrapper } from "styles/cards/TasksWrapper";
-import { TaskWrapper } from "styles/cards/TaskWrapper";
-import { FilterButton } from "styles/common/FilterButton";
 import { FilterValuesType } from "../App";
 import { AddItemForm } from "./AddItemForm";
 import { EditableSpan } from "./EditableSpan";
+import { Paper } from "@mui/material";
 
 export type TaskType = {
   id: string;
@@ -54,50 +51,36 @@ export function ToDoList({
   const onCompletedClickHandler = () => filterTasks("completed", id);
 
   return (
-    <CardWrapper>
+    <Paper>
       <h2>
         <EditableSpan title={title} renameItem={onRenameTodoListHandler} />{" "}
         <button onClick={onDeleteTodoListHandler}>x</button>
       </h2>
-      <AddItemForm addItem={addNewTask} />
-      <TasksWrapper>
-        {tasks.map((task) => {
-          const onRemoveHandler = () => removeTask(task.id, id);
-          const onCheckHandler = (e: ChangeEvent<HTMLInputElement>) =>
-            changeTaskProgress(task.id, e.currentTarget.checked, id);
-          const onRenameHandler = (newTitle: string) => {
-            renameTask(task.id, newTitle, id);
-          };
-          return (
-            <TaskWrapper key={task.id} $isDone={task.isDone}>
-              <input
-                type="checkbox"
-                onChange={onCheckHandler}
-                checked={task.isDone}
-              />
-              <EditableSpan title={task.title} renameItem={onRenameHandler} />
-              <button onClick={onRemoveHandler}>X</button>
-            </TaskWrapper>
-          );
-        })}
-      </TasksWrapper>
+      <AddItemForm addItem={addNewTask} item="task" />
+      {tasks.map((task) => {
+        const onRemoveHandler = () => removeTask(task.id, id);
+        const onCheckHandler = (e: ChangeEvent<HTMLInputElement>) =>
+          changeTaskProgress(task.id, e.currentTarget.checked, id);
+        const onRenameHandler = (newTitle: string) => {
+          renameTask(task.id, newTitle, id);
+        };
+        return (
+          <li key={task.id}>
+            <input
+              type="checkbox"
+              onChange={onCheckHandler}
+              checked={task.isDone}
+            />
+            <EditableSpan title={task.title} renameItem={onRenameHandler} />
+            <button onClick={onRemoveHandler}>X</button>
+          </li>
+        );
+      })}
       <div>
-        <FilterButton onClick={onAllClickHandler} $active={filter === "all"}>
-          All
-        </FilterButton>
-        <FilterButton
-          onClick={onActiveClickHandler}
-          $active={filter === "active"}
-        >
-          Active
-        </FilterButton>
-        <FilterButton
-          onClick={onCompletedClickHandler}
-          $active={filter === "completed"}
-        >
-          Completed
-        </FilterButton>
+        <button onClick={onAllClickHandler}>All</button>
+        <button onClick={onActiveClickHandler}>Active</button>
+        <button onClick={onCompletedClickHandler}>Completed</button>
       </div>
-    </CardWrapper>
+    </Paper>
   );
 }

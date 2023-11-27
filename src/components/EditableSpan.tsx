@@ -1,6 +1,4 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
-import { Input } from "styles/common/Input";
-import { ErrorMessage } from "../styles/common/ErrorMessage";
 
 interface EditableSpanPropsType {
   title: string;
@@ -38,15 +36,14 @@ export function EditableSpan({ title, renameItem }: EditableSpanPropsType) {
 
   return editMode ? (
     <>
-      <Input
+      <input
         value={newTitle}
         onChange={onChangeTitleHandler}
         onBlur={activateViewMode}
         onKeyDown={onEnterPressHandler}
         autoFocus
-        $error={error}
       />
-      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {error && <div>{error}</div>}
     </>
   ) : (
     <span onDoubleClick={activateEditMode}>{title}</span>
