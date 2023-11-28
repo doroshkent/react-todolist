@@ -17,7 +17,7 @@ import {
 export type FilterValuesType = "all" | "active" | "completed";
 export type ItemsType = "To-do list" | "task";
 
-type TodoListType = {
+export type TodoListType = {
   id: string;
   title: string;
   filter: FilterValuesType;
