@@ -7,6 +7,7 @@ import {
   renameTaskAC,
   tasksReducer,
 } from "./tasksReducer";
+import { addTodolistAC, removeTodolistAC } from "./todolistsReducer";
 
 const todolistId1 = v4();
 const todolistId2 = v4();
@@ -63,4 +64,26 @@ test("progress is changed in correct task", () => {
 
   expect(endState[todolistId1][1].isDone).toBeTruthy();
   expect(endState[todolistId2][1].isDone).toBeFalsy();
+});
+
+test("new property with new array should be added when new todolist is added", () => {
+  const endState = tasksReducer(startState, addTodolistAC("new todolist"));
+
+  const keys = Object.keys(endState);
+  const newKey = keys.find((k) => k !== todolistId1 && k !== todolistId2);
+  if (!newKey) {
+    throw new Error("new key should be added");
+  }
+
+  expect(keys.length).toBe(3);
+  expect(endState[newKey]).toEqual([]);
+});
+
+test("property whit todolistId should be deleted", () => {
+  const endState = tasksReducer(startState, removeTodolistAC(todolistId2));
+
+  const keys = Object.keys(endState);
+
+  expect(keys.length).toBe(1);
+  expect(endState[todolistId2]).toBeUndefined();
 });

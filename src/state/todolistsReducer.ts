@@ -3,7 +3,7 @@ import { v4 } from "uuid";
 
 type TodoListStateType = TodoListType[];
 
-type RemoveTodolistActionType = {
+export type RemoveTodolistActionType = {
   type: "REMOVE-TODOLIST";
   id: string;
 };
@@ -14,9 +14,10 @@ type RenameTodolistActionType = {
   title: string;
 };
 
-type AddTodolistActionType = {
+export type AddTodolistActionType = {
   type: "ADD-TODOLIST";
   title: string;
+  todolistId: string;
 };
 
 type ChangeFilterActionType = {
@@ -31,7 +32,7 @@ type ActionsType =
   | AddTodolistActionType
   | ChangeFilterActionType;
 
-export function todolistReducer(
+export function todolistsReducer(
   state: TodoListStateType,
   action: ActionsType
 ): TodoListStateType {
@@ -48,7 +49,7 @@ export function todolistReducer(
     }
     case "ADD-TODOLIST": {
       const todoList: TodoListType = {
-        id: v4(),
+        id: action.todolistId,
         title: action.title,
         filter: "all",
       };
@@ -76,7 +77,7 @@ export const renameTodolistAC = (
   return { type: "RENAME-TODOLIST", id, title };
 };
 export const addTodolistAC = (title: string): AddTodolistActionType => {
-  return { type: "ADD-TODOLIST", title };
+  return { type: "ADD-TODOLIST", title, todolistId: v4() };
 };
 export const changeFilterAC = (
   id: string,
