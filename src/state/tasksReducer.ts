@@ -1,6 +1,6 @@
-import {FilterValuesType, TasksStateType, TodoListType} from "../App";
-import {v4} from "uuid";
-import {TaskType} from "../components/ToDoList";
+import { TasksStateType } from "../App";
+import { v4 } from "uuid";
+import { TaskType } from "../components/ToDoList";
 
 type RemoveTaskActionType = {
   type: "REMOVE-TASK";
@@ -43,12 +43,14 @@ export function tasksReducer(
       return {
         ...state,
         [action.todolistId]: [
-          ...state[action.todolistId].filter(task => task.id !== action.taskId)
-        ]
-      }
+          ...state[action.todolistId].filter(
+            (task) => task.id !== action.taskId
+          ),
+        ],
+      };
     }
     case "RENAME-TASK": {
-      const updatedTodoList = state[action.todolistId].map(task =>
+      const updatedTodoList = state[action.todolistId].map((task) =>
         task.id === action.taskId ? { ...task, title: action.title } : task
       );
       return {
@@ -64,11 +66,11 @@ export function tasksReducer(
       };
       return {
         ...state,
-        [action.todolistId]: [newTask, ...state[action.todolistId]]
+        [action.todolistId]: [newTask, ...state[action.todolistId]],
       };
     }
     case "CHANGE-TASK-PROGRESS": {
-      const updatedTodoList = state[action.todolistId].map(task =>
+      const updatedTodoList = state[action.todolistId].map((task) =>
         task.id === action.taskId ? { ...task, isDone: action.isDone } : task
       );
       return {
@@ -81,17 +83,23 @@ export function tasksReducer(
   }
 }
 
-export const removeTaskAC = (taskId: string, todolistId: string): RemoveTaskActionType => {
-  return {type: "REMOVE-TASK", taskId, todolistId};
+export const removeTaskAC = (
+  taskId: string,
+  todolistId: string
+): RemoveTaskActionType => {
+  return { type: "REMOVE-TASK", taskId, todolistId };
 };
 export const renameTaskAC = (
   taskId: string,
   todolistId: string,
   title: string
 ): RenameTaskActionType => {
-  return {type: "RENAME-TASK", taskId, todolistId, title};
+  return { type: "RENAME-TASK", taskId, todolistId, title };
 };
-export const addTaskAC = (todolistId: string, title: string): AddTaskActionType => {
+export const addTaskAC = (
+  todolistId: string,
+  title: string
+): AddTaskActionType => {
   return { type: "ADD-TASK", todolistId, title };
 };
 export const changeTaskProgressAC = (

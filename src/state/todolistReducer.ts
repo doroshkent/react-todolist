@@ -40,11 +40,11 @@ export function todolistReducer(
       return state.filter((tl) => tl.id !== action.id);
     }
     case "RENAME-TODOLIST": {
-      const todolist = state.find((tl) => tl.id === action.id);
-      if (todolist) {
-        todolist.title = action.title;
-      }
-      return [...state];
+      return state.map((todolist) =>
+        todolist.id === action.id
+          ? { ...todolist, title: action.title }
+          : todolist
+      );
     }
     case "ADD-TODOLIST": {
       const todoList: TodoListType = {
@@ -55,11 +55,11 @@ export function todolistReducer(
       return [todoList, ...state];
     }
     case "CHANGE-FILTER": {
-      const todoList = state.find((tl) => tl.id === action.id);
-      if (todoList) {
-        todoList.filter = action.filter;
-      }
-      return [...state];
+      return state.map((todolist) =>
+        todolist.id === action.id
+          ? { ...todolist, filter: action.filter }
+          : todolist
+      );
     }
     default:
       return state;

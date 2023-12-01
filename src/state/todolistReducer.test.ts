@@ -8,6 +8,16 @@ import {
   todolistReducer,
 } from "./todolistReducer";
 
+const todolistId1 = v4();
+const todolistId2 = v4();
+
+const startState: TodoListType[] = [
+  { id: todolistId1, title: "To Learn", filter: "all" },
+  { id: todolistId2, title: "To Buy", filter: "all" },
+];
+
+const newTitle = "new title";
+
 test("correct todolist is removed", () => {
   let todolistId1 = v4();
   let todolistId2 = v4();
@@ -24,16 +34,6 @@ test("correct todolist is removed", () => {
 });
 
 test("correct todolist is renamed", () => {
-  let todolistId1 = v4();
-  let todolistId2 = v4();
-
-  const startState: TodoListType[] = [
-    { id: todolistId1, title: "To Learn", filter: "all" },
-    { id: todolistId2, title: "To Buy", filter: "all" },
-  ];
-
-  const newTitle = "new title";
-
   const endState = todolistReducer(
     startState,
     renameTodolistAC(todolistId2, newTitle)
@@ -44,13 +44,6 @@ test("correct todolist is renamed", () => {
 });
 
 test("new correct todolist is added", () => {
-  const startState: TodoListType[] = [
-    { id: v4(), title: "To Learn", filter: "all" },
-    { id: v4(), title: "To Buy", filter: "all" },
-  ];
-
-  const newTitle: string = "new tl";
-
   const endState = todolistReducer(startState, addTodolistAC(newTitle));
 
   expect(endState.length).toBe(3);
@@ -59,14 +52,6 @@ test("new correct todolist is added", () => {
 });
 
 test("filter is changed in correct todolist", () => {
-  let todolistId1 = v4();
-  let todolistId2 = v4();
-
-  const startState: TodoListType[] = [
-    { id: todolistId1, title: "To Learn", filter: "all" },
-    { id: todolistId2, title: "To Buy", filter: "all" },
-  ];
-
   const newFilter: FilterValuesType = "completed";
 
   const endState = todolistReducer(
