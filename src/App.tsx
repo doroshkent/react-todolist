@@ -23,7 +23,7 @@ export type TodoListType = {
   filter: FilterValuesType;
 };
 
-interface TasksStateType {
+export interface TasksStateType {
   [key: string]: TaskType[];
 }
 
@@ -55,6 +55,7 @@ function App() {
     delete tasksObj[todoListId];
     setTasks({ ...tasksObj });
   };
+
   const renameTodoList = (todoListId: string, newTitle: string) => {
     const todolist = todoLists.find((tl) => tl.id === todoListId);
     if (todolist) {
@@ -76,18 +77,18 @@ function App() {
     });
   };
 
-  const removeTask = (taskId: string, todoListId: string) => {
-    const tasks = tasksObj[todoListId];
-    tasksObj[todoListId] = tasks.filter((t) => t.id !== taskId);
-    setTasks({ ...tasksObj });
-  };
-
   const changeFilter = (value: FilterValuesType, todoListId: string) => {
     const todoList = todoLists.find((tl) => tl.id === todoListId);
     if (todoList) {
       todoList.filter = value;
       setTodoLists([...todoLists]);
     }
+  };
+
+  const removeTask = (taskId: string, todoListId: string) => {
+    const tasks = tasksObj[todoListId];
+    tasksObj[todoListId] = tasks.filter((t) => t.id !== taskId);
+    setTasks({ ...tasksObj });
   };
 
   const addTask = (title: string, todoListId: string) => {
