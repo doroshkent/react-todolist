@@ -1,19 +1,11 @@
 import React, { useState } from "react";
-import { FilterValuesType } from "../App";
+import { FilterValuesType } from "App";
 import { AddItemForm } from "./AddItemForm";
 import { EditItem } from "./EditItem";
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  Grid,
-  IconButton,
-  List,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Button, ButtonGroup, Card, Grid, IconButton, List, Tooltip, Typography, } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Task } from "./Task";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export type TaskType = {
   id: string;
@@ -35,7 +27,7 @@ type PropsType = {
   renameTodoList: (todoListId: string, newTitle: string) => void;
 };
 
-export function ToDoList({
+export const ToDoList: React.FC<PropsType> = ({
   id,
   title,
   tasks,
@@ -47,7 +39,8 @@ export function ToDoList({
   filter,
   removeTodoList,
   renameTodoList,
-}: PropsType) {
+}) => {
+  const [listRef] = useAutoAnimate<HTMLUListElement>();
   const [titleEditMode, setTitleEditMode] = useState(false);
 
   const toggleTitleEditMode = (toggleValue: boolean) =>
@@ -102,20 +95,22 @@ export function ToDoList({
           <AddItemForm addItem={addNewTask} item="task" />
         </Grid>
         <Grid item>
-          <List>
-            {tasks.map((task) => (
-              <Task
-                key={task.id}
-                title={task.title}
-                taskId={task.id}
-                todoListId={id}
-                removeTask={removeTask}
-                renameTask={renameTask}
-                changeTaskProgress={changeTaskProgress}
-                isDone={task.isDone}
-              />
-            ))}
-          </List>
+          {tasks.length > 0
+          ? <List ref={listRef}>
+              {tasks.map((task) => (
+                <Task
+                  key={task.id}
+                  title={task.title}
+                  taskId={task.id}
+                  todoListId={id}
+                  removeTask={removeTask}
+                  renameTask={renameTask}
+                  changeTaskProgress={changeTaskProgress}
+                  isDone={task.isDone}
+                />
+              ))}
+            </List>
+          : <p style={{fontStyle: "italic", opacity: "0.5", textAlign: "center"}}>You have no tasks yet</p>}
         </Grid>
         <Grid item alignSelf={"center"}>
           <ButtonGroup size={"small"}>
