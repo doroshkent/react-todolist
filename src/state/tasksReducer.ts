@@ -1,6 +1,6 @@
-import { TasksStateType } from "../App";
+import { TasksStateType } from "App";
 import { v4 } from "uuid";
-import { TaskType } from "../components/ToDoList";
+import { TaskType } from "components/ToDoList";
 import {
   AddTodolistActionType,
   RemoveTodolistActionType,
@@ -56,7 +56,7 @@ export function tasksReducer(
       };
     }
     case "RENAME-TASK": {
-      const updatedTodoList = state[action.todolistId].map((task) =>
+      const updatedTodoList = state[action.todolistId].map( (task) =>
         task.id === action.taskId ? { ...task, title: action.title } : task
       );
       return {
@@ -72,11 +72,11 @@ export function tasksReducer(
       };
       return {
         ...state,
-        [action.todolistId]: [newTask, ...state[action.todolistId]],
+        [action.todolistId]: [ newTask, ...state[action.todolistId] ],
       };
     }
     case "CHANGE-TASK-PROGRESS": {
-      const updatedTodoList = state[action.todolistId].map((task) =>
+      const updatedTodoList = state[action.todolistId].map( (task) =>
         task.id === action.taskId ? { ...task, isDone: action.isDone } : task
       );
       return {
@@ -104,14 +104,14 @@ export const removeTaskAC = (
   taskId: string,
   todolistId: string
 ): RemoveTaskActionType => {
-  return { type: "REMOVE-TASK", taskId, todolistId };
+  return { type: "REMOVE-TASK", todolistId, taskId };
 };
 export const renameTaskAC = (
   taskId: string,
   todolistId: string,
   title: string
 ): RenameTaskActionType => {
-  return { type: "RENAME-TASK", taskId, todolistId, title };
+  return { type: "RENAME-TASK", todolistId, taskId, title };
 };
 export const addTaskAC = (
   todolistId: string,
@@ -124,5 +124,5 @@ export const changeTaskProgressAC = (
   todolistId: string,
   isDone: boolean
 ): ChangeTaskProgressActionType => {
-  return { type: "CHANGE-TASK-PROGRESS", taskId, todolistId, isDone };
+  return { type: "CHANGE-TASK-PROGRESS", todolistId, taskId, isDone };
 };

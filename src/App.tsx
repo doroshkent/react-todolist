@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import "./App.css";
 import { TaskType, ToDoList } from "components/ToDoList";
 import { v4 } from "uuid";
-import { AddItemForm } from "components/AddItemForm";
-import LoginIcon from "@mui/icons-material/Login";
-import { AppBar, Box, Container, Grid, IconButton, Toolbar, Typography, } from "@mui/material";
+import { Box, Container, Grid, } from "@mui/material";
+import { Header } from "widgets/header/Header";
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type ItemsType = "To-do list" | "task";
@@ -117,45 +116,29 @@ function App() {
 
   return (
     <Box width={ "100%" } minHeight="100vh" sx={ { backgroundColor: "#f5f5f5" } }>
-      <AppBar position="static">
-        <Toolbar>
-          <Grid
-            container
-            justifyContent={ "space-between" }
-            alignItems={ "center" }
-          >
-            <Grid>
-              <AddItemForm addItem={ addTodoList } item="To-do list" />
-            </Grid>
-            <Grid>
-              <Typography variant="h4" component="div" marginRight="150px">
-                Tasks Board
-              </Typography>
-            </Grid>
-            <Grid>
-              <IconButton color="inherit" sx={ { marginLeft: "auto" } }>
-                <LoginIcon />
-              </IconButton>
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      <Container maxWidth={ "xl" } sx={ { marginTop: "15px" } } >
+      <Header addTodoList={ addTodoList } />
+      <Container maxWidth={ "xl" } sx={ { marginTop: "15px" } }>
         { todoLists.length > 0
           ? <Grid container spacing={ 2 }>
             { todoLists.map( (tl) => {
-              const tasksForTodoList: TaskType[] = tl.filter === "active"
-                ? tasksObj[tl.id].filter( (t) => !t.isDone )
-                : tl.filter === "completed"
-                  ? tasksObj[tl.id].filter( (t) => t.isDone )
-                  : tasksObj[tl.id]
+              const filteredTasks = () => {
+                const tasksForTodoList: TaskType[] = tasksObj[tl.id];
+                switch (tl.filter) {
+                  case "active":
+                    return tasksForTodoList.filter( (t) => !t.isDone );
+                  case "completed":
+                    return tasksForTodoList.filter( (t) => t.isDone );
+                  default:
+                    return tasksForTodoList
+                }
+              }
               return (
                 <Grid item xs={ 3 }>
                   <ToDoList
                     key={ tl.id }
                     id={ tl.id }
                     title={ tl.title }
-                    tasks={ tasksForTodoList }
+                    tasks={ filteredTasks() }
                     removeTask={ removeTask }
                     filterTasks={ changeFilter }
                     addTask={ addTask }
