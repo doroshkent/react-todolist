@@ -8,28 +8,28 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { EditItem } from "./EditItem";
+import { EditItem } from "components/EditItem";
 import ClearIcon from "@mui/icons-material/Clear";
 import EditIcon from "@mui/icons-material/Edit";
 import React, { memo, useState } from "react";
 
 interface TaskPropsType {
   id: string;
-  todoListId: string;
+  todolistId: string;
   isDone: boolean;
   title: string;
-  removeTask: (taskId: string, todoListId: string) => void;
+  removeTask: (todoListId: string, taskId: string) => void;
   changeTaskProgress: (
+    todoListId: string,
     taskId: string,
     isDone: boolean,
-    todoListId: string
   ) => void;
-  renameTask: (taskId: string, newTitle: string, todoListId: string) => void;
+  renameTask: (todoListId: string, taskId: string, newTitle: string) => void;
 }
 
 export const Task = memo( ({
                              id,
-                             todoListId,
+                             todolistId,
                              isDone,
                              title,
                              renameTask,
@@ -39,12 +39,12 @@ export const Task = memo( ({
   const [ editMode, setEditMode ] = useState( false );
 
   const toggleEditMode = (toggleValue: boolean) => setEditMode( toggleValue );
-  const onRemoveHandler = () => removeTask( id, todoListId );
+  const onRemoveHandler = () => removeTask( todolistId, id );
   const onCheckHandler = () => {
-    changeTaskProgress( id, !isDone, todoListId );
+    changeTaskProgress( todolistId, id, !isDone, );
   };
   const onRenameHandler = (newTitle: string) => {
-    renameTask( id, newTitle, todoListId );
+    renameTask( todolistId, id, newTitle );
   };
   return (
     <ListItem disablePadding>

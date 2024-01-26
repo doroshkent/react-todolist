@@ -2,10 +2,9 @@ import React, { memo, useState } from "react";
 import { FilterValuesType } from "App";
 import { AddItemForm } from "./AddItemForm";
 import { EditItem } from "./EditItem";
-import { Button, ButtonGroup, Card, Grid, IconButton, List, Tooltip, Typography, } from "@mui/material";
+import { Button, ButtonGroup, Card, Grid, IconButton, Tooltip, Typography, } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
-import { Task } from "./Task";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { Tasks } from "components/tasks/Tasks";
 
 export type TaskType = {
   id: string;
@@ -17,30 +16,29 @@ type PropsType = {
   id: string;
   title: string;
   tasks: TaskType[];
-  removeTask: (taskId: string, todoListId: string) => void;
-  filterTasks: (value: FilterValuesType, todoListId: string) => void;
-  addTask: (title: string, todoListId: string) => void;
-  changeTaskProgress: (id: string, isDone: boolean, todoListId: string) => void;
-  renameTask: (taskId: string, newTitle: string, id: string) => void;
+  removeTask: (todolistId: string, taskId: string) => void;
+  filterTasks: (todolistId: string, value: FilterValuesType) => void;
+  addTask: (todolistId: string, title: string) => void;
+  changeTaskProgress: (todolistId: string, taskId: string, isDone: boolean) => void;
+  renameTask: (todolistId: string, taskId: string, newTitle: string) => void;
   filter: FilterValuesType;
-  removeTodoList: (todoListId: string) => void;
-  renameTodoList: (todoListId: string, newTitle: string) => void;
+  removeTodoList: (todolistId: string) => void;
+  renameTodoList: (todolistId: string, newTitle: string) => void;
 };
 
-export const ToDoList: React.FC<PropsType> = memo(({
-                                                id,
-                                                title,
-                                                tasks,
-                                                removeTask,
-                                                filterTasks,
-                                                addTask,
-                                                changeTaskProgress,
-                                                renameTask,
-                                                filter,
-                                                removeTodoList,
-                                                renameTodoList,
-                                              }) => {
-  const [ listRef ] = useAutoAnimate<HTMLUListElement>();
+export const ToDoList: React.FC<PropsType> = memo( ({
+                                                      id,
+                                                      title,
+                                                      tasks,
+                                                      removeTask,
+                                                      filterTasks,
+                                                      addTask,
+                                                      changeTaskProgress,
+                                                      renameTask,
+                                                      filter,
+                                                      removeTodoList,
+                                                      renameTodoList,
+                                                    }) => {
   const [ titleEditMode, setTitleEditMode ] = useState( false );
 
   const toggleTitleEditMode = (toggleValue: boolean) =>
@@ -49,14 +47,12 @@ export const ToDoList: React.FC<PropsType> = memo(({
   const onRenameTodoListHandler = (newTitle: string) =>
     renameTodoList( id, newTitle );
   const addNewTask = (title: string) => {
-    addTask( title, id );
+    addTask( id, title );
   };
 
-  const onAllClickHandler = () => {
-    filterTasks( "all", id );
-  };
-  const onActiveClickHandler = () => filterTasks( "active", id );
-  const onCompletedClickHandler = () => filterTasks( "completed", id );
+  const onAllClickHandler = () => filterTasks( id, "all" );
+  const onActiveClickHandler = () => filterTasks( id, "active" );
+  const onCompletedClickHandler = () => filterTasks( id, "completed" );
 
   return (
     <Card sx={ { padding: "15px", width: "300px" } }>
@@ -95,20 +91,8 @@ export const ToDoList: React.FC<PropsType> = memo(({
           <AddItemForm addItem={ addNewTask } item="task" />
         </Grid>
         <Grid item>
-          { tasks.length > 0
-            ? <List ref={ listRef }>
-              { tasks.map( (task) => (
-                <Task
-                  key={ task.id }
-                  todoListId={ id }
-                  removeTask={ removeTask }
-                  renameTask={ renameTask }
-                  changeTaskProgress={ changeTaskProgress }
-                  { ...task }
-                />
-              ) ) }
-            </List>
-            : <p style={ { fontStyle: "italic", opacity: "0.5", textAlign: "center" } }>You have no tasks yet</p> }
+          <Tasks todolistId={ id } tasks={ tasks } renameTask={ renameTask } removeTask={ removeTask }
+                 changeTaskProgress={ changeTaskProgress } />
         </Grid>
         <Grid item alignSelf={ "center" }>
           <ButtonGroup size={ "small" }>
@@ -135,4 +119,4 @@ export const ToDoList: React.FC<PropsType> = memo(({
       </Grid>
     </Card>
   );
-})
+} )

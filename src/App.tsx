@@ -68,7 +68,7 @@ function App() {
     } );
   };
 
-  const changeFilter = (value: FilterValuesType, todoListId: string) => {
+  const changeFilter = (todoListId: string, value: FilterValuesType) => {
     const todoList = todoLists.find( (tl) => tl.id === todoListId );
     if (todoList) {
       todoList.filter = value;
@@ -76,13 +76,14 @@ function App() {
     }
   };
 
-  const removeTask = (taskId: string, todoListId: string) => {
+  const removeTask = (todoListId: string, taskId: string) => {
     const tasks = tasksObj[todoListId];
+    debugger
     tasksObj[todoListId] = tasks.filter( (t) => t.id !== taskId );
     setTasks( { ...tasksObj } );
   };
 
-  const addTask = (title: string, todoListId: string) => {
+  const addTask = (todoListId: string, title: string) => {
     const tasks = tasksObj[todoListId];
     const newTask: TaskType = {
       id: v4(),
@@ -94,20 +95,20 @@ function App() {
   };
 
   const changeTaskProgress = (
-    id: string,
-    isDone: boolean,
-    todoListId: string
+    todoListId: string,
+    taskId: string,
+    isDone: boolean
   ) => {
     const tasks = tasksObj[todoListId];
-    const task = tasks.find( (t) => t.id === id );
+    const task = tasks.find( (t) => t.id === taskId );
     if (task) {
       task.isDone = isDone;
       setTasks( { ...tasksObj } );
     }
   };
-  const renameTask = (id: string, newTitle: string, todoListId: string) => {
+  const renameTask = (todoListId: string, taskId: string, newTitle: string) => {
     const tasks = tasksObj[todoListId];
-    const task = tasks.find( (t) => t.id === id );
+    const task = tasks.find( (t) => t.id === taskId );
     if (task) {
       task.title = newTitle;
       setTasks( { ...tasksObj } );

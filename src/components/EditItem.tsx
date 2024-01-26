@@ -7,45 +7,47 @@ interface EditableItemPropsType {
   toggleEditMode: (toggleValue: boolean) => void;
 }
 
+//TODO fix bug with extra large words (css)
+
 export function EditItem({
-  title,
-  renameItem,
-  toggleEditMode,
-}: EditableItemPropsType) {
-  const [newTitle, setNewTitle] = useState(title);
-  const [error, setError] = useState<string | null>(null);
+                           title,
+                           renameItem,
+                           toggleEditMode,
+                         }: EditableItemPropsType) {
+  const [ newTitle, setNewTitle ] = useState( title );
+  const [ error, setError ] = useState<string | null>( null );
 
   const activateViewMode = () => {
     if (newTitle.trim()) {
-      toggleEditMode(false);
-      renameItem(newTitle.trim());
+      toggleEditMode( false );
+      renameItem( newTitle.trim() );
     } else {
-      setError("Input is required");
+      setError( "Input is required" );
     }
   };
 
   const onEnterPressHandler = (e: KeyboardEvent) => {
-    setError(null);
+    setError( null );
     if (e.key === "Enter") {
       activateViewMode();
     }
   };
 
   const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewTitle(e.currentTarget.value);
+    setNewTitle( e.currentTarget.value );
   };
 
   return (
     <>
       <TextField
-        variant={"standard"}
-        size={"small"}
-        value={newTitle}
-        onChange={onChangeTitleHandler}
-        onBlur={activateViewMode}
-        onKeyDown={onEnterPressHandler}
+        variant={ "standard" }
+        size={ "small" }
+        value={ newTitle }
+        onChange={ onChangeTitleHandler }
+        onBlur={ activateViewMode }
+        onKeyDown={ onEnterPressHandler }
         autoFocus
-        error={!!error}
+        error={ !!error }
         fullWidth
       />
     </>
