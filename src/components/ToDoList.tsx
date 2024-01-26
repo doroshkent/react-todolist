@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { FilterValuesType } from "App";
 import { AddItemForm } from "./AddItemForm";
 import { EditItem } from "./EditItem";
@@ -27,108 +27,106 @@ type PropsType = {
   renameTodoList: (todoListId: string, newTitle: string) => void;
 };
 
-export const ToDoList: React.FC<PropsType> = ({
-  id,
-  title,
-  tasks,
-  removeTask,
-  filterTasks,
-  addTask,
-  changeTaskProgress,
-  renameTask,
-  filter,
-  removeTodoList,
-  renameTodoList,
-}) => {
-  const [listRef] = useAutoAnimate<HTMLUListElement>();
-  const [titleEditMode, setTitleEditMode] = useState(false);
+export const ToDoList: React.FC<PropsType> = memo(({
+                                                id,
+                                                title,
+                                                tasks,
+                                                removeTask,
+                                                filterTasks,
+                                                addTask,
+                                                changeTaskProgress,
+                                                renameTask,
+                                                filter,
+                                                removeTodoList,
+                                                renameTodoList,
+                                              }) => {
+  const [ listRef ] = useAutoAnimate<HTMLUListElement>();
+  const [ titleEditMode, setTitleEditMode ] = useState( false );
 
   const toggleTitleEditMode = (toggleValue: boolean) =>
-    setTitleEditMode(toggleValue);
-  const onDeleteTodoListHandler = () => removeTodoList(id);
+    setTitleEditMode( toggleValue );
+  const onDeleteTodoListHandler = () => removeTodoList( id );
   const onRenameTodoListHandler = (newTitle: string) =>
-    renameTodoList(id, newTitle);
+    renameTodoList( id, newTitle );
   const addNewTask = (title: string) => {
-    addTask(title, id);
+    addTask( title, id );
   };
 
   const onAllClickHandler = () => {
-    filterTasks("all", id);
+    filterTasks( "all", id );
   };
-  const onActiveClickHandler = () => filterTasks("active", id);
-  const onCompletedClickHandler = () => filterTasks("completed", id);
+  const onActiveClickHandler = () => filterTasks( "active", id );
+  const onCompletedClickHandler = () => filterTasks( "completed", id );
 
   return (
-    <Card sx={{ padding: "15px", width: "300px" }}>
-      <Grid container flexDirection={"column"}>
+    <Card sx={ { padding: "15px", width: "300px" } }>
+      <Grid container flexDirection={ "column" }>
         <Grid
           item
           container
-          justifyContent={"space-between"}
-          alignItems={"center"}
+          justifyContent={ "space-between" }
+          alignItems={ "center" }
         >
           <Grid item>
-            {titleEditMode ? (
+            { titleEditMode ? (
               <EditItem
-                title={title}
-                renameItem={onRenameTodoListHandler}
-                toggleEditMode={toggleTitleEditMode}
+                title={ title }
+                renameItem={ onRenameTodoListHandler }
+                toggleEditMode={ toggleTitleEditMode }
               />
             ) : (
               <Typography
-                variant={"h5"}
-                onDoubleClick={() => toggleTitleEditMode(true)}
+                variant={ "h5" }
+                onDoubleClick={ () => toggleTitleEditMode( true ) }
               >
-                {title}
+                { title }
               </Typography>
-            )}
+            ) }
           </Grid>
           <Grid item>
-            <Tooltip title={"Remove"}>
-              <IconButton onClick={onDeleteTodoListHandler}>
+            <Tooltip title={ "Remove" }>
+              <IconButton onClick={ onDeleteTodoListHandler }>
                 <ClearIcon />
               </IconButton>
             </Tooltip>
           </Grid>
         </Grid>
         <Grid item>
-          <AddItemForm addItem={addNewTask} item="task" />
+          <AddItemForm addItem={ addNewTask } item="task" />
         </Grid>
         <Grid item>
-          {tasks.length > 0
-          ? <List ref={listRef}>
-              {tasks.map((task) => (
+          { tasks.length > 0
+            ? <List ref={ listRef }>
+              { tasks.map( (task) => (
                 <Task
-                  key={task.id}
-                  title={task.title}
-                  taskId={task.id}
-                  todoListId={id}
-                  removeTask={removeTask}
-                  renameTask={renameTask}
-                  changeTaskProgress={changeTaskProgress}
-                  isDone={task.isDone}
+                  key={ task.id }
+                  todoListId={ id }
+                  removeTask={ removeTask }
+                  renameTask={ renameTask }
+                  changeTaskProgress={ changeTaskProgress }
+                  { ...task }
                 />
-              ))}
+              ) ) }
             </List>
-          : <p style={{fontStyle: "italic", opacity: "0.5", textAlign: "center"}}>You have no tasks yet</p>}
+            : <p style={ { fontStyle: "italic", opacity: "0.5", textAlign: "center" } }>You have no tasks yet</p> }
         </Grid>
-        <Grid item alignSelf={"center"}>
-          <ButtonGroup size={"small"}>
+        <Grid item alignSelf={ "center" }>
+          <ButtonGroup size={ "small" }>
             <Button
-              variant={filter === "all" ? "contained" : "outlined"}
-              onClick={onAllClickHandler}
+              variant={ filter === "all" ? "contained" : "outlined" }
+              onClick={ onAllClickHandler }
             >
               All
             </Button>
             <Button
-              variant={filter === "active" ? "contained" : "outlined"}
-              onClick={onActiveClickHandler}
+              variant={ filter === "active" ? "contained" : "outlined" }
+              onClick={ onActiveClickHandler }
             >
               Active
             </Button>
             <Button
-              variant={filter === "completed" ? "contained" : "outlined"}
-              onClick={onCompletedClickHandler}
+              variant={ filter === "completed" ? "contained" : "outlined" }
+              onClick={ onCompletedClickHandler }
             >
               Completed
             </Button>
@@ -137,4 +135,4 @@ export const ToDoList: React.FC<PropsType> = ({
       </Grid>
     </Card>
   );
-}
+})

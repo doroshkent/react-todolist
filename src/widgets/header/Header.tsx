@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { AppBar, Grid, IconButton, Toolbar, Typography } from "@mui/material";
 import { AddItemForm } from "components/AddItemForm";
 import LoginIcon from "@mui/icons-material/Login";
@@ -7,7 +7,7 @@ type HeaderPropsType = {
   addTodoList: (title: string) => void
 }
 
-export const Header: React.FC<HeaderPropsType> = ({ addTodoList }) => {
+export const Header: React.FC<HeaderPropsType> = memo( ({ addTodoList }) => {
   return (
     <AppBar position="static">
       <Toolbar>
@@ -33,4 +33,4 @@ export const Header: React.FC<HeaderPropsType> = ({ addTodoList }) => {
       </Toolbar>
     </AppBar>
   );
-};
+} );
