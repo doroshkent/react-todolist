@@ -78,7 +78,6 @@ function App() {
 
   const removeTask = (todoListId: string, taskId: string) => {
     const tasks = tasksObj[todoListId];
-    debugger
     tasksObj[todoListId] = tasks.filter( (t) => t.id !== taskId );
     setTasks( { ...tasksObj } );
   };

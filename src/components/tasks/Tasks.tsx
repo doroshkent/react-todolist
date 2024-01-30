@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { List } from "@mui/material";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { TaskType } from "components/ToDoList";
@@ -12,7 +12,13 @@ type TasksPropsType = {
   changeTaskProgress: (todolistId: string, taskId: string, isDone: boolean) => void
 }
 
-export const Tasks: React.FC<TasksPropsType> = ({ todolistId, tasks, removeTask, changeTaskProgress, renameTask }) => {
+export const Tasks: React.FC<TasksPropsType> = memo( ({
+                                                        todolistId,
+                                                        tasks,
+                                                        removeTask,
+                                                        changeTaskProgress,
+                                                        renameTask
+                                                      }) => {
   const [ listRef ] = useAutoAnimate<HTMLUListElement>();
   return (
     <>
@@ -32,4 +38,4 @@ export const Tasks: React.FC<TasksPropsType> = ({ todolistId, tasks, removeTask,
         : <p style={ { fontStyle: "italic", opacity: "0.5", textAlign: "center" } }>You have no tasks yet</p> }
     </>
   );
-};
+} );

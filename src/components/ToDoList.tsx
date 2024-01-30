@@ -39,6 +39,7 @@ export const ToDoList: React.FC<PropsType> = memo( ({
                                                       removeTodoList,
                                                       renameTodoList,
                                                     }) => {
+  console.log( "todolist render" )
   const [ titleEditMode, setTitleEditMode ] = useState( false );
 
   const toggleTitleEditMode = (toggleValue: boolean) =>

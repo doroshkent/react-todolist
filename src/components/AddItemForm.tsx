@@ -8,55 +8,56 @@ type AddItemFormProps = {
   item: ItemsType;
 };
 
-export const AddItemForm = memo(({ addItem, item }: AddItemFormProps) => {
-  const [newItemTitle, setNewItemTitle] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
+export const AddItemForm = memo( ({ addItem, item }: AddItemFormProps) => {
+  console.log( "add item form render" )
+  const [ newItemTitle, setNewItemTitle ] = useState<string>( "" );
+  const [ error, setError ] = useState<string | null>( null );
 
   const onSetNewItemTitle = (e: ChangeEvent<HTMLInputElement>) =>
-    setNewItemTitle(e.currentTarget.value);
+    setNewItemTitle( e.currentTarget.value );
 
   const onAddItemHandler = () => {
     if (newItemTitle.trim()) {
-      addItem(newItemTitle.trim());
-      setNewItemTitle("");
+      addItem( newItemTitle.trim() );
+      setNewItemTitle( "" );
     } else {
-      setError("Input is required");
+      setError( "Input is required" );
     }
   };
 
   const onEnterPressHandler = (e: KeyboardEvent) => {
-    setError(null);
+    setError( null );
     if (e.key === "Enter") {
       e.preventDefault();
       onAddItemHandler();
     }
   };
   return (
-    <Grid container alignItems={"center"}>
-      <Grid item sx={{ position: "relative" }}>
+    <Grid container alignItems={ "center" }>
+      <Grid item sx={ { position: "relative" } }>
         <TextField
           fullWidth
           multiline
-          maxRows={4}
-          variant={"outlined"}
-          size={"small"}
-          label={`New ${item}`}
-          margin={"normal"}
-          color={item === "task" ? "primary" : "secondary"}
-          error={!!error}
-          helperText={error ? error : " "}
-          value={newItemTitle}
-          onChange={onSetNewItemTitle}
-          onKeyDown={onEnterPressHandler}
+          maxRows={ 4 }
+          variant={ "outlined" }
+          size={ "small" }
+          label={ `New ${ item }` }
+          margin={ "normal" }
+          color={ item === "task" ? "primary" : "secondary" }
+          error={ !!error }
+          helperText={ error ? error : " " }
+          value={ newItemTitle }
+          onChange={ onSetNewItemTitle }
+          onKeyDown={ onEnterPressHandler }
         />
-        <Tooltip title={"Add"} arrow>
+        <Tooltip title={ "Add" } arrow>
           <IconButton
-            sx={{
+            sx={ {
               position: "absolute",
               top: "19%",
-            }}
-            onClick={onAddItemHandler}
-            disabled={!newItemTitle}
+            } }
+            onClick={ onAddItemHandler }
+            disabled={ !newItemTitle }
           >
             <AddIcon />
           </IconButton>
@@ -64,4 +65,4 @@ export const AddItemForm = memo(({ addItem, item }: AddItemFormProps) => {
       </Grid>
     </Grid>
   );
-})
+} )
