@@ -121,24 +121,13 @@ function App() {
         { todoLists.length > 0
           ? <Grid container spacing={ 2 }>
             { todoLists.map( (tl) => {
-              const filteredTasks = () => {
-                const tasksForTodoList: TaskType[] = tasksObj[tl.id];
-                switch (tl.filter) {
-                  case "active":
-                    return tasksForTodoList.filter( (t) => !t.isDone );
-                  case "completed":
-                    return tasksForTodoList.filter( (t) => t.isDone );
-                  default:
-                    return tasksForTodoList
-                }
-              }
               return (
                 <Grid item xs={ 3 }>
                   <ToDoList
                     key={ tl.id }
                     id={ tl.id }
                     title={ tl.title }
-                    tasks={ filteredTasks() }
+                    tasks={ tasksObj[tl.id] }
                     removeTask={ removeTask }
                     filterTasks={ changeFilter }
                     addTask={ addTask }

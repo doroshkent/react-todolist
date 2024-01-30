@@ -12,13 +12,13 @@ type TasksPropsType = {
   changeTaskProgress: (todolistId: string, taskId: string, isDone: boolean) => void
 }
 
-export const Tasks: React.FC<TasksPropsType> = memo( ({
-                                                        todolistId,
-                                                        tasks,
-                                                        removeTask,
-                                                        changeTaskProgress,
-                                                        renameTask
-                                                      }) => {
+export const Tasks = memo( ({
+                              todolistId,
+                              tasks,
+                              removeTask,
+                              changeTaskProgress,
+                              renameTask
+                            }: TasksPropsType) => {
   const [ listRef ] = useAutoAnimate<HTMLUListElement>();
   return (
     <>

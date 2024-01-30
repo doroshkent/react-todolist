@@ -36,8 +36,6 @@ export const Task = memo( ({
                              removeTask,
                              changeTaskProgress,
                            }: TaskPropsType) => {
-
-  console.log( "task render" )
   const [ editMode, setEditMode ] = useState( false );
 
   const toggleEditMode = (toggleValue: boolean) => setEditMode( toggleValue );
