@@ -6,31 +6,13 @@ import {
   RemoveTodolistActionType,
 } from "./todolistsReducer";
 
-type RemoveTaskActionType = {
-  type: "REMOVE-TASK"
-  taskId: string
-  todolistId: string
-};
+type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
 
-type RenameTaskActionType = {
-  type: "RENAME-TASK"
-  taskId: string
-  todolistId: string
-  title: string
-};
+type RenameTaskActionType = ReturnType<typeof renameTaskAC>
 
-type AddTaskActionType = {
-  type: "ADD-TASK"
-  todolistId: string
-  title: string
-};
+type AddTaskActionType = ReturnType<typeof addTaskAC>
 
-type ChangeTaskProgressActionType = {
-  type: "CHANGE-TASK-PROGRESS"
-  taskId: string
-  todolistId: string
-  isDone: boolean
-};
+type ChangeTaskProgressActionType = ReturnType<typeof changeTaskProgressAC>
 
 type ActionsType =
   | RemoveTaskActionType
@@ -98,17 +80,17 @@ export function tasksReducer(
   }
 }
 
-export const removeTaskAC = (taskId: string, todolistId: string): RemoveTaskActionType => {
-  return { type: "REMOVE-TASK", todolistId, taskId };
+export const removeTaskAC = (taskId: string, todolistId: string) => {
+  return { type: "REMOVE-TASK", todolistId, taskId } as const;
 };
-export const renameTaskAC = (taskId: string, todolistId: string, title: string): RenameTaskActionType => {
-  return { type: "RENAME-TASK", todolistId, taskId, title };
+export const renameTaskAC = (taskId: string, todolistId: string, title: string) => {
+  return { type: "RENAME-TASK", todolistId, taskId, title } as const;
 };
-export const addTaskAC = (todolistId: string, title: string): AddTaskActionType => {
-  return { type: "ADD-TASK", todolistId, title };
+export const addTaskAC = (todolistId: string, title: string) => {
+  return { type: "ADD-TASK", todolistId, title } as const;
 };
 export const changeTaskProgressAC = (taskId: string,
                                      todolistId: string,
-                                     isDone: boolean): ChangeTaskProgressActionType => {
-  return { type: "CHANGE-TASK-PROGRESS", todolistId, taskId, isDone };
+                                     isDone: boolean) => {
+  return { type: "CHANGE-TASK-PROGRESS", todolistId, taskId, isDone } as const;
 };
