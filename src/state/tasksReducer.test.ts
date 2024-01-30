@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { TasksStateType } from "../App";
+import { TasksStateType } from "App";
 import {
   addTaskAC,
   changeTaskProgressAC,
@@ -21,7 +21,7 @@ const startState: TasksStateType = {
   [todolistId2]: [
     { id: "1", title: "milk", isDone: true },
     { id: "2", title: "book", isDone: true },
-    { id: "3", title: "freedom", isDone: false },
+    { id: "3", title: "tea", isDone: false },
   ],
 };
 
@@ -30,10 +30,17 @@ const newTitle = "new task";
 test("correct task from correct todolist is removed", () => {
   const endState = tasksReducer(startState, removeTaskAC("2", todolistId2));
 
-  expect(endState[todolistId1].length).toBe(3);
-  expect(endState[todolistId2].length).toBe(2);
-  expect(endState[todolistId2].every((task) => task.id !== "2")).toBeTruthy();
-  expect(endState[todolistId1].every((task) => task.id !== "2")).toBeFalsy();
+  expect(endState).toEqual({
+    [todolistId1]: [
+      {id: "1", title: "HTML&CSS", isDone: true},
+      {id: "2", title: "JS", isDone: true},
+      {id: "3", title: "React", isDone: false}
+    ],
+    [todolistId2]: [
+      {id: "1", title: "milk", isDone: true},
+      {id: "3", title: "tea", isDone: false}
+    ]
+  })
 });
 
 test("correct task is renamed", () => {
