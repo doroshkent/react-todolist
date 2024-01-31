@@ -1,7 +1,6 @@
-import React, { useReducer } from "react";
+import React from "react";
 import "./App.css";
 import { ToDoList } from "components/ToDoList";
-import { v4 } from "uuid";
 import { Box, Container, Grid, } from "@mui/material";
 import { Header } from "widgets/header/Header";
 import {
@@ -9,9 +8,11 @@ import {
   changeFilterAC,
   removeTodolistAC,
   renameTodolistAC,
-  todolistsReducer
+  TodoListStateType
 } from "state/todolistsReducer";
-import { addTaskAC, changeTaskProgressAC, removeTaskAC, renameTaskAC, tasksReducer } from "state/tasksReducer";
+import { addTaskAC, changeTaskProgressAC, removeTaskAC, renameTaskAC, TasksStateType } from "state/tasksReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { AppRootStateType } from "state/store";
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type ItemsType = "To-do list" | "task";
@@ -23,70 +24,50 @@ export type TodoListType = {
 };
 
 function App() {
-  let todoListId1 = v4();
-  let todoListId2 = v4();
-
-  const [ todoLists, dispatchToTodolists ] = useReducer( todolistsReducer, [
-    { id: todoListId1, title: "To learn", filter: "all" },
-    { id: todoListId2, title: "To buy", filter: "all" },
-  ] );
-  const [ tasks, dispatchToTasks ] = useReducer( tasksReducer, {
-    [todoListId1]: [
-      { id: v4(), title: "HTML&CSS", isDone: true },
-      { id: v4(), title: "JS", isDone: true },
-      { id: v4(), title: "React", isDone: false },
-      { id: v4(), title: "Redux", isDone: false },
-    ],
-    [todoListId2]: [
-      { id: v4(), title: "milk", isDone: true },
-      { id: v4(), title: "book", isDone: true },
-      { id: v4(), title: "freedom", isDone: false },
-    ],
-  } );
+  const dispatch = useDispatch();
+  const todolists = useSelector<AppRootStateType, TodoListStateType>( state => state.todolists )
+  const tasks = useSelector<AppRootStateType, TasksStateType>( state => state.tasks )
 
   const removeTodoList = (todoListId: string) => {
-    dispatchToTodolists( removeTodolistAC( todoListId ) );
-    dispatchToTasks( removeTodolistAC( todoListId ) );
+    dispatch( removeTodolistAC( todoListId ) );
   };
 
   const renameTodoList = (todoListId: string, newTitle: string) => {
-    dispatchToTodolists( renameTodolistAC( todoListId, newTitle ) );
+    dispatch( renameTodolistAC( todoListId, newTitle ) );
   };
 
   const addTodoList = (title: string) => {
-    dispatchToTasks( addTodolistAC( title ) );
-    dispatchToTodolists( addTodolistAC( title ) );
+    dispatch( addTodolistAC( title ) );
   };
 
   const changeFilter = (todoListId: string, value: FilterValuesType) => {
-    dispatchToTodolists( changeFilterAC( todoListId, value ) );
+    dispatch( changeFilterAC( todoListId, value ) );
   };
 
   const removeTask = (todoListId: string, taskId: string) => {
-    dispatchToTasks( removeTaskAC( todoListId, taskId ) );
+    dispatch( removeTaskAC( todoListId, taskId ) );
   };
 
   const addTask = (todoListId: string, title: string) => {
-    dispatchToTasks( addTaskAC( todoListId, title ) );
+    dispatch( addTaskAC( todoListId, title ) );
   };
 
   const changeTaskProgress = (todoListId: string,
                               taskId: string,
                               isDone: boolean) => {
-    dispatchToTasks( changeTaskProgressAC( todoListId, taskId, isDone ) );
+    dispatch( changeTaskProgressAC( todoListId, taskId, isDone ) );
   }
 
   const renameTask = (todoListId: string, taskId: string, newTitle: string) => {
-    dispatchToTasks( renameTaskAC( todoListId, taskId, newTitle ) );
+    dispatch( renameTaskAC( todoListId, taskId, newTitle ) );
   };
-
   return (
     <Box width={ "100%" } minHeight="100vh" sx={ { backgroundColor: "#f5f5f5" } }>
       <Header addTodoList={ addTodoList } />
       <Container maxWidth={ "xl" } sx={ { marginTop: "15px" } }>
-        { todoLists.length > 0
+        { todolists.length > 0
           ? <Grid container spacing={ 2 }>
-            { todoLists.map( (tl) => {
+            { todolists.map( (tl) => {
               return (
                 <Grid item xs={ 3 } key={ tl.id }>
                   <ToDoList

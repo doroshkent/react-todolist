@@ -4,7 +4,7 @@ import { v4 } from "uuid";
 export const todoListId1 = v4();
 export const todoListId2 = v4();
 
-type TodoListStateType = TodoListType[]
+export type TodoListStateType = TodoListType[]
 
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 
