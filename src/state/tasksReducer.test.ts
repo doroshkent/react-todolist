@@ -1,11 +1,11 @@
 import { v4 } from "uuid";
-import { TasksStateType } from "App";
 import {
   addTaskAC,
   changeTaskProgressAC,
   removeTaskAC,
   renameTaskAC,
   tasksReducer,
+  TasksStateType,
 } from "./tasksReducer";
 import { addTodolistAC, removeTodolistAC } from "./todolistsReducer";
 

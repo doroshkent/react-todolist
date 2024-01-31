@@ -1,6 +1,6 @@
 import React, { useReducer } from "react";
 import "./App.css";
-import { TaskType, ToDoList } from "components/ToDoList";
+import { ToDoList } from "components/ToDoList";
 import { v4 } from "uuid";
 import { Box, Container, Grid, } from "@mui/material";
 import { Header } from "widgets/header/Header";
@@ -21,10 +21,6 @@ export type TodoListType = {
   title: string;
   filter: FilterValuesType;
 };
-
-export interface TasksStateType {
-  [key: string]: TaskType[];
-}
 
 function App() {
   let todoListId1 = v4();
