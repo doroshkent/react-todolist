@@ -33,12 +33,12 @@ export function todolistsReducer(
       );
     }
     case "ADD-TODOLIST": {
-      const todoList: TodoListType = {
+      const newTodoList: TodoListType = {
         id: action.todolistId,
         title: action.title,
         filter: "all",
       };
-      return [ todoList, ...state ];
+      return [ newTodoList, ...state ];
     }
     case "CHANGE-FILTER": {
       return state.map( (todolist) =>

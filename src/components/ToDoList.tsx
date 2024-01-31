@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { useState } from "react";
 import { FilterValuesType } from "App";
 import { AddItemForm } from "./AddItemForm";
 import { EditItem } from "./EditItem";
@@ -26,19 +26,19 @@ type TodolistPropsType = {
   renameTodoList: (todolistId: string, newTitle: string) => void;
 };
 
-export const ToDoList = memo( ({
-                                 id,
-                                 title,
-                                 tasks,
-                                 removeTask,
-                                 filterTasks,
-                                 addTask,
-                                 changeTaskProgress,
-                                 renameTask,
-                                 filter,
-                                 removeTodoList,
-                                 renameTodoList,
-                               }: TodolistPropsType) => {
+export const ToDoList = ({
+                           id,
+                           title,
+                           tasks,
+                           removeTask,
+                           filterTasks,
+                           addTask,
+                           changeTaskProgress,
+                           renameTask,
+                           filter,
+                           removeTodoList,
+                           renameTodoList,
+                         }: TodolistPropsType) => {
   const [ titleEditMode, setTitleEditMode ] = useState( false );
 
   const toggleTitleEditMode = (toggleValue: boolean) =>
@@ -53,15 +53,17 @@ export const ToDoList = memo( ({
     addTask( id, title );
   };
 
-  const filteredTasks = () => {
-    const tasksForTodoList: TaskType[] = tasks;
+  const tasksFilter = (tasks: TaskType[]) => {
     switch (filter) {
-      case "active":
-        return tasksForTodoList.filter( (t) => !t.isDone );
-      case "completed":
-        return tasksForTodoList.filter( (t) => t.isDone );
-      default:
-        return tasksForTodoList
+      case "active": {
+        return tasks.filter( (t) => !t.isDone );
+      }
+      case "completed": {
+        return tasks.filter( (t) => t.isDone );
+      }
+      default: {
+        return tasks
+      }
     }
   }
 
@@ -106,7 +108,7 @@ export const ToDoList = memo( ({
           <AddItemForm addItem={ addNewTask } item="task" />
         </Grid>
         <Grid item>
-          <Tasks todolistId={ id } tasks={ filteredTasks() } renameTask={ renameTask } removeTask={ removeTask }
+          <Tasks todolistId={ id } tasks={ tasksFilter(tasks) } renameTask={ renameTask } removeTask={ removeTask }
                  changeTaskProgress={ changeTaskProgress } />
         </Grid>
         <Grid item alignSelf={ "center" }>
@@ -134,4 +136,4 @@ export const ToDoList = memo( ({
       </Grid>
     </Card>
   );
-} )
+}

@@ -22,19 +22,16 @@ type ActionsType =
   | AddTodolistActionType
   | RemoveTodolistActionType
 
-export function tasksReducer(
-  state: TasksStateType,
-  action: ActionsType
-): TasksStateType {
+export function tasksReducer(state: TasksStateType,
+                             action: ActionsType): TasksStateType {
   switch (action.type) {
     case "REMOVE-TASK": {
       return {
         ...state,
-        [action.todolistId]: [
-          ...state[action.todolistId].filter(
+        [action.todolistId]:
+          state[action.todolistId].filter(
             (task) => task.id !== action.taskId
           ),
-        ],
       };
     }
     case "RENAME-TASK": {
@@ -51,9 +48,16 @@ export function tasksReducer(
         title: action.title,
         isDone: false,
       };
+      if (!!state[action.todolistId]?.length) {
+        return {
+          ...state,
+          [action.todolistId]: [ newTask, ...state[action.todolistId] ]
+        }
+      }
+
       return {
         ...state,
-        [action.todolistId]: [ newTask, ...state[action.todolistId] ],
+        [action.todolistId]: [ newTask ],
       };
     }
     case "CHANGE-TASK-PROGRESS": {
@@ -80,17 +84,17 @@ export function tasksReducer(
   }
 }
 
-export const removeTaskAC = (taskId: string, todolistId: string) => {
+export const removeTaskAC = (todolistId: string, taskId: string,) => {
   return { type: "REMOVE-TASK", todolistId, taskId } as const;
 };
-export const renameTaskAC = (taskId: string, todolistId: string, title: string) => {
+export const renameTaskAC = (todolistId: string, taskId: string, title: string) => {
   return { type: "RENAME-TASK", todolistId, taskId, title } as const;
 };
 export const addTaskAC = (todolistId: string, title: string) => {
   return { type: "ADD-TASK", todolistId, title } as const;
 };
-export const changeTaskProgressAC = (taskId: string,
-                                     todolistId: string,
+export const changeTaskProgressAC = (todolistId: string,
+                                     taskId: string,
                                      isDone: boolean) => {
   return { type: "CHANGE-TASK-PROGRESS", todolistId, taskId, isDone } as const;
 };
