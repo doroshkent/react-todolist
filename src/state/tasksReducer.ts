@@ -65,17 +65,10 @@ export function tasksReducer(state: TasksStateType = initialState,
         title: action.title,
         isDone: false,
       };
-      if (!!state[action.todolistId]?.length) {
-        return {
-          ...state,
-          [action.todolistId]: [ newTask, ...state[action.todolistId] ]
-        }
-      }
-
       return {
         ...state,
-        [action.todolistId]: [ newTask ],
-      };
+        [action.todolistId]: [ newTask, ...state[action.todolistId] ]
+      }
     }
     case "CHANGE-TASK-PROGRESS": {
       return {

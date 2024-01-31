@@ -3,33 +3,40 @@ import { List } from "@mui/material";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { TaskType } from "components/ToDoList";
 import { Task } from './task/Task';
+import { useSelector } from "react-redux";
+import { AppRootStateType } from "state/store";
+import { FilterValuesType } from "App";
 
 type TasksPropsType = {
-  tasks: TaskType[]
   todolistId: string
-  removeTask: (todolistId: string, taskId: string) => void
-  renameTask: (todolistId: string, taskId: string, newTitle: string) => void
-  changeTaskProgress: (todolistId: string, taskId: string, isDone: boolean) => void
+  filter: FilterValuesType
 }
 
-export const Tasks = ({ todolistId,
-                        tasks,
-                        removeTask,
-                        changeTaskProgress,
-                        renameTask
-                      }: TasksPropsType) => {
+export const Tasks = ({ todolistId, filter }: TasksPropsType) => {
   const [ listRef ] = useAutoAnimate<HTMLUListElement>();
+  let tasks = useSelector<AppRootStateType, TaskType[]>( state => state.tasks[todolistId] )
+  const filterTasks = (tasks: TaskType[]) => {
+    switch (filter) {
+      case "active": {
+        return tasks.filter( (t) => !t.isDone );
+      }
+      case "completed": {
+        return tasks.filter( (t) => t.isDone );
+      }
+      default: {
+        return tasks
+      }
+    }
+  }
+  tasks = filterTasks(tasks);
   return (
     <>
-      { tasks?.length > 0
+      { tasks.length > 0
         ? <List ref={ listRef }>
-          { tasks?.map( (task) => (
+          { tasks.map( (task) => (
             <Task
               key={ task.id }
               todolistId={ todolistId }
-              removeTask={ removeTask }
-              renameTask={ renameTask }
-              changeTaskProgress={ changeTaskProgress }
               { ...task }
             />
           ) ) }

@@ -5,81 +5,46 @@ import { EditItem } from "./EditItem";
 import { Button, ButtonGroup, Card, Grid, IconButton, Tooltip, Typography, } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Tasks } from "components/tasks/Tasks";
+import { useDispatch } from "react-redux";
+import { addTaskAC } from "state/tasksReducer";
+import { changeFilterAC, removeTodolistAC, renameTodolistAC } from "state/todolistsReducer";
 
 export type TaskType = {
-  id: string;
-  title: string;
-  isDone: boolean;
+  id: string
+  title: string
+  isDone: boolean
 };
 
 type TodolistPropsType = {
-  id: string;
-  title: string;
-  tasks: TaskType[];
-  removeTask: (todolistId: string, taskId: string) => void;
-  filterTasks: (todolistId: string, value: FilterValuesType) => void;
-  addTask: (todolistId: string, title: string) => void;
-  changeTaskProgress: (todolistId: string, taskId: string, isDone: boolean) => void;
-  renameTask: (todolistId: string, taskId: string, newTitle: string) => void;
-  filter: FilterValuesType;
-  removeTodoList: (todolistId: string) => void;
-  renameTodoList: (todolistId: string, newTitle: string) => void;
+  id: string
+  title: string
+  filter: FilterValuesType
 };
 
-export const ToDoList = ({
-                           id,
-                           title,
-                           tasks,
-                           removeTask,
-                           filterTasks,
-                           addTask,
-                           changeTaskProgress,
-                           renameTask,
-                           filter,
-                           removeTodoList,
-                           renameTodoList,
-                         }: TodolistPropsType) => {
+export const ToDoList = ({ id, title, filter }: TodolistPropsType) => {
   const [ titleEditMode, setTitleEditMode ] = useState( false );
-
   const toggleTitleEditMode = (toggleValue: boolean) =>
     setTitleEditMode( toggleValue );
 
-  const onDeleteTodoListHandler = () => removeTodoList( id );
+  const dispatch = useDispatch();
+
+  const onDeleteTodoListHandler = () => dispatch( removeTodolistAC( id ) );
 
   const onRenameTodoListHandler = (newTitle: string) =>
-    renameTodoList( id, newTitle );
+    dispatch( renameTodolistAC( id, newTitle ) );
 
   const addNewTask = (title: string) => {
-    addTask( id, title );
+    dispatch( addTaskAC( id, title ) );
   };
 
-  const tasksFilter = (tasks: TaskType[]) => {
-    switch (filter) {
-      case "active": {
-        return tasks.filter( (t) => !t.isDone );
-      }
-      case "completed": {
-        return tasks.filter( (t) => t.isDone );
-      }
-      default: {
-        return tasks
-      }
-    }
+  const onFilterButtonClickHandler = (value: FilterValuesType) => {
+    dispatch( changeFilterAC( id, value ) )
   }
-
-  const onAllClickHandler = () => filterTasks( id, "all" );
-  const onActiveClickHandler = () => filterTasks( id, "active" );
-  const onCompletedClickHandler = () => filterTasks( id, "completed" );
 
   return (
     <Card sx={ { padding: "15px", width: "300px" } }>
       <Grid container flexDirection={ "column" }>
-        <Grid
-          item
-          container
-          justifyContent={ "space-between" }
-          alignItems={ "center" }
-        >
+        <Grid item container justifyContent={ "space-between" } alignItems={ "center" }>
           <Grid item>
             { titleEditMode ? (
               <EditItem
@@ -88,10 +53,7 @@ export const ToDoList = ({
                 toggleEditMode={ toggleTitleEditMode }
               />
             ) : (
-              <Typography
-                variant={ "h5" }
-                onDoubleClick={ () => toggleTitleEditMode( true ) }
-              >
+              <Typography variant={ "h5" } onDoubleClick={ () => toggleTitleEditMode( true ) }>
                 { title }
               </Typography>
             ) }
@@ -108,26 +70,25 @@ export const ToDoList = ({
           <AddItemForm addItem={ addNewTask } item="task" />
         </Grid>
         <Grid item>
-          <Tasks todolistId={ id } tasks={ tasksFilter(tasks) } renameTask={ renameTask } removeTask={ removeTask }
-                 changeTaskProgress={ changeTaskProgress } />
+          <Tasks todolistId={ id } filter={ filter } />
         </Grid>
         <Grid item alignSelf={ "center" }>
           <ButtonGroup size={ "small" }>
             <Button
               variant={ filter === "all" ? "contained" : "outlined" }
-              onClick={ onAllClickHandler }
+              onClick={ () => onFilterButtonClickHandler( "all" ) }
             >
               All
             </Button>
             <Button
               variant={ filter === "active" ? "contained" : "outlined" }
-              onClick={ onActiveClickHandler }
+              onClick={ () => onFilterButtonClickHandler( "active" ) }
             >
               Active
             </Button>
             <Button
               variant={ filter === "completed" ? "contained" : "outlined" }
-              onClick={ onCompletedClickHandler }
+              onClick={ () => onFilterButtonClickHandler( "completed" ) }
             >
               Completed
             </Button>

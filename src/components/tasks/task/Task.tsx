@@ -11,40 +11,29 @@ import {
 import { EditItem } from "components/EditItem";
 import ClearIcon from "@mui/icons-material/Clear";
 import EditIcon from "@mui/icons-material/Edit";
-import React, { memo, useState } from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { changeTaskProgressAC, removeTaskAC, renameTaskAC } from "state/tasksReducer";
 
 interface TaskPropsType {
   id: string;
   todolistId: string;
   isDone: boolean;
   title: string;
-  removeTask: (todoListId: string, taskId: string) => void;
-  changeTaskProgress: (
-    todoListId: string,
-    taskId: string,
-    isDone: boolean,
-  ) => void;
-  renameTask: (todoListId: string, taskId: string, newTitle: string) => void;
 }
 
-export const Task = memo( ({
-                             id,
-                             todolistId,
-                             isDone,
-                             title,
-                             renameTask,
-                             removeTask,
-                             changeTaskProgress,
-                           }: TaskPropsType) => {
+export const Task = ({ id, todolistId, isDone, title }: TaskPropsType) => {
   const [ editMode, setEditMode ] = useState( false );
+  const dispatch = useDispatch();
 
   const toggleEditMode = (toggleValue: boolean) => setEditMode( toggleValue );
-  const onRemoveHandler = () => removeTask( todolistId, id );
+
+  const onRemoveHandler = () => dispatch( removeTaskAC( todolistId, id ) );
   const onCheckHandler = () => {
-    changeTaskProgress( todolistId, id, !isDone, );
+    dispatch( changeTaskProgressAC( todolistId, id, !isDone ) );
   };
   const onRenameHandler = (newTitle: string) => {
-    renameTask( todolistId, id, newTitle );
+    dispatch( renameTaskAC( todolistId, id, newTitle ) );
   };
   return (
     <ListItem disablePadding>
@@ -86,4 +75,4 @@ export const Task = memo( ({
       </Tooltip>
     </ListItem>
   );
-} )
+}
