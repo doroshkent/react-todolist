@@ -47,11 +47,7 @@ export const ToDoList = ({ id, title, filter }: TodolistPropsType) => {
         <Grid item container justifyContent={ "space-between" } alignItems={ "center" }>
           <Grid item>
             { titleEditMode ? (
-              <EditItem
-                title={ title }
-                renameItem={ onRenameTodoListHandler }
-                toggleEditMode={ toggleTitleEditMode }
-              />
+              <EditItem title={ title } renameItem={ onRenameTodoListHandler } toggleEditMode={ toggleTitleEditMode } />
             ) : (
               <Typography variant={ "h5" } onDoubleClick={ () => toggleTitleEditMode( true ) }>
                 { title }

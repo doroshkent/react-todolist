@@ -32,11 +32,7 @@ function App() {
             { todolists.map( (tl) => {
               return (
                 <Grid item xs={ 3 } key={ tl.id }>
-                  <ToDoList
-                    id={ tl.id }
-                    title={ tl.title }
-                    filter={ tl.filter }
-                  />
+                  <ToDoList id={ tl.id } title={ tl.title } filter={ tl.filter } />
                 </Grid>
               );
             } ) }
