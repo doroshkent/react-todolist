@@ -3,8 +3,8 @@ import "./App.css";
 import { ToDoList } from "components/ToDoList";
 import { Box, Container, Grid, } from "@mui/material";
 import { Header } from "widgets/header/Header";
-import { addTodolistAC, TodoListStateType } from "state/todolistsReducer";
-import { useDispatch, useSelector } from "react-redux";
+import { TodoListStateType } from "state/todolistsReducer";
+import { useSelector } from "react-redux";
 import { AppRootStateType } from "state/store";
 
 export type FilterValuesType = "all" | "active" | "completed";
@@ -17,15 +17,11 @@ export type TodoListType = {
 };
 
 function App() {
-  const dispatch = useDispatch();
   const todolists = useSelector<AppRootStateType, TodoListStateType>( state => state.todolists );
-  const addTodoList = (title: string) => {
-    dispatch( addTodolistAC( title ) );
-  };
 
   return (
     <Box width={ "100%" } minHeight="100vh" sx={ { backgroundColor: "#f5f5f5" } }>
-      <Header addTodoList={ addTodoList } />
+      <Header />
       <Container maxWidth={ "xl" } sx={ { marginTop: "15px" } }>
         { todolists.length > 0
           ? <Grid container spacing={ 2 }>

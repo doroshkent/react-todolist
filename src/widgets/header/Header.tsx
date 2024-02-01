@@ -1,21 +1,19 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { AppBar, Grid, IconButton, Toolbar, Typography } from "@mui/material";
 import { AddItemForm } from "components/AddItemForm";
 import LoginIcon from "@mui/icons-material/Login";
+import { useDispatch } from "react-redux";
+import { addTodolistAC } from "state/todolistsReducer";
 
-type HeaderPropsType = {
-  addTodoList: (title: string) => void
-}
-
-export const Header: React.FC<HeaderPropsType> = memo( ({ addTodoList }) => {
+export const Header= () => {
+  const dispatch = useDispatch();
+  const addTodoList = (title: string) => {
+    dispatch( addTodolistAC( title ) );
+  };
   return (
     <AppBar position="static">
       <Toolbar>
-        <Grid
-          container
-          justifyContent={ "space-between" }
-          alignItems={ "center" }
-        >
+        <Grid container justifyContent={ "space-between" } alignItems={ "center" }>
           <Grid>
             <AddItemForm addItem={ addTodoList } item="To-do list" />
           </Grid>
@@ -33,4 +31,4 @@ export const Header: React.FC<HeaderPropsType> = memo( ({ addTodoList }) => {
       </Toolbar>
     </AppBar>
   );
-} );
+}
