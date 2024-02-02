@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { FilterValuesType, TodoListType } from "../App";
+import { FilterValuesType } from "App";
 import {
   addTodolistAC,
   changeFilterAC,
@@ -7,6 +7,7 @@ import {
   renameTodolistAC,
   todolistsReducer,
 } from "./todolistsReducer";
+import { TodoListType } from "components/todolists/Todolists";
 
 const todolistId1 = v4();
 const todolistId2 = v4();
