@@ -26,16 +26,16 @@ export const Task = memo(({ id, todolistId, isDone, title }: TaskPropsType) => {
   const [ editMode, setEditMode ] = useState( false );
   const dispatch = useDispatch();
 
-  const toggleEditMode = useCallback((toggleValue: boolean) => setEditMode( toggleValue ), []);
+  const toggleEditMode = (toggleValue: boolean) => setEditMode( toggleValue );
 
   const onRemoveHandler = useCallback(() =>
-    dispatch( removeTaskAC( todolistId, id ) ), []);
+    dispatch( removeTaskAC( todolistId, id ) ), [todolistId, id]);
   const onCheckHandler = useCallback(() => {
     dispatch( changeTaskProgressAC( todolistId, id, !isDone ) );
-  }, [isDone]);
+  }, [todolistId, id, isDone]);
   const onRenameHandler = useCallback((newTitle: string) => {
     dispatch( renameTaskAC( todolistId, id, newTitle ) );
-  }, []);
+  }, [todolistId, id]);
   return (
     <ListItem disablePadding>
       { editMode ? (

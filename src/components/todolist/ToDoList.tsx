@@ -22,25 +22,24 @@ type TodolistPropsType = {
 };
 
 export const ToDoList = memo( ({ id, title, filter }: TodolistPropsType) => {
-  console.log("tl")
   const [ titleEditMode, setTitleEditMode ] = useState( false );
   const toggleTitleEditMode = useCallback( (toggleValue: boolean) =>
     setTitleEditMode( toggleValue ), [] );
 
   const dispatch = useDispatch();
 
-  const onDeleteTodoListHandler = useCallback( () => dispatch( removeTodolistAC( id ) ), [] );
+  const onDeleteTodoListHandler = useCallback( () => dispatch( removeTodolistAC( id ) ), [ id ] );
 
   const onRenameTodoListHandler = useCallback( (newTitle: string) =>
-    dispatch( renameTodolistAC( id, newTitle ) ), [] );
+    dispatch( renameTodolistAC( id, newTitle ) ), [ id ] );
 
   const addNewTask = useCallback( (title: string) => {
     dispatch( addTaskAC( id, title ) );
-  }, [] );
+  }, [ id ] );
 
   const onFilterButtonClickHandler = useCallback( (value: FilterValuesType) => {
     dispatch( changeFilterAC( id, value ) )
-  }, [] )
+  }, [ id ] )
 
   return (
     <Card sx={ { padding: "15px", width: "300px" } }>
