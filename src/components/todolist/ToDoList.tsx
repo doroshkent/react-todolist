@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { memo, useCallback, useState } from "react";
 import { FilterValuesType } from "App";
-import { AddItemForm } from "./AddItemForm";
-import { EditItem } from "./EditItem";
+import { AddItemForm } from "components/AddItemForm";
+import { EditItem } from "components/EditItem";
 import { Button, ButtonGroup, Card, Grid, IconButton, Tooltip, Typography, } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Tasks } from "components/tasks/Tasks";
@@ -21,25 +21,26 @@ type TodolistPropsType = {
   filter: FilterValuesType
 };
 
-export const ToDoList = ({ id, title, filter }: TodolistPropsType) => {
+export const ToDoList = memo( ({ id, title, filter }: TodolistPropsType) => {
+  console.log("tl")
   const [ titleEditMode, setTitleEditMode ] = useState( false );
-  const toggleTitleEditMode = (toggleValue: boolean) =>
-    setTitleEditMode( toggleValue );
+  const toggleTitleEditMode = useCallback( (toggleValue: boolean) =>
+    setTitleEditMode( toggleValue ), [] );
 
   const dispatch = useDispatch();
 
-  const onDeleteTodoListHandler = () => dispatch( removeTodolistAC( id ) );
+  const onDeleteTodoListHandler = useCallback( () => dispatch( removeTodolistAC( id ) ), [] );
 
-  const onRenameTodoListHandler = (newTitle: string) =>
-    dispatch( renameTodolistAC( id, newTitle ) );
+  const onRenameTodoListHandler = useCallback( (newTitle: string) =>
+    dispatch( renameTodolistAC( id, newTitle ) ), [] );
 
-  const addNewTask = (title: string) => {
+  const addNewTask = useCallback( (title: string) => {
     dispatch( addTaskAC( id, title ) );
-  };
+  }, [] );
 
-  const onFilterButtonClickHandler = (value: FilterValuesType) => {
+  const onFilterButtonClickHandler = useCallback( (value: FilterValuesType) => {
     dispatch( changeFilterAC( id, value ) )
-  }
+  }, [] )
 
   return (
     <Card sx={ { padding: "15px", width: "300px" } }>
@@ -93,4 +94,4 @@ export const ToDoList = ({ id, title, filter }: TodolistPropsType) => {
       </Grid>
     </Card>
   );
-}
+} )

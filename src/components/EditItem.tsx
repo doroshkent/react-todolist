@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from "react";
+import React, { ChangeEvent, KeyboardEvent, memo, useState } from "react";
 import { TextField } from "@mui/material";
 
 interface EditableItemPropsType {
@@ -9,11 +9,7 @@ interface EditableItemPropsType {
 
 //TODO fix bug with extra large words (css)
 
-export function EditItem({
-                           title,
-                           renameItem,
-                           toggleEditMode,
-                         }: EditableItemPropsType) {
+export const EditItem = memo(({ title, renameItem, toggleEditMode }: EditableItemPropsType) => {
   const [ newTitle, setNewTitle ] = useState( title );
   const [ error, setError ] = useState<string | null>( null );
 
@@ -52,4 +48,4 @@ export function EditItem({
       />
     </>
   );
-}
+})

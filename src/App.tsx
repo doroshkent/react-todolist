@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { ToDoList } from "components/ToDoList";
+import { ToDoList } from "components/todolist/ToDoList";
 import { Box, Container, Grid, } from "@mui/material";
 import { Header } from "widgets/header/Header";
 import { TodoListStateType } from "state/todolistsReducer";
@@ -24,10 +24,10 @@ function App() {
       <Header />
       <Container maxWidth={ "xl" } sx={ { marginTop: "15px" } }>
         { todolists.length > 0
-          ? <Grid container spacing={ 2 }>
+          ? <Grid container gap={"10px"}>
             { todolists.map( (tl) => {
               return (
-                <Grid item xs={ 3 } key={ tl.id }>
+                <Grid item key={ tl.id }>
                   <ToDoList id={ tl.id } title={ tl.title } filter={ tl.filter } />
                 </Grid>
               );

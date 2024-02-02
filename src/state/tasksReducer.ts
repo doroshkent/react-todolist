@@ -1,11 +1,8 @@
 import { v4 } from "uuid";
-import { TaskType } from "components/ToDoList";
-import {
-  AddTodolistActionType,
-  RemoveTodolistActionType, todoListId1, todoListId2,
-} from "./todolistsReducer";
+import { TaskType } from "components/todolist/ToDoList";
+import { AddTodolistActionType, RemoveTodolistActionType, } from "./todolistsReducer";
 
-export type TasksStateType =  {
+export type TasksStateType = {
   [key: string]: TaskType[];
 }
 
@@ -25,19 +22,7 @@ type ActionsType =
   | AddTodolistActionType
   | RemoveTodolistActionType
 
-const initialState: TasksStateType = {
-  [todoListId1]: [
-    { id: v4(), title: "HTML&CSS", isDone: true },
-    { id: v4(), title: "JS", isDone: true },
-    { id: v4(), title: "React", isDone: false },
-    { id: v4(), title: "Redux", isDone: false },
-  ],
-  [todoListId2]: [
-    { id: v4(), title: "milk", isDone: true },
-    { id: v4(), title: "book", isDone: true },
-    { id: v4(), title: "freedom", isDone: false },
-  ],
-}
+const initialState: TasksStateType = {}
 
 export function tasksReducer(state: TasksStateType = initialState,
                              action: ActionsType): TasksStateType {

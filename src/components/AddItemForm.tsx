@@ -1,5 +1,5 @@
 import React, { ChangeEvent, KeyboardEvent, memo, useState } from "react";
-import { Grid, IconButton, TextField, Tooltip } from "@mui/material";
+import { Grid, IconButton, TextField } from "@mui/material";
 import { ItemsType } from "App";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -25,7 +25,9 @@ export const AddItemForm = memo( ({ addItem, item }: AddItemFormProps) => {
   };
 
   const onEnterPressHandler = (e: KeyboardEvent) => {
-    setError( null );
+    if (error) {
+      setError( null );
+    }
     if (e.key === "Enter") {
       e.preventDefault();
       onAddItemHandler();
@@ -49,18 +51,11 @@ export const AddItemForm = memo( ({ addItem, item }: AddItemFormProps) => {
           onChange={ onSetNewItemTitle }
           onKeyDown={ onEnterPressHandler }
         />
-        <Tooltip title={ "Add" } arrow>
-          <IconButton
-            sx={ {
-              position: "absolute",
-              top: "19%",
-            } }
-            onClick={ onAddItemHandler }
-            disabled={ !newItemTitle }
-          >
-            <AddIcon />
-          </IconButton>
-        </Tooltip>
+        <IconButton sx={ { position: "absolute", top: "19%", } }
+                    onClick={ onAddItemHandler }
+                    disabled={ !newItemTitle }>
+          <AddIcon />
+        </IconButton>
       </Grid>
     </Grid>
   );
