@@ -1,7 +1,10 @@
 import React, { memo } from 'react';
-import { Grid } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import { ToDoList } from "components/todolist/ToDoList";
 import { FilterValuesType } from "App";
+import { useSelector } from "react-redux";
+import { AppRootStateType } from "state/store";
+import { TodoListStateType } from "state/todolistsReducer";
 
 export type TodoListType = {
   id: string;
@@ -9,20 +12,22 @@ export type TodoListType = {
   filter: FilterValuesType;
 };
 
-type TodolistsPropsType = {
-  todolists: TodoListType[]
-}
+export const Todolists = memo( () => {
+  const todolists = useSelector<AppRootStateType, TodoListStateType>( state => state.todolists );
 
-export const Todolists = memo( ({ todolists }: TodolistsPropsType) => {
   return (
-    <Grid container gap={ "10px" }>
-      { todolists.map( (tl) => {
-        return (
-          <Grid item key={ tl.id }>
-            <ToDoList { ...tl } />
-          </Grid>
-        );
-      } ) }
-    </Grid>
+    <Container maxWidth={ "xl" } sx={ { marginTop: "15px" } }>
+      { todolists.length > 0
+        ? <Grid container gap={ "10px" }>
+          { todolists.map( (tl) => {
+            return (
+              <Grid item key={ tl.id }>
+                <ToDoList { ...tl } />
+              </Grid>
+            );
+          } ) }
+        </Grid>
+        : <p style={ { fontStyle: "italic", opacity: "0.5", textAlign: "center" } }>You have no todolists yet</p> }
+    </Container>
   );
 } );
