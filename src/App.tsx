@@ -5,7 +5,7 @@ import { Header } from "widgets/header/Header";
 import { Todolists } from "components/todolists/Todolists";
 
 export type FilterValuesType = "all" | "active" | "completed";
-export type ItemsType = "To-do list" | "task";
+export type ItemsType = "todolist" | "task";
 
 function App() {
   return (

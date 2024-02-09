@@ -15,7 +15,7 @@ export const Header = memo(() => {
       <Toolbar>
         <Grid container justifyContent={ "space-between" } alignItems={ "center" }>
           <Grid>
-            <AddItemForm addItem={ addTodoList } item="To-do list" />
+            <AddItemForm addItem={ addTodoList } item="todolist" />
           </Grid>
           <Grid>
             <Typography variant="h4" component="div" marginRight="150px">
