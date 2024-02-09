@@ -8,7 +8,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { EditItem } from "components/EditItem";
+import { EditItemField } from "components/editItemField/EditItemField";
 import ClearIcon from "@mui/icons-material/Clear";
 import EditIcon from "@mui/icons-material/Edit";
 import React, { memo, useCallback, useState } from "react";
@@ -45,7 +45,7 @@ export const Task = memo(({ id, todolistId, isDone, title }: TaskPropsType) => {
   return (
     <ListItem disablePadding>
       { editMode ? (
-        <EditItem title={ title } renameItem={ onRenameHandler } toggleEditMode={ toggleEditMode } />
+        <EditItemField title={ title } renameItem={ onRenameHandler } toggleEditMode={ toggleEditMode } />
       ) : (
         <ListItemButton onClick={ onCheckHandler } dense>
           <ListItemIcon>

@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useState } from "react";
 import { FilterValuesType } from "App";
-import { AddItemForm } from "components/AddItemForm";
-import { EditItem } from "components/EditItem";
+import { AddItemForm } from "components/addItemForm/AddItemForm";
+import { EditItemField } from "components/editItemField/EditItemField";
 import { Button, ButtonGroup, Card, Grid, IconButton, Tooltip, Typography, } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Tasks } from "components/tasks/Tasks";
@@ -50,7 +50,7 @@ export const ToDoList = memo( ({ id, title, filter }: TodolistPropsType) => {
         <Grid item container justifyContent={ "space-between" } alignItems={ "center" }>
           <Grid item>
             { titleEditMode ? (
-              <EditItem title={ title } renameItem={ onRenameTodoListHandler } toggleEditMode={ toggleTitleEditMode } />
+              <EditItemField title={ title } renameItem={ onRenameTodoListHandler } toggleEditMode={ toggleTitleEditMode } />
             ) : (
               <Typography variant={ "h5" } onDoubleClick={ () => toggleTitleEditMode( true ) }>
                 { title }
