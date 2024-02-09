@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { TaskType } from "components/todolist/ToDoList";
+import { TaskType } from "components/todolists/todolist/ToDoList";
 import { AddTodolistActionType, RemoveTodolistActionType, } from "./todolistsReducer";
 
 export type TasksStateType = {

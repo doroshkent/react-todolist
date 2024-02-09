@@ -33,9 +33,11 @@ export const Task = memo(({ id, todolistId, isDone, title }: TaskPropsType) => {
   const onRemoveHandler = useCallback(() => {
     dispatch( removeTaskAC( todolistId, id ) )}, [ todolistId, id ]
   );
+
   const onCheckHandler = useCallback(() => {
     dispatch( changeTaskProgressAC( todolistId, id, !isDone ) );
   }, [todolistId, id, isDone]);
+
   const onRenameHandler = useCallback((newTitle: string) => {
     dispatch( renameTaskAC( todolistId, id, newTitle ) );
   }, [todolistId, id]);

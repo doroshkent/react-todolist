@@ -12,8 +12,9 @@ export const AddItemForm = memo( ({ addItem, item }: AddItemFormProps) => {
   const [ newItemTitle, setNewItemTitle ] = useState<string>( "" );
   const [ error, setError ] = useState<string | null>( null );
 
-  const onSetNewItemTitle = (e: ChangeEvent<HTMLInputElement>) =>
-    setNewItemTitle( e.currentTarget.value );
+  const onSetNewItemTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewItemTitle( e.currentTarget.value )
+  }
 
   const onAddItemHandler = () => {
     if (newItemTitle.trim()) {
@@ -51,7 +52,7 @@ export const AddItemForm = memo( ({ addItem, item }: AddItemFormProps) => {
           onChange={ onSetNewItemTitle }
           onKeyDown={ onEnterPressHandler }
         />
-        <IconButton sx={ { position: "absolute", top: "19%", } }
+        <IconButton sx={ { position: "absolute", top: "19%" } }
                     onClick={ onAddItemHandler }
                     disabled={ !newItemTitle }>
           <AddIcon />

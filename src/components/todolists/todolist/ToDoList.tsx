@@ -28,10 +28,13 @@ export const ToDoList = memo( ({ id, title, filter }: TodolistPropsType) => {
 
   const dispatch = useDispatch();
 
-  const onDeleteTodoListHandler = useCallback( () => dispatch( removeTodolistAC( id ) ), [ id ] );
+  const onDeleteTodoListHandler = useCallback( () => {
+    dispatch( removeTodolistAC( id ) )
+  }, [ id ] );
 
-  const onRenameTodoListHandler = useCallback( (newTitle: string) =>
-    dispatch( renameTodolistAC( id, newTitle ) ), [ id ] );
+  const onRenameTodoListHandler = useCallback( (newTitle: string) => {
+    dispatch( renameTodolistAC( id, newTitle ) )
+  }, [ id ] );
 
   const addNewTask = useCallback( (title: string) => {
     dispatch( addTaskAC( id, title ) );

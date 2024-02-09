@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { Container, Grid } from "@mui/material";
-import { ToDoList } from "components/todolist/ToDoList";
+import { ToDoList } from "components/todolists/todolist/ToDoList";
 import { FilterValuesType } from "App";
 import { useSelector } from "react-redux";
 import { AppRootStateType } from "state/store";
