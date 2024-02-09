@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { AppRootStateType } from "state/store";
 import { FilterValuesType } from "App";
 
-type TasksPropsType = {
+export type TasksPropsType = {
   todolistId: string
   filter: FilterValuesType
 }

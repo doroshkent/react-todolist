@@ -15,7 +15,7 @@ import React, { memo, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { changeTaskProgressAC, removeTaskAC, renameTaskAC } from "state/tasksReducer";
 
-interface TaskPropsType {
+export type TaskPropsType = {
   id: string;
   todolistId: string;
   isDone: boolean;
@@ -26,16 +26,20 @@ export const Task = memo(({ id, todolistId, isDone, title }: TaskPropsType) => {
   const [ editMode, setEditMode ] = useState( false );
   const dispatch = useDispatch();
 
-  const toggleEditMode = (toggleValue: boolean) => setEditMode( toggleValue );
+  const toggleEditMode = (toggleValue: boolean) => {
+    setEditMode( toggleValue )
+  };
 
-  const onRemoveHandler = useCallback(() =>
-    dispatch( removeTaskAC( todolistId, id ) ), [todolistId, id]);
+  const onRemoveHandler = useCallback(() => {
+    dispatch( removeTaskAC( todolistId, id ) )}, [ todolistId, id ]
+  );
   const onCheckHandler = useCallback(() => {
     dispatch( changeTaskProgressAC( todolistId, id, !isDone ) );
   }, [todolistId, id, isDone]);
   const onRenameHandler = useCallback((newTitle: string) => {
     dispatch( renameTaskAC( todolistId, id, newTitle ) );
   }, [todolistId, id]);
+
   return (
     <ListItem disablePadding>
       { editMode ? (
