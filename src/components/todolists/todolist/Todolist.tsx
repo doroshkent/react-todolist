@@ -21,7 +21,7 @@ type TodolistPropsType = {
   filter: FilterValuesType
 };
 
-export const ToDoList = memo( ({ id, title, filter }: TodolistPropsType) => {
+export const Todolist = memo( ({ id, title, filter }: TodolistPropsType) => {
   const [ titleEditMode, setTitleEditMode ] = useState( false );
   const toggleTitleEditMode = useCallback( (toggleValue: boolean) =>
     setTitleEditMode( toggleValue ), [] );

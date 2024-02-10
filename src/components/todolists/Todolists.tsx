@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { Container, Grid } from "@mui/material";
-import { ToDoList } from "components/todolists/todolist/ToDoList";
+import { Todolist } from "components/todolists/todolist/Todolist";
 import { FilterValuesType } from "App";
 import { useSelector } from "react-redux";
 import { AppRootStateType } from "state/store";
@@ -22,7 +22,7 @@ export const Todolists = memo( () => {
           { todolists.map( (tl) => {
             return (
               <Grid item key={ tl.id }>
-                <ToDoList { ...tl } />
+                <Todolist { ...tl } />
               </Grid>
             );
           } ) }

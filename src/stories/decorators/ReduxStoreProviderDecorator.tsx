@@ -18,8 +18,8 @@ const initialGlobalState: AppRootStateType = {
   ] ,
   tasks: {
     ["todolistId1"]: [
-      {id: "task1_1", title: "HTML&CSS", isDone: true},
-      {id: "task1_2", title: "JS", isDone: false}
+      {id: "task1_1", title: "HTML&CSS", isDone: false},
+      {id: "task1_2", title: "JS", isDone: true}
     ],
     ["todolistId2"]: [
       {id: v1(), title: "Milk", isDone: false},

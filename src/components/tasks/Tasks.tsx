@@ -1,7 +1,7 @@
 import React, { memo, useCallback } from 'react';
 import { List } from "@mui/material";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { TaskType } from "components/todolists/todolist/ToDoList";
+import { TaskType } from "components/todolists/todolist/Todolist";
 import { Task } from './task/Task';
 import { useSelector } from "react-redux";
 import { AppRootStateType } from "state/store";
