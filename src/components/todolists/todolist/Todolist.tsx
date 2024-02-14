@@ -1,13 +1,11 @@
-import React, { memo, useCallback, useState } from "react";
+import React, { memo } from "react";
 import { FilterValuesType } from "App";
 import { AddItemForm } from "components/addItemForm/AddItemForm";
 import { EditItemField } from "components/editItemField/EditItemField";
 import { Button, ButtonGroup, Card, Grid, IconButton, Tooltip, Typography, } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Tasks } from "components/tasks/Tasks";
-import { useDispatch } from "react-redux";
-import { addTaskAC } from "state/tasksReducer";
-import { changeFilterAC, removeTodolistAC, renameTodolistAC } from "state/todolistsReducer";
+import { useTodolist } from "components/todolists/todolist/hooks/useTodolist";
 
 export type TaskType = {
   id: string
@@ -22,27 +20,14 @@ type TodolistPropsType = {
 };
 
 export const Todolist = memo( ({ id, title, filter }: TodolistPropsType) => {
-  const [ titleEditMode, setTitleEditMode ] = useState( false );
-  const toggleTitleEditMode = useCallback( (toggleValue: boolean) =>
-    setTitleEditMode( toggleValue ), [] );
-
-  const dispatch = useDispatch();
-
-  const onDeleteTodoListHandler = useCallback( () => {
-    dispatch( removeTodolistAC( id ) )
-  }, [ id ] );
-
-  const onRenameTodoListHandler = useCallback( (newTitle: string) => {
-    dispatch( renameTodolistAC( id, newTitle ) )
-  }, [ id ] );
-
-  const addNewTask = useCallback( (title: string) => {
-    dispatch( addTaskAC( id, title ) );
-  }, [ id ] );
-
-  const onFilterButtonClickHandler = useCallback( (value: FilterValuesType) => {
-    dispatch( changeFilterAC( id, value ) )
-  }, [ id ] )
+  const {
+    titleEditMode,
+    onTodoListRenamed,
+    toggleTitleEditMode,
+    onTodoListDeleted,
+    addNewTask,
+    onFilterButtonClicked
+  } = useTodolist( id )
 
   return (
     <Card sx={ { padding: "15px", width: "300px" } }>
@@ -50,7 +35,7 @@ export const Todolist = memo( ({ id, title, filter }: TodolistPropsType) => {
         <Grid item container justifyContent={ "space-between" } alignItems={ "center" }>
           <Grid item>
             { titleEditMode ? (
-              <EditItemField title={ title } renameItem={ onRenameTodoListHandler } toggleEditMode={ toggleTitleEditMode } />
+              <EditItemField title={ title } renameItem={ onTodoListRenamed } toggleEditMode={ toggleTitleEditMode } />
             ) : (
               <Typography variant={ "h5" } onDoubleClick={ () => toggleTitleEditMode( true ) }>
                 { title }
@@ -59,7 +44,7 @@ export const Todolist = memo( ({ id, title, filter }: TodolistPropsType) => {
           </Grid>
           <Grid item>
             <Tooltip title={ "Remove" }>
-              <IconButton onClick={ onDeleteTodoListHandler }>
+              <IconButton onClick={ onTodoListDeleted }>
                 <ClearIcon />
               </IconButton>
             </Tooltip>
@@ -75,19 +60,19 @@ export const Todolist = memo( ({ id, title, filter }: TodolistPropsType) => {
           <ButtonGroup size={ "small" }>
             <Button
               variant={ filter === "all" ? "contained" : "outlined" }
-              onClick={ () => onFilterButtonClickHandler( "all" ) }
+              onClick={ () => onFilterButtonClicked( "all" ) }
             >
               All
             </Button>
             <Button
               variant={ filter === "active" ? "contained" : "outlined" }
-              onClick={ () => onFilterButtonClickHandler( "active" ) }
+              onClick={ () => onFilterButtonClicked( "active" ) }
             >
               Active
             </Button>
             <Button
               variant={ filter === "completed" ? "contained" : "outlined" }
-              onClick={ () => onFilterButtonClickHandler( "completed" ) }
+              onClick={ () => onFilterButtonClicked( "completed" ) }
             >
               Completed
             </Button>
