@@ -1,7 +1,8 @@
-import React, { ChangeEvent, KeyboardEvent, memo, useState } from "react";
+import React, { memo } from "react";
 import { Grid, IconButton, TextField } from "@mui/material";
 import { ItemsType } from "App";
 import AddIcon from "@mui/icons-material/Add";
+import { useAddItemForm } from "components/addItemForm/hooks/useAddItemForm";
 
 type AddItemFormProps = {
   addItem: (title: string) => void;
@@ -9,31 +10,14 @@ type AddItemFormProps = {
 };
 
 export const AddItemForm = memo( ({ addItem, item }: AddItemFormProps) => {
-  const [ newItemTitle, setNewItemTitle ] = useState( "" );
-  const [ error, setError ] = useState( "" );
+  const {
+    newItemTitle,
+    error,
+    onTitleChange,
+    onEnterPress,
+    onAddItem
+  } = useAddItemForm( addItem );
 
-  const onSetNewItemTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewItemTitle( e.currentTarget.value )
-  }
-
-  const onAddItemHandler = () => {
-    if (newItemTitle.trim()) {
-      addItem( newItemTitle.trim() );
-      setNewItemTitle( "" );
-    } else {
-      setError( "Input is required" );
-    }
-  };
-
-  const onEnterPressHandler = (e: KeyboardEvent) => {
-    if (error) {
-      setError( "" );
-    }
-    if (e.key === "Enter") {
-      e.preventDefault();
-      onAddItemHandler();
-    }
-  };
   return (
     <Grid container alignItems={ "center" }>
       <Grid item sx={ { position: "relative" } }>
@@ -48,11 +32,11 @@ export const AddItemForm = memo( ({ addItem, item }: AddItemFormProps) => {
           color={ item === "task" ? "primary" : "secondary" }
           error={ !!error }
           value={ newItemTitle }
-          onChange={ onSetNewItemTitle }
-          onKeyDown={ onEnterPressHandler }
+          onChange={ onTitleChange }
+          onKeyDown={ onEnterPress }
         />
         <IconButton sx={ { position: "absolute", top: "19%" } }
-                    onClick={ onAddItemHandler }
+                    onClick={ onAddItem }
                     disabled={ !newItemTitle }>
           <AddIcon />
         </IconButton>
