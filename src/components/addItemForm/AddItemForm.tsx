@@ -4,12 +4,12 @@ import { ItemsType } from "App";
 import AddIcon from "@mui/icons-material/Add";
 import { useAddItemForm } from "components/addItemForm/hooks/useAddItemForm";
 
-type AddItemFormProps = {
+type AddItemFormPropsType = {
   addItem: (title: string) => void;
   item: ItemsType;
 };
 
-export const AddItemForm = memo( ({ addItem, item }: AddItemFormProps) => {
+export const AddItemForm = memo( ({ addItem, item }: AddItemFormPropsType) => {
   const {
     newItemTitle,
     error,
