@@ -21,7 +21,7 @@ export const useTasks = (todolistId: string, filter: FilterValuesType) => {
         return tasks
       }
     }
-  }, [ filter ] )
+  }, [ tasks, filter ] )
 
   return {
     filteredTasks: filterTasks()
