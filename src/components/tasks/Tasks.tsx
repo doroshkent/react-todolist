@@ -1,11 +1,9 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo } from 'react';
 import { List } from "@mui/material";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { TaskType } from "components/todolists/todolist/Todolist";
 import { Task } from './task/Task';
-import { useSelector } from "react-redux";
-import { AppRootStateType } from "state/store";
 import { FilterValuesType } from "App";
+import { useTasks } from "components/tasks/hooks/useTasks";
 
 export type TasksPropsType = {
   todolistId: string
@@ -14,29 +12,13 @@ export type TasksPropsType = {
 
 export const Tasks = memo( ({ todolistId, filter }: TasksPropsType) => {
   const [ listRef ] = useAutoAnimate<HTMLUListElement>();
-  const tasks = useSelector<AppRootStateType, TaskType[]>( state => {
-    return state.tasks[todolistId]
-  } )
-
-  const filterTasks = useCallback( (tasks: TaskType[]) => {
-    switch (filter) {
-      case "active": {
-        return tasks.filter( (t) => !t.isDone );
-      }
-      case "completed": {
-        return tasks.filter( (t) => t.isDone );
-      }
-      default: {
-        return tasks
-      }
-    }
-  }, [ filter ] )
+  const { filteredTasks } = useTasks( todolistId, filter );
 
   return (
     <>
-      { filterTasks( tasks ).length > 0
+      { filteredTasks.length > 0
         ? <List ref={ listRef }>
-          { filterTasks( tasks ).map( (task) => (
+          { filteredTasks.map( (task) => (
             <Task
               key={ task.id }
               todolistId={ todolistId }
