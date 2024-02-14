@@ -1,7 +1,8 @@
-import React, { ChangeEvent, KeyboardEvent, memo, useState } from "react";
+import React, { memo } from "react";
 import { TextField } from "@mui/material";
+import { useEditItemField } from "components/editItemField/hooks/useEditItemField";
 
-interface EditableItemPropsType {
+export type EditableItemPropsType = {
   title: string;
   renameItem: (title: string) => void;
   toggleEditMode: (toggleValue: boolean) => void;
@@ -9,43 +10,26 @@ interface EditableItemPropsType {
 
 //TODO fix bug with extra large words (css)
 
-export const EditItemField = memo(({ title, renameItem, toggleEditMode }: EditableItemPropsType) => {
-  const [ newTitle, setNewTitle ] = useState( title );
-  const [ error, setError ] = useState<string | null>( null );
-
-  const activateViewMode = () => {
-    if (newTitle.trim()) {
-      toggleEditMode( false );
-      renameItem( newTitle.trim() );
-    } else {
-      setError( "Input is required" );
-    }
-  };
-
-  const onEnterPressHandler = (e: KeyboardEvent) => {
-    setError( null );
-    if (e.key === "Enter") {
-      activateViewMode();
-    }
-  };
-
-  const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewTitle( e.currentTarget.value );
-  };
+export const EditItemField = memo( (props: EditableItemPropsType) => {
+  const {
+    newTitle,
+    error,
+    onTitleChanged,
+    activateViewMode,
+    onEnterPressed
+  } = useEditItemField( { ...props } );
 
   return (
-    <>
-      <TextField
-        variant={ "standard" }
-        size={ "small" }
-        value={ newTitle }
-        onChange={ onChangeTitleHandler }
-        onBlur={ activateViewMode }
-        onKeyDown={ onEnterPressHandler }
-        autoFocus
-        error={ !!error }
-        fullWidth
-      />
-    </>
+    <TextField
+      variant={ "standard" }
+      size={ "small" }
+      value={ newTitle }
+      onChange={ onTitleChanged }
+      onBlur={ activateViewMode }
+      onKeyDown={ onEnterPressed }
+      autoFocus
+      error={ !!error }
+      fullWidth
+    />
   );
-})
+} )
