@@ -11,9 +11,8 @@ import {
 import { EditItemField } from "components/editItemField/EditItemField";
 import ClearIcon from "@mui/icons-material/Clear";
 import EditIcon from "@mui/icons-material/Edit";
-import React, { memo, useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
-import { changeTaskProgressAC, removeTaskAC, renameTaskAC } from "state/tasksReducer";
+import React, { memo } from "react";
+import { useTask } from "components/tasks/task/hooks/useTask";
 
 export type TaskPropsType = {
   id: string;
@@ -23,31 +22,20 @@ export type TaskPropsType = {
 }
 
 export const Task = memo(({ id, todolistId, isDone, title }: TaskPropsType) => {
-  const [ editMode, setEditMode ] = useState( false );
-  const dispatch = useDispatch();
-
-  const toggleEditMode = (toggleValue: boolean) => {
-    setEditMode( toggleValue )
-  };
-
-  const onRemoveHandler = useCallback(() => {
-    dispatch( removeTaskAC( todolistId, id ) )}, [ todolistId, id ]
-  );
-
-  const onCheckHandler = useCallback(() => {
-    dispatch( changeTaskProgressAC( todolistId, id, !isDone ) );
-  }, [todolistId, id, isDone]);
-
-  const onRenameHandler = useCallback((newTitle: string) => {
-    dispatch( renameTaskAC( todolistId, id, newTitle ) );
-  }, [todolistId, id]);
+  const {
+    editMode,
+    toggleEditMode,
+    onTaskRenamed,
+    onTaskChecked,
+    onTaskRemoved
+  } = useTask(id, todolistId, isDone)
 
   return (
     <ListItem disablePadding>
       { editMode ? (
-        <EditItemField title={ title } renameItem={ onRenameHandler } toggleEditMode={ toggleEditMode } />
+        <EditItemField title={ title } renameItem={ onTaskRenamed } toggleEditMode={ toggleEditMode } />
       ) : (
-        <ListItemButton onClick={ onCheckHandler } dense>
+        <ListItemButton onClick={ onTaskChecked } dense>
           <ListItemIcon>
             <Checkbox edge="start" checked={ isDone } tabIndex={ -1 } disableRipple />
           </ListItemIcon>
@@ -64,7 +52,7 @@ export const Task = memo(({ id, todolistId, isDone, title }: TaskPropsType) => {
         </IconButton>
       </Tooltip>
       <Tooltip title={ "Remove" } arrow>
-        <IconButton onClick={ onRemoveHandler }>
+        <IconButton onClick={ onTaskRemoved }>
           <ClearIcon />
         </IconButton>
       </Tooltip>
