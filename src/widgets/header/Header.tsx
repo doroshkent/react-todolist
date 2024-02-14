@@ -1,21 +1,18 @@
-import React, { memo, useCallback } from 'react';
+import React from 'react';
 import { AppBar, Grid, IconButton, Toolbar, Typography } from "@mui/material";
 import { AddItemForm } from "components/addItemForm/AddItemForm";
 import LoginIcon from "@mui/icons-material/Login";
-import { useDispatch } from "react-redux";
-import { addTodolistAC } from "state/todolistsReducer";
+import { useTodolist } from "components/todolists/todolist/hooks/useTodolist";
 
-export const Header = memo(() => {
-  const dispatch = useDispatch();
-  const addTodoList = useCallback((title: string) => {
-    dispatch( addTodolistAC( title ) );
-  }, []);
+export const Header = () => {
+  const { onTodolistAdded } = useTodolist();
+
   return (
     <AppBar position="static">
       <Toolbar>
         <Grid container justifyContent={ "space-between" } alignItems={ "center" }>
           <Grid>
-            <AddItemForm addItem={ addTodoList } item="todolist" />
+            <AddItemForm addItem={ onTodolistAdded } item="todolist" />
           </Grid>
           <Grid>
             <Typography variant="h4" component="div" marginRight="150px">
@@ -31,4 +28,4 @@ export const Header = memo(() => {
       </Toolbar>
     </AppBar>
   );
-})
+}

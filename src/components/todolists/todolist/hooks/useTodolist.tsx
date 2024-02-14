@@ -2,9 +2,9 @@ import React, { useCallback, useState } from "react";
 import { FilterValuesType } from "App";
 import { useDispatch } from "react-redux";
 import { addTaskAC } from "state/tasksReducer";
-import { changeFilterAC, removeTodolistAC, renameTodolistAC } from "state/todolistsReducer";
+import { addTodolistAC, changeFilterAC, removeTodolistAC, renameTodolistAC } from "state/todolistsReducer";
 
-export const useTodolist = (id: string) => {
+export const useTodolist = (id?: string) => {
   const [ titleEditMode, setTitleEditMode ] = useState( false );
   const toggleTitleEditMode = useCallback( (toggleValue: boolean) =>
     setTitleEditMode( toggleValue ), [] );
@@ -12,20 +12,24 @@ export const useTodolist = (id: string) => {
   const dispatch = useDispatch();
 
   const onTodoListDeleted = useCallback( () => {
-    dispatch( removeTodolistAC( id ) )
+    id && dispatch( removeTodolistAC( id ) )
   }, [ id ] );
 
   const onTodoListRenamed = useCallback( (newTitle: string) => {
-    dispatch( renameTodolistAC( id, newTitle ) )
+    id && dispatch( renameTodolistAC( id, newTitle ) )
   }, [ id ] );
 
   const addNewTask = useCallback( (title: string) => {
-    dispatch( addTaskAC( id, title ) );
+    id && dispatch( addTaskAC( id, title ) );
   }, [ id ] );
 
   const onFilterButtonClicked = useCallback( (value: FilterValuesType) => {
-    dispatch( changeFilterAC( id, value ) )
-  }, [ id ] )
+    id && dispatch( changeFilterAC( id, value ) )
+  }, [ id ] );
+
+  const onTodolistAdded = useCallback((title: string) => {
+    dispatch( addTodolistAC( title ) );
+  }, []);
 
   return {
     titleEditMode,
@@ -33,6 +37,7 @@ export const useTodolist = (id: string) => {
     toggleTitleEditMode,
     onTodoListDeleted,
     addNewTask,
-    onFilterButtonClicked
+    onFilterButtonClicked,
+    onTodolistAdded
   }
 }
