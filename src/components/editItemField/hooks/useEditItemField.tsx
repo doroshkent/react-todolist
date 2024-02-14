@@ -1,7 +1,8 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
-import { EditableItemPropsType } from "components/editItemField/EditItemField";
 
-export const useEditItemField = ({ title, renameItem, toggleEditMode }: EditableItemPropsType) => {
+export const useEditItemField = (title: string,
+                                 toggleEditMode: (toggleValue: boolean) => void,
+                                 renameItem: (title: string) => void) => {
   const [ newTitle, setNewTitle ] = useState( title );
   const [ error, setError ] = useState( "" );
 

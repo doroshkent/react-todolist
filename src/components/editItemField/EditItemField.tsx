@@ -10,14 +10,14 @@ export type EditableItemPropsType = {
 
 //TODO fix bug with extra large words (css)
 
-export const EditItemField = memo( (props: EditableItemPropsType) => {
+export const EditItemField = memo( ({ title, renameItem, toggleEditMode }: EditableItemPropsType) => {
   const {
     newTitle,
     error,
     onTitleChanged,
     activateViewMode,
     onEnterPressed
-  } = useEditItemField( { ...props } );
+  } = useEditItemField( title, toggleEditMode, renameItem );
 
   return (
     <TextField
