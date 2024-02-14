@@ -9,8 +9,8 @@ type AddItemFormProps = {
 };
 
 export const AddItemForm = memo( ({ addItem, item }: AddItemFormProps) => {
-  const [ newItemTitle, setNewItemTitle ] = useState<string>( "" );
-  const [ error, setError ] = useState<string | null>( null );
+  const [ newItemTitle, setNewItemTitle ] = useState( "" );
+  const [ error, setError ] = useState( "" );
 
   const onSetNewItemTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setNewItemTitle( e.currentTarget.value )
@@ -27,7 +27,7 @@ export const AddItemForm = memo( ({ addItem, item }: AddItemFormProps) => {
 
   const onEnterPressHandler = (e: KeyboardEvent) => {
     if (error) {
-      setError( null );
+      setError( "" );
     }
     if (e.key === "Enter") {
       e.preventDefault();
@@ -43,11 +43,10 @@ export const AddItemForm = memo( ({ addItem, item }: AddItemFormProps) => {
           maxRows={ 4 }
           variant={ "outlined" }
           size={ "small" }
-          label={ `New ${ item }` }
+          label={ error ? error : `New ${ item }` }
           margin={ "normal" }
           color={ item === "task" ? "primary" : "secondary" }
           error={ !!error }
-          helperText={ error ? error : " " }
           value={ newItemTitle }
           onChange={ onSetNewItemTitle }
           onKeyDown={ onEnterPressHandler }
