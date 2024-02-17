@@ -1,17 +1,30 @@
 import { addTodolistAC, TodolistDomainType, todolistsReducer } from "./todolistsReducer";
 import { tasksReducer, TasksStateType } from "./tasksReducer";
+import { TaskPriorities, TaskStatuses } from "api/todolists-api";
 
 test('new array should be added when new todolist is added', () => {
   const startState: TasksStateType = {
     'todolistId1': [
-      {id: '1', title: 'CSS', isDone: false},
-      {id: '2', title: 'JS', isDone: true},
-      {id: '3', title: 'React', isDone: false}
+      {id: '1', title: 'CSS', status: TaskStatuses.New, addedDate: "",
+        order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
+        startDate: null, todoListId: "todolistId1"},
+      {id: '2', title: 'JS', status: TaskStatuses.Completed, addedDate: "",
+        order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
+        startDate: null, todoListId: "todolistId1"},
+      {id: '3', title: 'React', status: TaskStatuses.New, addedDate: "",
+        order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
+        startDate: null, todoListId: "todolistId1"}
     ],
     'todolistId2': [
-      {id: '1', title: 'bread', isDone: false},
-      {id: '2', title: 'milk', isDone: true},
-      {id: '3', title: 'tea', isDone: false}
+      {id: '1', title: 'bread', status: TaskStatuses.New, addedDate: "",
+        order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
+        startDate: null, todoListId: "todolistId2"},
+      {id: '2', title: 'milk', status: TaskStatuses.Completed, addedDate: "",
+        order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
+        startDate: null, todoListId: "todolistId2"},
+      {id: '3', title: 'tea', status: TaskStatuses.New, addedDate: "",
+        order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
+        startDate: null, todoListId: "todolistId2"}
     ]
   }
 

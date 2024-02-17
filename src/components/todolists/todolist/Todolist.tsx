@@ -7,12 +7,6 @@ import { Tasks } from "components/tasks/Tasks";
 import { useTodolist } from "components/todolists/todolist/hooks/useTodolist";
 import { FilterValuesType } from "state/todolistsReducer";
 
-export type TaskType = {
-  id: string
-  title: string
-  isDone: boolean
-};
-
 type TodolistPropsType = {
   id: string
   title: string

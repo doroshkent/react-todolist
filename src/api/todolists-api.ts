@@ -1,6 +1,6 @@
 import axios from "axios";
 
-//types
+//entity types
 export type TodolistType = {
   id: string
   addedDate: Date
@@ -11,14 +11,29 @@ export type TaskType = {
   todoListId: string
   id: string
   title: string
-  status: number
-  addedDate: Date
+  status: TaskStatuses
+  addedDate: string
   deadline: null
-  description: null
+  description: null | string
   order: number
-  priority: number
+  priority: TaskPriorities
   startDate: null
 }
+export enum TaskStatuses {
+  New,
+  InProgress,
+  Completed,
+  Draft
+}
+export enum TaskPriorities {
+  Low,
+  Middle,
+  High,
+  Urgently,
+  Later
+}
+
+//response types
 export type ResponseType<D = {}> = {
   resultCode: number
   messages: Array<string>

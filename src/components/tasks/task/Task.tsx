@@ -13,34 +13,35 @@ import ClearIcon from "@mui/icons-material/Clear";
 import EditIcon from "@mui/icons-material/Edit";
 import React, { memo } from "react";
 import { useTask } from "components/tasks/task/hooks/useTask";
+import { TaskStatuses } from "api/todolists-api";
 
 export type TaskPropsType = {
   id: string;
   todolistId: string;
-  isDone: boolean;
+  status: TaskStatuses;
   title: string;
 }
 
-export const Task = memo(({ id, todolistId, isDone, title }: TaskPropsType) => {
+export const Task = memo( ({ id, todolistId, status, title }: TaskPropsType) => {
   const {
     editMode,
     toggleEditMode,
     onTaskRenamed,
     onTaskChecked,
     onTaskRemoved
-  } = useTask(id, todolistId, isDone)
+  } = useTask( id, todolistId, status )
 
   return (
     <ListItem disablePadding>
       { editMode ? (
         <EditItemField title={ title } renameItem={ onTaskRenamed } toggleEditMode={ toggleEditMode } />
       ) : (
-        <ListItemButton onClick={ onTaskChecked } dense>
+        <ListItemButton onClick={ () => onTaskChecked( status ) } dense>
           <ListItemIcon>
-            <Checkbox edge="start" checked={ isDone } tabIndex={ -1 } disableRipple />
+            <Checkbox edge="start" checked={ status === TaskStatuses.Completed } tabIndex={ -1 } disableRipple />
           </ListItemIcon>
           <ListItemText>
-            <Typography variant={ "body1" } sx={ { opacity: `${ isDone ? "0.5" : "1" }` } }>
+            <Typography variant={ "body1" } sx={ { opacity: `${ status === TaskStatuses.Completed ? "0.5" : "1" }` } }>
               { title }
             </Typography>
           </ListItemText>
@@ -58,4 +59,4 @@ export const Task = memo(({ id, todolistId, isDone, title }: TaskPropsType) => {
       </Tooltip>
     </ListItem>
   );
-})
+} )

@@ -18,9 +18,6 @@ const startState: TodolistDomainType[] = [
 const newTitle = "new title";
 
 test("correct todolist is removed", () => {
-  let todolistId1 = v4();
-  let todolistId2 = v4();
-
   const endState = todolistsReducer(startState, removeTodolistAC(todolistId2));
 
   expect(endState.length).toBe(1);

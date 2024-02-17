@@ -1,6 +1,6 @@
 import { v4 } from "uuid";
-import { TaskType } from "components/todolists/todolist/Todolist";
 import { AddTodolistActionType, RemoveTodolistActionType, } from "./todolistsReducer";
+import { TaskPriorities, TaskStatuses, TaskType } from "api/todolists-api";
 
 export type TasksStateType = {
   [key: string]: TaskType[];
@@ -48,7 +48,14 @@ export function tasksReducer(state: TasksStateType = initialState,
       const newTask: TaskType = {
         id: v4(),
         title: action.title,
-        isDone: false,
+        status: TaskStatuses.New,
+        todoListId: action.todolistId,
+        addedDate: "",
+        order: 0,
+        deadline: null,
+        description: "",
+        priority: TaskPriorities.Low,
+        startDate: null
       };
       return {
         ...state,
@@ -59,7 +66,7 @@ export function tasksReducer(state: TasksStateType = initialState,
       return {
         ...state,
         [action.todolistId]: state[action.todolistId].map( (task) =>
-          task.id === action.taskId ? { ...task, isDone: action.isDone } : task
+          task.id === action.taskId ? { ...task, status: action.status } : task
         ),
       };
     }
@@ -90,6 +97,6 @@ export const addTaskAC = (todolistId: string, title: string) => {
 };
 export const changeTaskProgressAC = (todolistId: string,
                                      taskId: string,
-                                     isDone: boolean) => {
-  return { type: "CHANGE-TASK-PROGRESS", todolistId, taskId, isDone } as const;
+                                     status: TaskStatuses) => {
+  return { type: "CHANGE-TASK-PROGRESS", todolistId, taskId, status } as const;
 };
