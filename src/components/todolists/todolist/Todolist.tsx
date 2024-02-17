@@ -1,11 +1,11 @@
 import React, { memo } from "react";
-import { FilterValuesType } from "App";
 import { AddItemForm } from "components/addItemForm/AddItemForm";
 import { EditItemField } from "components/editItemField/EditItemField";
 import { Button, ButtonGroup, Card, Grid, IconButton, Tooltip, Typography, } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Tasks } from "components/tasks/Tasks";
 import { useTodolist } from "components/todolists/todolist/hooks/useTodolist";
+import { FilterValuesType } from "state/todolistsReducer";
 
 export type TaskType = {
   id: string

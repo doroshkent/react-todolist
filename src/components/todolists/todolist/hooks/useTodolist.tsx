@@ -1,8 +1,13 @@
 import React, { useCallback, useState } from "react";
-import { FilterValuesType } from "App";
 import { useDispatch } from "react-redux";
 import { addTaskAC } from "state/tasksReducer";
-import { addTodolistAC, changeFilterAC, removeTodolistAC, renameTodolistAC } from "state/todolistsReducer";
+import {
+  addTodolistAC,
+  changeFilterAC,
+  FilterValuesType,
+  removeTodolistAC,
+  renameTodolistAC
+} from "state/todolistsReducer";
 
 export const useTodolist = (id?: string) => {
   const [ titleEditMode, setTitleEditMode ] = useState( false );

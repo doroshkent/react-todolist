@@ -4,7 +4,6 @@ import { Box, } from "@mui/material";
 import { Header } from "widgets/header/Header";
 import { Todolists } from "components/todolists/Todolists";
 
-export type FilterValuesType = "all" | "active" | "completed";
 export type ItemsType = "todolist" | "task";
 
 function App() {

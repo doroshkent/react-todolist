@@ -1,20 +1,18 @@
 import { v4 } from "uuid";
-import { FilterValuesType } from "App";
 import {
   addTodolistAC,
-  changeFilterAC,
+  changeFilterAC, FilterValuesType,
   removeTodolistAC,
-  renameTodolistAC,
+  renameTodolistAC, TodolistDomainType,
   todolistsReducer,
 } from "./todolistsReducer";
-import { TodoListType } from "components/todolists/Todolists";
 
 const todolistId1 = v4();
 const todolistId2 = v4();
 
-const startState: TodoListType[] = [
-  { id: todolistId1, title: "To Learn", filter: "all" },
-  { id: todolistId2, title: "To Buy", filter: "all" },
+const startState: TodolistDomainType[] = [
+  { id: todolistId1, title: "To Learn", filter: "all", addedDate: new Date(), order: 0 },
+  { id: todolistId2, title: "To Buy", filter: "all", addedDate: new Date(), order: 0 },
 ];
 
 const newTitle = "new title";
@@ -22,11 +20,6 @@ const newTitle = "new title";
 test("correct todolist is removed", () => {
   let todolistId1 = v4();
   let todolistId2 = v4();
-
-  const startState: TodoListType[] = [
-    { id: todolistId1, title: "To Learn", filter: "all" },
-    { id: todolistId2, title: "To Buy", filter: "all" },
-  ];
 
   const endState = todolistsReducer(startState, removeTodolistAC(todolistId2));
 

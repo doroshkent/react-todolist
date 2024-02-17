@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { TaskType } from "components/todolists/todolist/Todolist";
 import { useSelector } from "react-redux";
 import { AppRootStateType } from "state/store";
-import { FilterValuesType } from "App";
+import { FilterValuesType } from "state/todolistsReducer";
 
 export const useTasks = (todolistId: string, filter: FilterValuesType) => {
   const tasks = useSelector<AppRootStateType, TaskType[]>( state => {

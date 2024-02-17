@@ -2,8 +2,8 @@ import React, { memo } from 'react';
 import { List } from "@mui/material";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Task } from './task/Task';
-import { FilterValuesType } from "App";
 import { useTasks } from "components/tasks/hooks/useTasks";
+import { FilterValuesType } from "state/todolistsReducer";
 
 export type TasksPropsType = {
   todolistId: string
