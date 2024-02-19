@@ -1,13 +1,4 @@
-import {
-  Checkbox,
-  IconButton,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Checkbox, IconButton, ListItem, ListItemButton, ListItemText, Tooltip, Typography, } from "@mui/material";
 import { EditItemField } from "components/editItemField/EditItemField";
 import ClearIcon from "@mui/icons-material/Clear";
 import EditIcon from "@mui/icons-material/Edit";
@@ -37,11 +28,14 @@ export const Task = memo( ({ id, todolistId, status, title }: TaskPropsType) => 
         <EditItemField title={ title } renameItem={ onTaskRenamed } toggleEditMode={ toggleEditMode } />
       ) : (
         <ListItemButton onClick={ () => onTaskChecked( status ) } dense>
-          <ListItemIcon>
-            <Checkbox edge="start" checked={ status === TaskStatuses.Completed } tabIndex={ -1 } disableRipple />
-          </ListItemIcon>
+          <Checkbox edge="start" checked={ status === TaskStatuses.Completed } tabIndex={ -1 } disableRipple />
           <ListItemText>
-            <Typography variant={ "body1" } sx={ { opacity: `${ status === TaskStatuses.Completed ? "0.5" : "1" }` } }>
+            <Typography variant={ "body1" }
+                        sx={ {
+                          opacity: `${ status === TaskStatuses.Completed ? "0.5" : "1" }`,
+                          whiteSpace: "pre-wrap",
+                          wordBreak: "break-word"
+                        } }>
               { title }
             </Typography>
           </ListItemText>

@@ -26,7 +26,8 @@ export const Tasks = memo( ({ todolistId, filter }: TasksPropsType) => {
             />
           ) ) }
         </List>
-        : <p style={ { fontStyle: "italic", opacity: "0.5", textAlign: "center" } }>You have no tasks yet</p> }
+        : <p style={ { fontStyle: "italic", opacity: "0.5",
+          textAlign: "center", marginBottom: "10px" } }>You have no tasks yet</p> }
     </>
   );
 } )
