@@ -2,9 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ReduxStoreProviderDecorator } from "stories/decorators/ReduxStoreProviderDecorator";
 import { ThemeProviderDecorator } from "stories/decorators/ThemeProviderDecorator";
 import { Todolist } from "components/todolists/todolist/Todolist";
-import { useSelector } from "react-redux";
-import { AppRootStateType } from "state/store";
-import { TodoListStateType } from "state/todolistsReducer";
+import { useAppSelector } from "state/store";
+import { TodolistDomainType } from "state/todolistsReducer";
 
 const meta: Meta<typeof Todolist> = {
   title: 'TODOLISTS/Todolist',
@@ -18,7 +17,7 @@ export default meta;
 type Story = StoryObj<typeof Todolist>;
 
 const Component = () => {
-  const todolists = useSelector<AppRootStateType, TodoListStateType>( state => state.todolists );
+  const todolists = useAppSelector<TodolistDomainType[]>( state => state.todolists );
   return <Todolist id={ todolists[0].id } filter={ todolists[0].filter } title={ todolists[0].title } />
 }
 
