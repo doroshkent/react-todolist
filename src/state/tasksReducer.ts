@@ -1,6 +1,5 @@
-import { v4 } from "uuid";
 import { AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType, } from "./todolistsReducer";
-import { TaskPriorities, TaskStatuses, TaskType, todolistsApi } from "api/todolists-api";
+import { TaskStatuses, TaskType, todolistsApi } from "api/todolists-api";
 import { Dispatch } from "redux";
 
 export type TasksStateType = {
@@ -58,21 +57,9 @@ export function tasksReducer(state: TasksStateType = initialState,
       };
     }
     case "ADD-TASK": {
-      const newTask: TaskType = {
-        id: v4(),
-        title: action.title,
-        status: TaskStatuses.New,
-        todoListId: action.todolistId,
-        addedDate: "",
-        order: 0,
-        deadline: null,
-        description: "",
-        priority: TaskPriorities.Low,
-        startDate: null
-      };
       return {
         ...state,
-        [action.todolistId]: [ newTask, ...state[action.todolistId] ]
+        [action.todolistId]: [ action.task, ...state[action.todolistId] ]
       }
     }
     case "CHANGE-TASK-PROGRESS": {
@@ -106,8 +93,8 @@ export const removeTaskAC = (todolistId: string, taskId: string,) => {
 export const renameTaskAC = (todolistId: string, taskId: string, title: string) => {
   return { type: "RENAME-TASK", todolistId, taskId, title } as const;
 };
-export const addTaskAC = (todolistId: string, title: string) => {
-  return { type: "ADD-TASK", todolistId, title } as const;
+export const addTaskAC = (todolistId: string, task: TaskType) => {
+  return { type: "ADD-TASK", todolistId, task } as const;
 };
 export const changeTaskProgressAC = (todolistId: string,
                                      taskId: string,
@@ -132,4 +119,10 @@ export const removeTaskTC = (todolistId: string, taskId: string) => (dispatch: D
     .then( () => {
       dispatch( removeTaskAC( todolistId, taskId ) );
     } );
+}
+export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
+  todolistsApi.createTask(todolistId, title)
+    .then(res => {
+      dispatch(addTaskAC(todolistId, res.data.data.item));
+    });
 }

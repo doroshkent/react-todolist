@@ -2,10 +2,10 @@ import React from 'react';
 import { AppBar, Grid, IconButton, Toolbar, Typography } from "@mui/material";
 import { AddItemForm } from "components/addItemForm/AddItemForm";
 import LoginIcon from "@mui/icons-material/Login";
-import { useTodolist } from "components/todolists/todolist/hooks/useTodolist";
+import { useHeader } from "widgets/header/useHeader";
 
 export const Header = () => {
-  const { onTodolistAdded } = useTodolist();
+  const { onTodolistAdded } = useHeader();
 
   return (
     <AppBar position="static">
