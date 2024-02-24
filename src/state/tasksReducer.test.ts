@@ -8,7 +8,7 @@ import {
   TasksStateType,
 } from "./tasksReducer";
 import { addTodolistAC, removeTodolistAC, setTodolistsAC } from "./todolistsReducer";
-import { TaskPriorities, TaskStatuses, TodolistType } from "api/todolists-api";
+import { TaskPriorities, TaskStatuses, TaskType, TodolistType } from "api/todolists-api";
 
 const todolistId1 = v4();
 const todolistId2 = v4();
@@ -98,8 +98,13 @@ test( "should rename the correct task", () => {
   expect( endState[todolistId2][1].title ).toBe( newTitle );
 } );
 
-test( "should change the progress of the correct task", () => {
-  const endState = tasksReducer( startState, addTaskAC( todolistId2, newTitle ) );
+test( "should add new task", () => {
+  const newTask: TaskType = {
+    id: "1", title: newTitle, status: TaskStatuses.New, addedDate: "",
+    order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
+    startDate: null, todoListId: todolistId2
+  }
+  const endState = tasksReducer( startState, addTaskAC( todolistId2, newTask ) );
 
   expect( endState[todolistId1].length ).toBe( 3 );
   expect( endState[todolistId2].length ).toBe( 4 );
@@ -108,7 +113,7 @@ test( "should change the progress of the correct task", () => {
   expect( endState[todolistId2][0].status ).toBe( TaskStatuses.New );
 } );
 
-test( "progress is changed in correct task", () => {
+test( "should change the progress of the correct task", () => {
   const endState = tasksReducer(
     startState,
     changeTaskProgressAC( todolistId2, "2", TaskStatuses.New )
