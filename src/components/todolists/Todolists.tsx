@@ -1,12 +1,10 @@
 import React, { memo } from 'react';
 import { Container, Grid } from "@mui/material";
 import { Todolist } from "components/todolists/todolist/Todolist";
-import { useSelector } from "react-redux";
-import { AppRootStateType } from "state/store";
-import { TodoListStateType } from "state/todolistsReducer";
+import { useTodolists } from "components/todolists/useTodolists";
 
 export const Todolists = memo( () => {
-  const todolists = useSelector<AppRootStateType, TodoListStateType>( state => state.todolists );
+  const todolists = useTodolists()
 
   return (
     <Container maxWidth={ "xl" } sx={ { marginTop: "15px" } }>

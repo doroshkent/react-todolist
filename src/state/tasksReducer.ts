@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { AddTodolistActionType, RemoveTodolistActionType, } from "./todolistsReducer";
+import { AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType, } from "./todolistsReducer";
 import { TaskPriorities, TaskStatuses, TaskType } from "api/todolists-api";
 
 export type TasksStateType = {
@@ -21,12 +21,19 @@ type ActionsType =
   | ChangeTaskProgressActionType
   | AddTodolistActionType
   | RemoveTodolistActionType
+  | SetTodolistsActionType
 
 const initialState: TasksStateType = {}
 
 export function tasksReducer(state: TasksStateType = initialState,
                              action: ActionsType): TasksStateType {
   switch (action.type) {
+    case "SET-TODOLISTS": {
+      return action.todolists.reduce( (acc, tl) => {
+        acc[tl.id] = [];
+        return acc;
+      }, { ...state } );
+    }
     case "REMOVE-TASK": {
       return {
         ...state,
