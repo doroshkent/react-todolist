@@ -121,9 +121,15 @@ export const setTasksAC = (todolistId: string, tasks: TaskType[]) => ({
 } as const)
 
 // thunk creators
-export const getTasks = (todolistId: string) => (dispatch: Dispatch) => {
+export const getTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
   todolistsApi.getTasks( todolistId )
     .then( res => {
       dispatch( setTasksAC( todolistId, res.data.items ) );
+    } );
+}
+export const removeTaskTC = (todolistId: string, taskId: string) => (dispatch: Dispatch) => {
+  todolistsApi.deleteTask( todolistId, taskId )
+    .then( () => {
+      dispatch( removeTaskAC( todolistId, taskId ) );
     } );
 }
