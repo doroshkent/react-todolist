@@ -144,7 +144,10 @@ test( "should add new task", () => {
 } );
 
 test( "should add a new property with a new array when a new todolist is added", () => {
-  const endState = tasksReducer( startState, addTodolistAC( "new todolist" ) );
+  const newTodolist = {
+    id: "1", title: "new todolist", filter: "all", addedDate: new Date(), order: 0
+  }
+  const endState = tasksReducer( startState, addTodolistAC( newTodolist ) );
 
   const keys = Object.keys( endState );
   const newKey = keys.find( (k) => k !== todolistId1 && k !== todolistId2 );

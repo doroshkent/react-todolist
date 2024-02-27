@@ -3,6 +3,9 @@ import { tasksReducer, TasksStateType } from "./tasksReducer";
 import { TaskPriorities, TaskStatuses } from "api/todolists-api";
 
 test('new array should be added when new todolist is added', () => {
+  const newTodolist = {
+    id: "1", title: "new todolist", filter: "all", addedDate: new Date(), order: 0
+  }
   const startState: TasksStateType = {
     'todolistId1': [
       {id: '1', title: 'CSS', status: TaskStatuses.New, addedDate: "",
@@ -28,7 +31,7 @@ test('new array should be added when new todolist is added', () => {
     ]
   }
 
-  const action = addTodolistAC('new todolist')
+  const action = addTodolistAC(newTodolist)
 
   const endState = tasksReducer(startState, action)
 
@@ -45,8 +48,11 @@ test('new array should be added when new todolist is added', () => {
 test("ids should be equal", () => {
   const tasksStartState: TasksStateType = {};
   const todolistsStartState: TodolistDomainType[] = [];
+  const newTodolist = {
+    id: "1", title: "new tl", filter: "all", addedDate: new Date(), order: 0
+  }
 
-  const action = addTodolistAC("new tl");
+  const action = addTodolistAC(newTodolist);
 
   const tasksEndState = tasksReducer(tasksStartState, action);
   const todolistsEndState = todolistsReducer(todolistsStartState, action);
@@ -55,6 +61,6 @@ test("ids should be equal", () => {
   const idFromTasks = keys[0];
   const idFromTodolists = todolistsEndState[0].id;
 
-  expect(idFromTasks).toBe(action.todolistId);
-  expect(idFromTodolists).toBe(action.todolistId);
+  expect(idFromTasks).toBe(action.todolist.id);
+  expect(idFromTodolists).toBe(action.todolist.id);
 });

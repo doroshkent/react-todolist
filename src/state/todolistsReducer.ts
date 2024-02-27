@@ -26,7 +26,7 @@ type ActionsType =
 //reducer
 const initialState: TodoListStateType = []
 
-export function todolistsReducer(state: TodoListStateType = initialState,
+export function todolistsReducer(state = initialState,
                                  action: ActionsType): TodoListStateType {
   switch (action.type) {
     case "SET-TODOLISTS": {
@@ -45,14 +45,14 @@ export function todolistsReducer(state: TodoListStateType = initialState,
       );
     }
     case "ADD-TODOLIST": {
-      const newTodoList: TodolistDomainType = {
-        id: action.todolistId,
-        title: action.title,
-        filter: "all",
-        order: 0,
-        addedDate: new Date()
-      };
-      return [ newTodoList, ...state ];
+      const newTodolist: TodolistDomainType = {
+        ...action.todolist,
+        filter: "all"
+      }
+      return [
+        newTodolist,
+        ...state
+      ]
     }
     case "CHANGE-FILTER": {
       return state.map( (todolist) =>
@@ -73,8 +73,8 @@ export const removeTodolistAC = (id: string) => (
 export const renameTodolistAC = (id: string, title: string) => (
   { type: "RENAME-TODOLIST", id, title } as const
 );
-export const addTodolistAC = (title: string) => (
-  { type: "ADD-TODOLIST", todolistId: v4(), title } as const
+export const addTodolistAC = (todolist: TodolistType) => (
+  { type: "ADD-TODOLIST", todolist } as const
 );
 export const changeFilterAC = (id: string, filter: FilterValuesType) => (
   { type: "CHANGE-FILTER", id, filter } as const
@@ -88,5 +88,11 @@ export const getTodolists = () => (dispatch: Dispatch) => {
   todolistsApi.getTodolists()
     .then( res => {
       dispatch( setTodolistsAC( res.data ) )
+    } );
+}
+export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
+  todolistsApi.createTodolist( title )
+    .then( res => {
+      dispatch( addTodolistAC( res.data.data.item ) )
     } );
 }
