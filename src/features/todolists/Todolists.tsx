@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Container, Grid } from "@mui/material";
-import { Todolist } from "components/todolists/todolist/Todolist";
-import { useTodolists } from "components/todolists/hooks/useTodolists";
+import { Todolist } from "features/todolists/todolist/Todolist";
+import { useTodolists } from "features/todolists/useTodolists";
 
 export const Todolists = memo( () => {
   const todolists = useTodolists()

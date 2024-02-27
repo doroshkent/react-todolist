@@ -3,7 +3,7 @@ import { EditItemField } from "components/editItemField/EditItemField";
 import ClearIcon from "@mui/icons-material/Clear";
 import EditIcon from "@mui/icons-material/Edit";
 import React, { memo } from "react";
-import { useTask } from "components/tasks/task/hooks/useTask";
+import { useTask } from "features/todolists/todolist/tasks/task/useTask";
 import { TaskStatuses } from "api/todolists-api";
 
 export type TaskPropsType = {

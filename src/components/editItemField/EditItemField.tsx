@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { TextField } from "@mui/material";
-import { useEditItemField } from "components/editItemField/hooks/useEditItemField";
+import { useEditItemField } from "components/editItemField/useEditItemField";
 
 export type EditableItemPropsType = {
   title: string;

@@ -1,8 +1,8 @@
 import React from "react";
-import "./App.css";
+import "app/App.css";
 import { Box, } from "@mui/material";
 import { Header } from "widgets/header/Header";
-import { Todolists } from "components/todolists/Todolists";
+import { Todolists } from "features/todolists/Todolists";
 
 export type ItemsType = "todolist" | "task";
 

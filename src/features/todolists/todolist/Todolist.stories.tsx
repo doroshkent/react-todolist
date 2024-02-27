@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ReduxStoreProviderDecorator } from "stories/decorators/ReduxStoreProviderDecorator";
 import { ThemeProviderDecorator } from "stories/decorators/ThemeProviderDecorator";
-import { Todolist } from "components/todolists/todolist/Todolist";
+import { Todolist } from "features/todolists/todolist/Todolist";
 import { useAppSelector } from "state/store";
 import { TodolistDomainType } from "state/todolistsReducer";
 

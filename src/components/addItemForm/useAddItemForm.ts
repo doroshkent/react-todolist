@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useState } from "react";
 
 export const useAddItemForm = (onItemAdded: (title: string) => void) => {
   const [ newItemTitle, setNewItemTitle ] = useState( "" );
