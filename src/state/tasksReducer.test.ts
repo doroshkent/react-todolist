@@ -1,12 +1,5 @@
 import { v4 } from "uuid";
-import {
-  addTaskAC,
-  changeTaskProgressAC,
-  removeTaskAC,
-  renameTaskAC,
-  tasksReducer,
-  TasksStateType,
-} from "./tasksReducer";
+import { addTaskAC, removeTaskAC, tasksReducer, TasksStateType, updateTaskAC, } from "./tasksReducer";
 import { addTodolistAC, removeTodolistAC, setTodolistsAC } from "./todolistsReducer";
 import { TaskPriorities, TaskStatuses, TaskType, TodolistType } from "api/todolists-api";
 
@@ -88,15 +81,52 @@ test( "should remove the correct task from the correct todolist", () => {
   } )
 } );
 
-test( "should rename the correct task", () => {
+test("should update the correct task", () => {
+  const updatedTask: TaskType = {
+    id: "2",
+    title: newTitle,
+    status: TaskStatuses.New,
+    description: null,
+    deadline: null,
+    addedDate: null,
+    startDate: null,
+    priority: TaskPriorities.Low,
+    order: 0,
+    todoListId: todolistId2
+  };
+
   const endState = tasksReducer(
     startState,
-    renameTaskAC( todolistId2, "2", newTitle )
+    updateTaskAC(todolistId2, updatedTask)
   );
 
-  expect( endState[todolistId1][1].title ).toBe( "JS" );
-  expect( endState[todolistId2][1].title ).toBe( newTitle );
-} );
+  expect(endState[todolistId1][1].title).toBe("JS");
+  expect(endState[todolistId2][1].title).toBe(newTitle);
+  expect(endState[todolistId2][1].status).toBe(TaskStatuses.New);
+});
+
+test("should not affect other properties of the task", () => {
+  const updatedTaskTitle = {
+    id: "2",
+    title: newTitle,
+    status: TaskStatuses.Completed,
+    description: null,
+    deadline: null,
+    addedDate: null,
+    startDate: null,
+    priority: TaskPriorities.Low,
+    order: 0,
+    todoListId: todolistId2
+  };
+
+  const endState = tasksReducer(
+    startState,
+    updateTaskAC(todolistId2, updatedTaskTitle)
+  );
+
+  expect(endState[todolistId2][1].title).toBe(newTitle);
+  expect(endState[todolistId2][1].status).toBe(TaskStatuses.Completed); // or whatever it was initially
+});
 
 test( "should add new task", () => {
   const newTask: TaskType = {
@@ -111,16 +141,6 @@ test( "should add new task", () => {
   expect( endState[todolistId2][0].id ).toBeDefined();
   expect( endState[todolistId2][0].title ).toBe( newTitle );
   expect( endState[todolistId2][0].status ).toBe( TaskStatuses.New );
-} );
-
-test( "should change the progress of the correct task", () => {
-  const endState = tasksReducer(
-    startState,
-    changeTaskProgressAC( todolistId2, "2", TaskStatuses.New )
-  );
-
-  expect( endState[todolistId1][1].status ).toBe( TaskStatuses.Completed );
-  expect( endState[todolistId2][1].status ).toBe( TaskStatuses.New );
 } );
 
 test( "should add a new property with a new array when a new todolist is added", () => {

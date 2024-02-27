@@ -12,7 +12,7 @@ export type TaskType = {
   id: string
   title: string
   status: TaskStatuses
-  addedDate: string
+  addedDate: string | null
   deadline: null
   description: null | string
   order: number
@@ -37,11 +37,11 @@ export enum TaskPriorities {
 
 export type UpdateTaskModelType = {
   title: string
-  description: string
+  description: string | null
   status: TaskStatuses
   priority: TaskPriorities
-  startDate: string
-  deadline: string
+  startDate: string | null
+  deadline: string | null
 }
 
 //response types

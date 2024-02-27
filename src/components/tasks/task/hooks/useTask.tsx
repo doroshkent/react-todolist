@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { changeTaskProgressAC, removeTaskTC, renameTaskAC } from "state/tasksReducer";
+import { removeTaskTC, updateTaskTC } from "state/tasksReducer";
 import { TaskStatuses } from "api/todolists-api";
 import { useAppDispatch } from "state/store";
 
@@ -18,11 +18,11 @@ export const useTask = (id: string, todolistId: string, status: TaskStatuses) =>
 
   const onTaskChecked = useCallback( (status: TaskStatuses) => {
     const newStatusValue = status === TaskStatuses.New ? TaskStatuses.Completed : TaskStatuses.New;
-    dispatch( changeTaskProgressAC( todolistId, id, newStatusValue ) );
+    dispatch( updateTaskTC( todolistId, id, { status: newStatusValue } ) );
   }, [ todolistId, id, status ] );
 
   const onTaskRenamed = useCallback( (newTitle: string) => {
-    dispatch( renameTaskAC( todolistId, id, newTitle ) );
+    dispatch( updateTaskTC( todolistId, id, { title: newTitle } ) );
   }, [ todolistId, id ] );
 
   return {
