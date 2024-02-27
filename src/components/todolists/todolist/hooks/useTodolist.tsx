@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { addTaskTC } from "state/tasksReducer";
-import { changeFilterAC, FilterValuesType, removeTodolistAC, renameTodolistAC } from "state/todolistsReducer";
+import { changeFilterAC, FilterValuesType, removeTodolistTC, renameTodolistTC } from "state/todolistsReducer";
 import { useAppDispatch } from "state/store";
 
 export const useTodolist = (id: string) => {
@@ -11,11 +11,11 @@ export const useTodolist = (id: string) => {
   const dispatch = useAppDispatch();
 
   const onTodoListDeleted = useCallback( () => {
-    dispatch( removeTodolistAC( id ) )
+    dispatch( removeTodolistTC( id ) )
   }, [ id ] );
 
   const onTodoListRenamed = useCallback( (newTitle: string) => {
-    dispatch( renameTodolistAC( id, newTitle ) )
+    dispatch( renameTodolistTC( id, newTitle ) )
   }, [ id ] );
 
   const addNewTask = useCallback( (title: string) => {

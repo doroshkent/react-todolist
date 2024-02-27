@@ -1,4 +1,3 @@
-import { v4 } from "uuid";
 import { todolistsApi, TodolistType } from "api/todolists-api";
 import { Dispatch } from "redux";
 
@@ -94,5 +93,17 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
   todolistsApi.createTodolist( title )
     .then( res => {
       dispatch( addTodolistAC( res.data.data.item ) )
+    } );
+}
+export const removeTodolistTC = (todolistId: string) => (dispatch: Dispatch) => {
+  todolistsApi.deleteTodolist( todolistId )
+    .then( res => {
+      dispatch( removeTodolistAC( todolistId ) )
+    } );
+}
+export const renameTodolistTC = (todolistsId: string, newTitle: string) => (dispatch: Dispatch) => {
+  todolistsApi.updateTodolistTitle( todolistsId, newTitle )
+    .then( res => {
+      dispatch( renameTodolistAC( todolistsId, newTitle ) )
     } );
 }
