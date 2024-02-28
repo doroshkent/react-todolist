@@ -1,10 +1,11 @@
 import { todolistsApi, TodolistType } from "api/todolists-api";
 import { Dispatch } from "redux";
+import { AppActionsType } from "state/store";
 
 const initialState: TodoListStateType = []
 
 export function todolistsReducer(state = initialState,
-                                 action: ActionsType): TodoListStateType {
+                                 action: AppActionsType): TodoListStateType {
   switch (action.type) {
     case "SET-TODOLISTS":
       return action.todolists.map( tl => {
@@ -35,25 +36,25 @@ export const changeFilterAC = (id: string, filter: FilterValuesType) => ({ type:
 export const setTodolistsAC = (todolists: TodolistType[]) => ({ type: "SET-TODOLISTS", todolists } as const)
 
 // thunks
-export const getTodolists = () => (dispatch: Dispatch<ActionsType>) => {
+export const getTodolists = () => (dispatch: Dispatch<TodolistsActionsType>) => {
   todolistsApi.getTodolists()
     .then( res => {
       dispatch( setTodolistsAC( res.data ) )
     } );
 }
-export const addTodolistTC = (title: string) => (dispatch: Dispatch<ActionsType>) => {
+export const addTodolistTC = (title: string) => (dispatch: Dispatch<TodolistsActionsType>) => {
   todolistsApi.createTodolist( title )
     .then( res => {
       dispatch( addTodolistAC( res.data.data.item ) )
     } );
 }
-export const removeTodolistTC = (todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
+export const removeTodolistTC = (todolistId: string) => (dispatch: Dispatch<TodolistsActionsType>) => {
   todolistsApi.deleteTodolist( todolistId )
     .then( () => {
       dispatch( removeTodolistAC( todolistId ) )
     } );
 }
-export const renameTodolistTC = (todolistsId: string, newTitle: string) => (dispatch: Dispatch<ActionsType>) => {
+export const renameTodolistTC = (todolistsId: string, newTitle: string) => (dispatch: Dispatch<TodolistsActionsType>) => {
   todolistsApi.updateTodolistTitle( todolistsId, newTitle )
     .then( () => {
       dispatch( renameTodolistAC( todolistsId, newTitle ) )
@@ -66,13 +67,9 @@ export type TodolistDomainType = TodolistType & {
   filter: FilterValuesType
 }
 export type TodoListStateType = TodolistDomainType[]
-
-export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
-export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
-export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>
-type ActionsType =
-  | RemoveTodolistActionType
+export type TodolistsActionsType =
+  | ReturnType<typeof removeTodolistAC>
   | ReturnType<typeof renameTodolistAC>
-  | AddTodolistActionType
+  | ReturnType<typeof addTodolistAC>
   | ReturnType<typeof changeFilterAC>
-  | SetTodolistsActionType
+  | ReturnType<typeof setTodolistsAC>
