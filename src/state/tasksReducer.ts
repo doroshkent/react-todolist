@@ -35,7 +35,7 @@ export function tasksReducer(state: TasksStateType = initialState,
   }
 }
 
-//actions
+// actions
 export const removeTaskAC = (todolistId: string, taskId: string,) =>
   ({ type: "REMOVE-TASK", todolistId, taskId } as const)
 export const addTaskAC = (todolistId: string, task: TaskType) =>
@@ -63,12 +63,8 @@ export const updateTaskTC = (todolistId: string, taskId: string, payload: Update
     const task = getState().tasks[todolistId].find( t => t.id === taskId );
     if (task) {
       const model: UpdateTaskModelType = {
-        title: payload.title || task.title,
-        status: payload.status || task.status,
-        deadline: payload.deadline || task.deadline,
-        description: payload.description || task.description,
-        startDate: payload.startDate || task.startDate,
-        priority: payload.priority || task.priority
+        ...task,
+        ...payload
       }
       const res = await todolistsApi.updateTask( todolistId, taskId, model );
       dispatch( updateTaskAC( todolistId, res.data.data.item ) );
