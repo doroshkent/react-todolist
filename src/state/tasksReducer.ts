@@ -46,26 +46,20 @@ export const updateTaskAC = (todolistId: string, task: TaskType) =>
   ({ type: "UPDATE-TASK", todolistId, task } as const);
 
 // thunks
-export const getTasksTC = (todolistId: string): AppThunkType => (dispatch) => {
-  todolistsApi.getTasks( todolistId )
-    .then( res => {
-      dispatch( setTasksAC( todolistId, res.data.items ) );
-    } );
+export const getTasksTC = (todolistId: string): AppThunkType => async dispatch => {
+  const res = await todolistsApi.getTasks( todolistId );
+  dispatch( setTasksAC( todolistId, res.data.items ) );
 }
-export const removeTaskTC = (todolistId: string, taskId: string): AppThunkType => (dispatch) => {
-  todolistsApi.deleteTask( todolistId, taskId )
-    .then( () => {
-      dispatch( removeTaskAC( todolistId, taskId ) );
-    } );
+export const removeTaskTC = (todolistId: string, taskId: string): AppThunkType => async dispatch => {
+  await todolistsApi.deleteTask( todolistId, taskId );
+  dispatch( removeTaskAC( todolistId, taskId ) );
 }
-export const addTaskTC = (todolistId: string, title: string): AppThunkType => (dispatch) => {
-  todolistsApi.createTask( todolistId, title )
-    .then( res => {
-      dispatch( addTaskAC( todolistId, res.data.data.item ) );
-    } );
+export const addTaskTC = (todolistId: string, title: string): AppThunkType => async dispatch => {
+  const res = await todolistsApi.createTask( todolistId, title );
+  dispatch( addTaskAC( todolistId, res.data.data.item ) );
 }
 export const updateTaskTC = (todolistId: string, taskId: string, payload: UpdateTaskDomainModelType): AppThunkType =>
-  (dispatch, getState: () => AppRootStateType) => {
+  async (dispatch, getState: () => AppRootStateType) => {
     const task = getState().tasks[todolistId].find( t => t.id === taskId );
     if (task) {
       const model: UpdateTaskModelType = {
@@ -76,12 +70,9 @@ export const updateTaskTC = (todolistId: string, taskId: string, payload: Update
         startDate: payload.startDate || task.startDate,
         priority: payload.priority || task.priority
       }
-      todolistsApi.updateTask( todolistId, taskId, model )
-        .then( (res) => {
-          dispatch( updateTaskAC( todolistId, res.data.data.item ) )
-        } )
+      const res = await todolistsApi.updateTask( todolistId, taskId, model );
+      dispatch( updateTaskAC( todolistId, res.data.data.item ) );
     }
-
   }
 
 // types

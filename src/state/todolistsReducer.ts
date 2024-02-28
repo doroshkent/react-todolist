@@ -35,29 +35,21 @@ export const changeFilterAC = (id: string, filter: FilterValuesType) => ({ type:
 export const setTodolistsAC = (todolists: TodolistType[]) => ({ type: "SET-TODOLISTS", todolists } as const)
 
 // thunks
-export const getTodolists = (): AppThunkType => (dispatch) => {
-  todolistsApi.getTodolists()
-    .then( res => {
-      dispatch( setTodolistsAC( res.data ) )
-    } );
+export const getTodolists = (): AppThunkType => async dispatch => {
+  const res = await todolistsApi.getTodolists();
+  dispatch( setTodolistsAC( res.data ) );
 }
-export const addTodolistTC = (title: string): AppThunkType => (dispatch) => {
-  todolistsApi.createTodolist( title )
-    .then( res => {
-      dispatch( addTodolistAC( res.data.data.item ) )
-    } );
+export const addTodolistTC = (title: string): AppThunkType => async dispatch => {
+  const res = await todolistsApi.createTodolist( title );
+  dispatch( addTodolistAC( res.data.data.item ) );
 }
-export const removeTodolistTC = (todolistId: string): AppThunkType => (dispatch) => {
-  todolistsApi.deleteTodolist( todolistId )
-    .then( () => {
-      dispatch( removeTodolistAC( todolistId ) )
-    } );
+export const removeTodolistTC = (todolistId: string): AppThunkType => async dispatch => {
+  await todolistsApi.deleteTodolist( todolistId );
+  dispatch( removeTodolistAC( todolistId ) );
 }
-export const renameTodolistTC = (todolistsId: string, newTitle: string): AppThunkType => (dispatch) => {
-  todolistsApi.updateTodolistTitle( todolistsId, newTitle )
-    .then( () => {
-      dispatch( renameTodolistAC( todolistsId, newTitle ) )
-    } );
+export const renameTodolistTC = (todolistsId: string, newTitle: string): AppThunkType => async dispatch => {
+  await todolistsApi.updateTodolistTitle( todolistsId, newTitle );
+  dispatch( renameTodolistAC( todolistsId, newTitle ) );
 }
 
 //types
