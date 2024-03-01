@@ -1,10 +1,11 @@
 import { todolistsApi, TodolistType } from "api/todolists-api";
-import { AppActionsType, AppThunkType } from "state/store";
+import { ActionsType, AppThunkType } from "state/store";
+import { setRequestStatusAC } from "state/appReducer";
 
 const initialState: TodoListStateType = []
 
 export function todolistsReducer(state = initialState,
-                                 action: AppActionsType): TodoListStateType {
+                                 action: ActionsType): TodoListStateType {
   switch (action.type) {
     case "SET-TODOLISTS":
       return action.todolists.map( tl => {
@@ -38,6 +39,7 @@ export const setTodolistsAC = (todolists: TodolistType[]) => ({ type: "SET-TODOL
 export const getTodolists = (): AppThunkType => async dispatch => {
   const res = await todolistsApi.getTodolists();
   dispatch( setTodolistsAC( res.data ) );
+  dispatch( setRequestStatusAC( "succeeded" ) )
 }
 export const addTodolistTC = (title: string): AppThunkType => async dispatch => {
   const res = await todolistsApi.createTodolist( title );

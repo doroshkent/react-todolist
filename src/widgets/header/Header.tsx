@@ -1,11 +1,11 @@
 import React from 'react';
-import { AppBar, Grid, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Grid, IconButton, LinearProgress, Toolbar, Typography } from "@mui/material";
 import { AddItemForm } from "components/addItemForm/AddItemForm";
 import LoginIcon from "@mui/icons-material/Login";
 import { useHeader } from "widgets/header/useHeader";
 
 export const Header = () => {
-  const { onTodolistAdded } = useHeader();
+  const { onTodolistAdded, status } = useHeader();
 
   return (
     <AppBar position="static">
@@ -26,6 +26,8 @@ export const Header = () => {
           </Grid>
         </Grid>
       </Toolbar>
+      { status === "loading" && <LinearProgress /> }
+      {/*<LinearProgress />*/ }
     </AppBar>
   );
 }

@@ -1,10 +1,11 @@
 import { TaskPriorities, TaskStatuses, TaskType, todolistsApi, UpdateTaskModelType } from "api/todolists-api";
-import { AppActionsType, AppRootStateType, AppThunkType } from "state/store";
+import { ActionsType, AppRootStateType, AppThunkType } from "state/store";
+import { setRequestStatusAC } from "state/appReducer";
 
 const initialState: TasksStateType = {}
 
 export function tasksReducer(state: TasksStateType = initialState,
-                             action: AppActionsType): TasksStateType {
+                             action: ActionsType): TasksStateType {
   switch (action.type) {
     case "SET-TODOLISTS":
       return action.todolists.reduce( (acc, tl) => {
@@ -47,8 +48,10 @@ export const updateTaskAC = (todolistId: string, task: TaskType) =>
 
 // thunks
 export const getTasksTC = (todolistId: string): AppThunkType => async dispatch => {
+  dispatch( setRequestStatusAC( "loading" ) );
   const res = await todolistsApi.getTasks( todolistId );
   dispatch( setTasksAC( todolistId, res.data.items ) );
+  dispatch( setRequestStatusAC( "succeeded" ) );
 }
 export const removeTaskTC = (todolistId: string, taskId: string): AppThunkType => async dispatch => {
   await todolistsApi.deleteTask( todolistId, taskId );
@@ -60,6 +63,7 @@ export const addTaskTC = (todolistId: string, title: string): AppThunkType => as
 }
 export const updateTaskTC = (todolistId: string, taskId: string, payload: UpdateTaskDomainModelType): AppThunkType =>
   async (dispatch, getState: () => AppRootStateType) => {
+
     const task = getState().tasks[todolistId].find( t => t.id === taskId );
     if (task) {
       const model: UpdateTaskModelType = {

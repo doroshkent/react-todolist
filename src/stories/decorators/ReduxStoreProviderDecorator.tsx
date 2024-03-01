@@ -34,6 +34,9 @@ const initialGlobalState: AppRootStateType = {
         order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
         startDate: null, todoListId: "todolistId2"}
     ]
+  },
+  app: {
+    status: "idle"
   }
 };
 

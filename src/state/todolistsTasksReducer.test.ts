@@ -1,35 +1,11 @@
 import { addTodolistAC, TodolistDomainType, todolistsReducer } from "./todolistsReducer";
 import { tasksReducer, TasksStateType } from "./tasksReducer";
-import { TaskPriorities, TaskStatuses } from "api/todolists-api";
 
 test('new array should be added when new todolist is added', () => {
   const newTodolist = {
     id: "1", title: "new todolist", filter: "all", addedDate: new Date(), order: 0
   }
-  const startState: TasksStateType = {
-    'todolistId1': [
-      {id: '1', title: 'CSS', status: TaskStatuses.New, addedDate: "",
-        order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-        startDate: null, todoListId: "todolistId1"},
-      {id: '2', title: 'JS', status: TaskStatuses.Completed, addedDate: "",
-        order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-        startDate: null, todoListId: "todolistId1"},
-      {id: '3', title: 'React', status: TaskStatuses.New, addedDate: "",
-        order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-        startDate: null, todoListId: "todolistId1"}
-    ],
-    'todolistId2': [
-      {id: '1', title: 'bread', status: TaskStatuses.New, addedDate: "",
-        order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-        startDate: null, todoListId: "todolistId2"},
-      {id: '2', title: 'milk', status: TaskStatuses.Completed, addedDate: "",
-        order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-        startDate: null, todoListId: "todolistId2"},
-      {id: '3', title: 'tea', status: TaskStatuses.New, addedDate: "",
-        order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-        startDate: null, todoListId: "todolistId2"}
-    ]
-  }
+  const startState: TasksStateType = {}
 
   const action = addTodolistAC(newTodolist)
 
@@ -41,7 +17,7 @@ test('new array should be added when new todolist is added', () => {
     throw Error('new key should be added')
   }
 
-  expect(keys.length).toBe(3)
+  expect(keys.length).toBe(1)
   expect(endState[newKey]).toEqual([])
 })
 
