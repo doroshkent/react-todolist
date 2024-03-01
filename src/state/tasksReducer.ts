@@ -1,6 +1,6 @@
 import { TaskPriorities, TaskStatuses, TaskType, todolistsApi, UpdateTaskModelType } from "api/todolists-api";
 import { ActionsType, AppRootStateType, AppThunkType } from "state/store";
-import { setRequestStatusAC } from "state/appReducer";
+import { setRequestErrorAC, setRequestStatusAC } from "state/appReducer";
 
 const initialState: TasksStateType = {}
 
@@ -58,20 +58,46 @@ export const removeTaskTC = (todolistId: string, taskId: string): AppThunkType =
   dispatch( removeTaskAC( todolistId, taskId ) );
 }
 export const addTaskTC = (todolistId: string, title: string): AppThunkType => async dispatch => {
-  const res = await todolistsApi.createTask( todolistId, title );
-  dispatch( addTaskAC( todolistId, res.data.data.item ) );
+  try {
+    const res = await todolistsApi.createTask( todolistId, title );
+    if (res.data.resultCode === 0) {
+      dispatch( addTaskAC( todolistId, res.data.data.item ) );
+    } else {
+      if (res.data.messages.length) {
+        dispatch( setRequestErrorAC( res.data.messages[0] ) )
+        return
+      }
+      dispatch( setRequestErrorAC( "Some error occurred" ) )
+    }
+  } catch (e: any) {
+    dispatch( setRequestErrorAC( e.message ) )
+  }
 }
 export const updateTaskTC = (todolistId: string, taskId: string, payload: UpdateTaskDomainModelType): AppThunkType =>
   async (dispatch, getState: () => AppRootStateType) => {
-
-    const task = getState().tasks[todolistId].find( t => t.id === taskId );
-    if (task) {
+    try {
+      const task = getState().tasks[todolistId].find( t => t.id === taskId );
+      if (!task) {
+        return
+      }
       const model: UpdateTaskModelType = {
         ...task,
         ...payload
       }
+
       const res = await todolistsApi.updateTask( todolistId, taskId, model );
-      dispatch( updateTaskAC( todolistId, res.data.data.item ) );
+      if (res.data.resultCode === 0) {
+        dispatch( updateTaskAC( todolistId, res.data.data.item ) );
+      } else {
+        if (res.data.messages.length) {
+          dispatch( setRequestErrorAC( res.data.messages[0] ) )
+          return
+        }
+        dispatch( setRequestErrorAC( "Some error occurred" ) )
+      }
+
+    } catch (e: any) {
+      dispatch( setRequestErrorAC( e.message ) )
     }
   }
 
