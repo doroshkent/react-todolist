@@ -1,6 +1,6 @@
 import { todolistsApi, TodolistType } from "api/todolists-api";
 import { ActionsType, AppThunkType } from "state/store";
-import { setRequestStatusAC } from "state/appReducer";
+import { RequestStatusType, setRequestStatusAC } from "state/appReducer";
 
 const initialState: TodoListStateType = []
 
@@ -9,7 +9,7 @@ export function todolistsReducer(state = initialState,
   switch (action.type) {
     case "SET-TODOLISTS":
       return action.todolists.map( tl => {
-        return { ...tl, filter: "all" }
+        return { ...tl, filter: "all", entityStatus: "idle" }
       } )
     case "REMOVE-TODOLIST":
       return state.filter( (tl) => tl.id !== action.id );
@@ -18,11 +18,14 @@ export function todolistsReducer(state = initialState,
     case "ADD-TODOLIST":
       const newTodolist: TodolistDomainType = {
         ...action.todolist,
-        filter: "all"
+        filter: "all",
+        entityStatus: "idle"
       }
       return [ newTodolist, ...state ]
     case "CHANGE-FILTER":
       return state.map( (tl) => tl.id === action.id ? { ...tl, filter: action.filter } : tl );
+    case "CHANGE-ENTITY-STATUS":
+      return state.map( tl => tl.id === action.id ? { ...tl, entityStatus: action.status } : tl );
     default:
       return state;
   }
@@ -34,6 +37,8 @@ export const renameTodolistAC = (id: string, title: string) => ({ type: "RENAME-
 export const addTodolistAC = (todolist: TodolistType) => ({ type: "ADD-TODOLIST", todolist } as const)
 export const changeFilterAC = (id: string, filter: FilterValuesType) => ({ type: "CHANGE-FILTER", id, filter } as const)
 export const setTodolistsAC = (todolists: TodolistType[]) => ({ type: "SET-TODOLISTS", todolists } as const)
+export const changeEntityStatusAC = (id: string, status: RequestStatusType) =>
+  ({ type: "CHANGE-ENTITY-STATUS", id, status } as const)
 
 // thunks
 export const getTodolists = (): AppThunkType => async dispatch => {
@@ -58,6 +63,7 @@ export const renameTodolistTC = (todolistsId: string, newTitle: string): AppThun
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistDomainType = TodolistType & {
   filter: FilterValuesType
+  entityStatus: RequestStatusType
 }
 export type TodoListStateType = TodolistDomainType[]
 export type TodolistsActionsType =
@@ -66,3 +72,4 @@ export type TodolistsActionsType =
   | ReturnType<typeof addTodolistAC>
   | ReturnType<typeof changeFilterAC>
   | ReturnType<typeof setTodolistsAC>
+  | ReturnType<typeof changeEntityStatusAC>
