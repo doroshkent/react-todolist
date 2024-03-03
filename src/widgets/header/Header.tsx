@@ -12,7 +12,7 @@ export const Header = () => {
       <Toolbar>
         <Grid container justifyContent={ "space-between" } alignItems={ "center" }>
           <Grid>
-            <AddItemForm addItem={ onTodolistAdded } item="todolist" />
+            <AddItemForm disabled={ status === "loading" } addItem={ onTodolistAdded } item="todolist" />
           </Grid>
           <Grid>
             <Typography variant="h4" component="div" marginRight="150px">
@@ -27,7 +27,6 @@ export const Header = () => {
         </Grid>
       </Toolbar>
       { status === "loading" && <LinearProgress /> }
-      {/*<LinearProgress />*/ }
     </AppBar>
   );
 }

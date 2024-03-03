@@ -91,7 +91,12 @@ export const updateTaskTC = (todolistId: string, taskId: string, payload: Update
         return
       }
       const model: UpdateTaskModelType = {
-        ...task,
+        title: task.title,
+        status: task.status,
+        description: task.description,
+        priority: task.priority,
+        startDate: task.startDate,
+        deadline: task.deadline,
         ...payload
       }
 

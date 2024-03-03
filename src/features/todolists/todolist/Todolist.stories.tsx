@@ -18,7 +18,8 @@ type Story = StoryObj<typeof Todolist>;
 
 const Component = () => {
   const todolists = useAppSelector<TodolistDomainType[]>( state => state.todolists );
-  return <Todolist id={ todolists[0].id } filter={ todolists[0].filter } title={ todolists[0].title } />
+  return <Todolist id={ todolists[0].id } filter={ todolists[0].filter } title={ todolists[0].title }
+                   entityStatus={ todolists[0].entityStatus } />
 }
 
 export const TodolistStory: Story = {

@@ -5,11 +5,12 @@ import AddIcon from "@mui/icons-material/Add";
 import { useAddItemForm } from "components/addItemForm/useAddItemForm";
 
 type AddItemFormPropsType = {
-  addItem: (title: string) => void;
-  item: ItemsType;
+  addItem: (title: string) => void
+  item: ItemsType
+  disabled?: boolean
 };
 
-export const AddItemForm = memo( ({ addItem, item }: AddItemFormPropsType) => {
+export const AddItemForm = memo( ({ addItem, item, disabled = false }: AddItemFormPropsType) => {
   const {
     newItemTitle,
     error,
@@ -34,10 +35,11 @@ export const AddItemForm = memo( ({ addItem, item }: AddItemFormPropsType) => {
           value={ newItemTitle }
           onChange={ onTitleChange }
           onKeyDown={ onEnterPress }
+          disabled={ disabled }
         />
         <IconButton sx={ { position: "absolute", top: "19%" } }
                     onClick={ onAddItem }
-                    disabled={ !newItemTitle }>
+                    disabled={ !newItemTitle || disabled }>
           <AddIcon />
         </IconButton>
       </Grid>

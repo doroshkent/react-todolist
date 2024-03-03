@@ -6,14 +6,16 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { Tasks } from "features/todolists/todolist/tasks/Tasks";
 import { useTodolist } from "features/todolists/todolist/useTodolist";
 import { FilterValuesType } from "state/todolistsReducer";
+import { RequestStatusType } from "state/appReducer";
 
 type TodolistPropsType = {
   id: string
   title: string
   filter: FilterValuesType
+  entityStatus: RequestStatusType
 };
 
-export const Todolist = memo( ({ id, title, filter }: TodolistPropsType) => {
+export const Todolist = memo( ({ id, title, filter, entityStatus }: TodolistPropsType) => {
   const {
     titleEditMode,
     onTodoListRenamed,
@@ -38,14 +40,14 @@ export const Todolist = memo( ({ id, title, filter }: TodolistPropsType) => {
           </Grid>
           <Grid item>
             <Tooltip title={ "Remove" }>
-              <IconButton onClick={ onTodoListDeleted }>
+              <IconButton disabled={ entityStatus === "loading" } onClick={ onTodoListDeleted }>
                 <ClearIcon />
               </IconButton>
             </Tooltip>
           </Grid>
         </Grid>
         <Grid item>
-          <AddItemForm addItem={ addNewTask } item="task" />
+          <AddItemForm disabled={ entityStatus === "loading" } addItem={ addNewTask } item="task" />
         </Grid>
         <Grid item>
           <Tasks todolistId={ id } filter={ filter } />
