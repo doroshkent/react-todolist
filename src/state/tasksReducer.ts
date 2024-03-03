@@ -1,4 +1,11 @@
-import { TaskPriorities, TaskStatuses, TaskType, todolistsApi, UpdateTaskModelType } from "api/todolists-api";
+import {
+  RESULT_CODE,
+  TaskPriorities,
+  TaskStatuses,
+  TaskType,
+  todolistsApi,
+  UpdateTaskModelType
+} from "api/todolists-api";
 import { ActionsType, AppRootStateType, AppThunkType } from "state/store";
 import { setRequestErrorAC, setRequestStatusAC } from "state/appReducer";
 
@@ -60,17 +67,20 @@ export const removeTaskTC = (todolistId: string, taskId: string): AppThunkType =
 export const addTaskTC = (todolistId: string, title: string): AppThunkType => async dispatch => {
   try {
     const res = await todolistsApi.createTask( todolistId, title );
-    if (res.data.resultCode === 0) {
+    if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
       dispatch( addTaskAC( todolistId, res.data.data.item ) );
+      dispatch( setRequestStatusAC( "succeeded" ) )
     } else {
       if (res.data.messages.length) {
         dispatch( setRequestErrorAC( res.data.messages[0] ) )
         return
       }
       dispatch( setRequestErrorAC( "Some error occurred" ) )
+      dispatch( setRequestStatusAC( "failed" ) )
     }
   } catch (e: any) {
     dispatch( setRequestErrorAC( e.message ) )
+    dispatch( setRequestStatusAC( "failed" ) )
   }
 }
 export const updateTaskTC = (todolistId: string, taskId: string, payload: UpdateTaskDomainModelType): AppThunkType =>
@@ -86,18 +96,21 @@ export const updateTaskTC = (todolistId: string, taskId: string, payload: Update
       }
 
       const res = await todolistsApi.updateTask( todolistId, taskId, model );
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
         dispatch( updateTaskAC( todolistId, res.data.data.item ) );
+        dispatch( setRequestStatusAC( "succeeded" ) )
       } else {
         if (res.data.messages.length) {
           dispatch( setRequestErrorAC( res.data.messages[0] ) )
           return
         }
         dispatch( setRequestErrorAC( "Some error occurred" ) )
+        dispatch( setRequestStatusAC( "failed" ) )
       }
 
     } catch (e: any) {
       dispatch( setRequestErrorAC( e.message ) )
+      dispatch( setRequestStatusAC( "failed" ) )
     }
   }
 

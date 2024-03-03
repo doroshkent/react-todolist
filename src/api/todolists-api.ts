@@ -68,7 +68,6 @@ export enum TaskStatuses {
   Completed,
   Draft
 }
-
 export enum TaskPriorities {
   Low,
   Middle,
@@ -79,7 +78,7 @@ export enum TaskPriorities {
 
 // response types
 type ResponseType<D = {}> = {
-  resultCode: number
+  resultCode: RESULT_CODE
   messages: Array<string>
   fieldsErrors: Array<string>
   data: D
@@ -88,4 +87,9 @@ type GetTasksResponseType = {
   error: string | null
   totalCount: number
   items: TaskType[]
+}
+export enum RESULT_CODE {
+  SUCCEEDED,
+  ERROR,
+  CAPTCHA = 10
 }
