@@ -1,7 +1,7 @@
 import { v4 } from "uuid";
 import {
   addTodolistAC,
-  changeFilterAC, changeEntityStatusAC, FilterValuesType,
+  changeFilterAC, setTodolistEntityStatusAC, FilterValuesType,
   removeTodolistAC,
   renameTodolistAC, setTodolistsAC, TodolistDomainType,
   todolistsReducer,
@@ -70,7 +70,7 @@ test( 'should update the state with todolists and set the filter to "all"', () =
 } );
 
 test( 'should update entityStatus of todo with a given id', () => {
-  const endState = todolistsReducer( startState, changeEntityStatusAC( todolistId1, "loading" ) )
+  const endState = todolistsReducer( startState, setTodolistEntityStatusAC( todolistId1, "loading" ) )
 
   expect( endState ).toEqual( [
     { id: todolistId1, title: "To Learn", filter: "all", addedDate: DATE, order: 0, entityStatus: "loading" },

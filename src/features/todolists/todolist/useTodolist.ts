@@ -2,11 +2,14 @@ import { useCallback, useState } from "react";
 import { addTaskTC } from "state/tasks-reducer";
 import { changeFilterAC, FilterValuesType, removeTodolistTC, renameTodolistTC } from "state/todolists-reducer";
 import { useAppDispatch } from "state/store";
+import { RequestStatusType } from "state/app-reducer";
 
-export const useTodolist = (id: string) => {
+export const useTodolist = (id: string, entityStatus: RequestStatusType) => {
   const [ titleEditMode, setTitleEditMode ] = useState( false );
-  const toggleTitleEditMode = useCallback( (toggleValue: boolean) =>
-    setTitleEditMode( toggleValue ), [] );
+  const toggleTitleEditMode = useCallback( (toggleValue: boolean) => {
+    if (entityStatus === "loading") return
+    setTitleEditMode( toggleValue )
+  }, [ entityStatus ] );
 
   const dispatch = useAppDispatch();
 

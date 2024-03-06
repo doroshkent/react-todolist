@@ -93,3 +93,14 @@ export enum RESULT_CODE {
   ERROR,
   CAPTCHA = 10
 }
+export type ServerError = {
+  statusCode: number
+  messages: [
+    {
+      message: string,
+      field: string
+    },
+    string
+  ]
+  error: string
+}

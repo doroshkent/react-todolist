@@ -4,7 +4,7 @@ import { ResponseType } from "api/todolists-api";
 
 // generic function
 export const handleServerAppError = <T>(data: ResponseType<T>,
-                                          dispatch: ErrorUtilsDispatchType) => {
+                                        dispatch: ErrorUtilsDispatch) => {
   if (data.messages.length) {
     dispatch( setAppRequestErrorAC( data.messages[0] ) )
   } else {
@@ -15,11 +15,11 @@ export const handleServerAppError = <T>(data: ResponseType<T>,
 
 export const handleServerNetworkError = (
   error: { message: string },
-  dispatch: ErrorUtilsDispatchType
+  dispatch: ErrorUtilsDispatch
 ) => {
   dispatch( setAppRequestErrorAC( error.message ) )
   dispatch( setAppRequestStatusAC( 'failed' ) )
 }
 
 // types
-type ErrorUtilsDispatchType = Dispatch<SetAppError | SetAppStatus>
+type ErrorUtilsDispatch = Dispatch<SetAppError | SetAppStatus>

@@ -1,7 +1,8 @@
-import { RESULT_CODE, todolistsApi, TodolistType } from "api/todolists-api";
+import { RESULT_CODE, ServerError, todolistsApi, TodolistType } from "api/todolists-api";
 import { ActionsType, AppThunkType } from "state/store";
 import { RequestStatusType, setAppRequestStatusAC } from "state/app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
+import { AxiosError } from "axios";
 
 const initialState: TodoListStateType = []
 
@@ -38,7 +39,7 @@ export const renameTodolistAC = (id: string, title: string) => ({ type: "RENAME-
 export const addTodolistAC = (todolist: TodolistType) => ({ type: "ADD-TODOLIST", todolist } as const)
 export const changeFilterAC = (id: string, filter: FilterValuesType) => ({ type: "CHANGE-FILTER", id, filter } as const)
 export const setTodolistsAC = (todolists: TodolistType[]) => ({ type: "SET-TODOLISTS", todolists } as const)
-export const changeEntityStatusAC = (id: string, status: RequestStatusType) =>
+export const setTodolistEntityStatusAC = (id: string, status: RequestStatusType) =>
   ({ type: "CHANGE-ENTITY-STATUS", id, status } as const)
 
 // thunks
@@ -47,8 +48,9 @@ export const getTodolists = (): AppThunkType => async dispatch => {
     const res = await todolistsApi.getTodolists();
     dispatch( setTodolistsAC( res.data ) );
     dispatch( setAppRequestStatusAC( "succeeded" ) )
-  } catch (e: any) {
-    handleServerNetworkError( e, dispatch )
+  } catch (e) {
+    handleServerNetworkError( (e as AxiosError<ServerError> | Error), dispatch )
+    dispatch( setAppRequestStatusAC( "failed" ) )
   }
 }
 export const addTodolistTC = (title: string): AppThunkType => async dispatch => {
@@ -60,36 +62,44 @@ export const addTodolistTC = (title: string): AppThunkType => async dispatch => 
       dispatch( setAppRequestStatusAC( "succeeded" ) );
     } else {
       handleServerAppError( res.data, dispatch )
+      dispatch( setAppRequestStatusAC( "failed" ) )
     }
-  } catch (e: any) {
-    handleServerNetworkError( e, dispatch )
+  } catch (e) {
+    handleServerNetworkError( (e as AxiosError<ServerError> | Error), dispatch )
+    dispatch( setAppRequestStatusAC( "failed" ) )
   }
 }
 export const removeTodolistTC = (todolistId: string): AppThunkType => async dispatch => {
-  dispatch( changeEntityStatusAC( todolistId, "loading" ) );
+  dispatch( setTodolistEntityStatusAC( todolistId, "loading" ) );
   try {
     const res = await todolistsApi.deleteTodolist( todolistId );
     if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
       dispatch( removeTodolistAC( todolistId ) );
-      dispatch( changeEntityStatusAC( todolistId, "succeeded" ) );
+      dispatch( setTodolistEntityStatusAC( todolistId, "succeeded" ) );
     } else {
       handleServerAppError( res.data, dispatch );
+      dispatch( setTodolistEntityStatusAC( todolistId, "failed" ) )
     }
-  } catch (e: any) {
-    handleServerNetworkError( e, dispatch )
+  } catch (e) {
+    handleServerNetworkError( (e as AxiosError<ServerError> | Error), dispatch )
+    dispatch( setTodolistEntityStatusAC( todolistId, "failed" ) )
   }
 
 }
 export const renameTodolistTC = (todolistsId: string, newTitle: string): AppThunkType => async dispatch => {
+  dispatch( setTodolistEntityStatusAC( todolistsId, "loading" ) )
   try {
     const res = await todolistsApi.updateTodolistTitle( todolistsId, newTitle );
     if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
       dispatch( renameTodolistAC( todolistsId, newTitle ) );
+      dispatch( setTodolistEntityStatusAC( todolistsId, "succeeded" ) )
     } else {
       handleServerAppError( res.data, dispatch );
+      dispatch( setTodolistEntityStatusAC( todolistsId, "failed" ) )
     }
-  } catch (e: any) {
-    handleServerNetworkError( e, dispatch )
+  } catch (e) {
+    handleServerNetworkError( (e as AxiosError<ServerError> | Error), dispatch )
+    dispatch( setTodolistEntityStatusAC( todolistsId, "failed" ) )
   }
 }
 
@@ -106,4 +116,4 @@ export type TodolistsActionsType =
   | ReturnType<typeof addTodolistAC>
   | ReturnType<typeof changeFilterAC>
   | ReturnType<typeof setTodolistsAC>
-  | ReturnType<typeof changeEntityStatusAC>
+  | ReturnType<typeof setTodolistEntityStatusAC>

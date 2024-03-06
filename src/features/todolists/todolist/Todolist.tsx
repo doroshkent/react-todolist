@@ -23,7 +23,7 @@ export const Todolist = memo( ({ id, title, filter, entityStatus }: TodolistProp
     onTodoListDeleted,
     addNewTask,
     onFilterButtonClicked
-  } = useTodolist( id )
+  } = useTodolist( id, entityStatus )
 
   return (
     <Card sx={ { padding: "15px", width: "300px" } }>
@@ -33,9 +33,13 @@ export const Todolist = memo( ({ id, title, filter, entityStatus }: TodolistProp
             { titleEditMode ? (
               <EditItemField title={ title } renameItem={ onTodoListRenamed } toggleEditMode={ toggleTitleEditMode } />
             ) : (
-              <Typography variant={ "h5" } onDoubleClick={ () => toggleTitleEditMode( true ) }>
-                { title }
-              </Typography>
+              <Tooltip title={ "Double click to rename" }>
+                <Typography variant={ "h5" }
+                            onDoubleClick={ () => toggleTitleEditMode( true ) }
+                            sx={ { cursor: "pointer" } }>
+                  { title }
+                </Typography>
+              </Tooltip>
             ) }
           </Grid>
           <Grid item>
