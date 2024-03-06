@@ -1,11 +1,11 @@
 import { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from "state/store";
 import { FilterValuesType } from "state/todolists-reducer";
-import { TaskStatuses, TaskType } from "api/todolists-api";
-import { getTasksTC } from 'state/tasks-reducer';
+import { TaskStatuses } from "api/todolists-api";
+import { getTasksTC, TaskDomain } from 'state/tasks-reducer';
 
 export const useTasks = (todolistId: string, filter: FilterValuesType) => {
-  const tasks = useAppSelector<TaskType[]>( state => {
+  const tasks = useAppSelector<TaskDomain[]>( state => {
     return state.tasks[todolistId]
   } )
   const dispatch = useAppDispatch()

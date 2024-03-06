@@ -3,6 +3,7 @@ import { Task } from "features/todolists/todolist/tasks/task/Task";
 import { ReduxStoreProviderDecorator } from "stories/decorators/ReduxStoreProviderDecorator";
 import { useAppSelector } from "state/store";
 import { TaskType } from "api/todolists-api";
+import { TaskDomain } from "state/tasks-reducer";
 
 const meta: Meta<typeof Task> = {
   title: 'TODOLISTS/Task',
@@ -15,8 +16,9 @@ export default meta;
 type Story = StoryObj<typeof Task>;
 
 const Component = ({ todolistId }: { todolistId: string }) => {
-  const tasks = useAppSelector<TaskType[]>( state => state.tasks[todolistId] )
-  return <Task id={ tasks[0].id } status={ tasks[0].status } title={ tasks[0].title } todolistId={ todolistId } />
+  const tasks = useAppSelector<TaskDomain[]>( state => state.tasks[todolistId] )
+  return <Task id={ tasks[0].id } status={ tasks[0].status } title={ tasks[0].title } todolistId={ todolistId }
+               entityStatus={ tasks[0].entityStatus } />
 }
 
 export const TaskStory: Story = {

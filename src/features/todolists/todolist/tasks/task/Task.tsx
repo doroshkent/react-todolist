@@ -5,15 +5,17 @@ import EditIcon from "@mui/icons-material/Edit";
 import React, { memo } from "react";
 import { useTask } from "features/todolists/todolist/tasks/task/useTask";
 import { TaskStatuses } from "api/todolists-api";
+import { RequestStatusType } from "state/app-reducer";
 
 export type TaskPropsType = {
-  id: string;
-  todolistId: string;
-  status: TaskStatuses;
-  title: string;
+  id: string
+  todolistId: string
+  status: TaskStatuses
+  title: string
+  entityStatus: RequestStatusType
 }
 
-export const Task = memo( ({ id, todolistId, status, title }: TaskPropsType) => {
+export const Task = memo( ({ id, todolistId, status, title, entityStatus }: TaskPropsType) => {
   const {
     editMode,
     toggleEditMode,
@@ -27,7 +29,7 @@ export const Task = memo( ({ id, todolistId, status, title }: TaskPropsType) => 
       { editMode ? (
         <EditItemField title={ title } renameItem={ onTaskRenamed } toggleEditMode={ toggleEditMode } />
       ) : (
-        <ListItemButton onClick={ () => onTaskChecked( status ) } dense>
+        <ListItemButton disabled={ entityStatus === "loading" } onClick={ () => onTaskChecked( status ) } dense>
           <Checkbox edge="start" checked={ status === TaskStatuses.Completed } tabIndex={ -1 } disableRipple />
           <ListItemText>
             <Typography variant={ "body1" }
@@ -42,12 +44,12 @@ export const Task = memo( ({ id, todolistId, status, title }: TaskPropsType) => 
         </ListItemButton>
       ) }
       <Tooltip title={ "Edit" } arrow>
-        <IconButton onClick={ () => toggleEditMode( true ) }>
+        <IconButton disabled={ entityStatus === "loading" } onClick={ () => toggleEditMode( true ) }>
           <EditIcon />
         </IconButton>
       </Tooltip>
       <Tooltip title={ "Remove" } arrow>
-        <IconButton onClick={ onTaskRemoved }>
+        <IconButton disabled={ entityStatus === "loading" } onClick={ onTaskRemoved }>
           <ClearIcon />
         </IconButton>
       </Tooltip>

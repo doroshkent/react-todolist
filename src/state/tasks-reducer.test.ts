@@ -1,5 +1,12 @@
 import { v4 } from "uuid";
-import { addTaskAC, removeTaskAC, tasksReducer, TasksStateType, updateTaskAC, } from "state/tasks-reducer";
+import {
+  addTaskAC,
+  removeTaskAC,
+  setTaskEntityStatusAC,
+  tasksReducer,
+  TasksStateType,
+  updateTaskAC,
+} from "state/tasks-reducer";
 import { addTodolistAC, removeTodolistAC, setTodolistsAC } from "state/todolists-reducer";
 import { TaskPriorities, TaskStatuses, TaskType, TodolistType } from "api/todolists-api";
 
@@ -11,34 +18,34 @@ const startState: TasksStateType = {
     {
       id: "1", title: "HTML&CSS", status: TaskStatuses.Completed, addedDate: "",
       order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-      startDate: null, todoListId: todolistId1
+      startDate: null, todoListId: todolistId1, entityStatus: "idle"
     },
     {
       id: "2", title: "JS", status: TaskStatuses.Completed, addedDate: "",
       order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-      startDate: null, todoListId: todolistId1
+      startDate: null, todoListId: todolistId1, entityStatus: "idle"
     },
     {
       id: "3", title: "React", status: TaskStatuses.New, addedDate: "",
       order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-      startDate: null, todoListId: todolistId1
+      startDate: null, todoListId: todolistId1, entityStatus: "idle"
     },
   ],
   [todolistId2]: [
     {
       id: "1", title: "milk", status: TaskStatuses.Completed, addedDate: "",
       order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-      startDate: null, todoListId: todolistId2
+      startDate: null, todoListId: todolistId2, entityStatus: "idle"
     },
     {
       id: "2", title: "book", status: TaskStatuses.Completed, addedDate: "",
       order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-      startDate: null, todoListId: todolistId2
+      startDate: null, todoListId: todolistId2, entityStatus: "idle"
     },
     {
       id: "3", title: "tea", status: TaskStatuses.New, addedDate: "",
       order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-      startDate: null, todoListId: todolistId2
+      startDate: null, todoListId: todolistId2, entityStatus: "idle"
     },
   ],
 };
@@ -53,35 +60,35 @@ test( "should remove the correct task from the correct todolist", () => {
       {
         id: "1", title: "HTML&CSS", status: TaskStatuses.Completed, addedDate: "",
         order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-        startDate: null, todoListId: todolistId1
+        startDate: null, todoListId: todolistId1, entityStatus: "idle"
       },
       {
         id: "2", title: "JS", status: TaskStatuses.Completed, addedDate: "",
         order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-        startDate: null, todoListId: todolistId1
+        startDate: null, todoListId: todolistId1, entityStatus: "idle"
       },
       {
         id: "3", title: "React", status: TaskStatuses.New, addedDate: "",
         order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-        startDate: null, todoListId: todolistId1
+        startDate: null, todoListId: todolistId1, entityStatus: "idle"
       }
     ],
     [todolistId2]: [
       {
         id: "1", title: "milk", status: TaskStatuses.Completed, addedDate: "",
         order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-        startDate: null, todoListId: todolistId2
+        startDate: null, todoListId: todolistId2, entityStatus: "idle"
       },
       {
         id: "3", title: "tea", status: TaskStatuses.New, addedDate: "",
         order: 0, deadline: null, description: "", priority: TaskPriorities.Low,
-        startDate: null, todoListId: todolistId2
+        startDate: null, todoListId: todolistId2, entityStatus: "idle"
       }
     ]
   } )
 } );
 
-test("should update the correct task", () => {
+test( "should update the correct task", () => {
   const updatedTask: TaskType = {
     id: "2",
     title: newTitle,
@@ -97,15 +104,15 @@ test("should update the correct task", () => {
 
   const endState = tasksReducer(
     startState,
-    updateTaskAC(todolistId2, updatedTask)
+    updateTaskAC( todolistId2, updatedTask )
   );
 
-  expect(endState[todolistId1][1].title).toBe("JS");
-  expect(endState[todolistId2][1].title).toBe(newTitle);
-  expect(endState[todolistId2][1].status).toBe(TaskStatuses.New);
-});
+  expect( endState[todolistId1][1].title ).toBe( "JS" );
+  expect( endState[todolistId2][1].title ).toBe( newTitle );
+  expect( endState[todolistId2][1].status ).toBe( TaskStatuses.New );
+} );
 
-test("should not affect other properties of the task", () => {
+test( "should not affect other properties of the task", () => {
   const updatedTaskTitle = {
     id: "2",
     title: newTitle,
@@ -121,12 +128,19 @@ test("should not affect other properties of the task", () => {
 
   const endState = tasksReducer(
     startState,
-    updateTaskAC(todolistId2, updatedTaskTitle)
+    updateTaskAC( todolistId2, updatedTaskTitle )
   );
 
-  expect(endState[todolistId2][1].title).toBe(newTitle);
-  expect(endState[todolistId2][1].status).toBe(TaskStatuses.Completed); // or whatever it was initially
-});
+  expect( endState[todolistId2][1].title ).toBe( newTitle );
+  expect( endState[todolistId2][1].status ).toBe( TaskStatuses.Completed ); // or whatever it was initially
+} );
+
+test( "should change status of task in correct todolist", () => {
+  const endState = tasksReducer( startState, setTaskEntityStatusAC( todolistId1, "1", "succeeded" ) );
+
+  expect( endState[todolistId1][0].entityStatus).toBe("succeeded")
+  expect( endState[todolistId2][0].entityStatus).toBe("idle")
+} );
 
 test( "should add new task", () => {
   const newTask: TaskType = {
@@ -178,6 +192,6 @@ test( "should add a new property with a new array when a new todolists are set",
   const keys = Object.keys( endState );
 
   expect( keys.length ).toBe( 2 );
-  expect( keys[0]).toBe(todolistId1);
-  expect( keys[1]).toBe(todolistId2);
+  expect( keys[0] ).toBe( todolistId1 );
+  expect( keys[1] ).toBe( todolistId2 );
 } );

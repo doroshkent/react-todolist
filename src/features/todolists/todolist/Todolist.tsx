@@ -50,12 +50,15 @@ export const Todolist = memo( ({ id, title, filter, entityStatus }: TodolistProp
             </Tooltip>
           </Grid>
         </Grid>
+
         <Grid item>
           <AddItemForm disabled={ entityStatus === "loading" } addItem={ addNewTask } item="task" />
         </Grid>
+
         <Grid item>
           <Tasks todolistId={ id } filter={ filter } />
         </Grid>
+
         <Grid item alignSelf={ "center" }>
           <ButtonGroup size={ "small" }>
             <Button
