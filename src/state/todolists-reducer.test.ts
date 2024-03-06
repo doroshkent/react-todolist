@@ -5,7 +5,7 @@ import {
   removeTodolistAC,
   renameTodolistAC, setTodolistsAC, TodolistDomainType,
   todolistsReducer,
-} from "./todolistsReducer";
+} from "state/todolists-reducer";
 import { TodolistType } from "api/todolists-api";
 
 const todolistId1 = v4();

@@ -5,8 +5,8 @@ import { Button, ButtonGroup, Card, Grid, IconButton, Tooltip, Typography, } fro
 import ClearIcon from "@mui/icons-material/Clear";
 import { Tasks } from "features/todolists/todolist/tasks/Tasks";
 import { useTodolist } from "features/todolists/todolist/useTodolist";
-import { FilterValuesType } from "state/todolistsReducer";
-import { RequestStatusType } from "state/appReducer";
+import { FilterValuesType } from "state/todolists-reducer";
+import { RequestStatusType } from "state/app-reducer";
 
 type TodolistPropsType = {
   id: string

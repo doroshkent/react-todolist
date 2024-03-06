@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import { addTaskTC } from "state/tasksReducer";
-import { changeFilterAC, FilterValuesType, removeTodolistTC, renameTodolistTC } from "state/todolistsReducer";
+import { addTaskTC } from "state/tasks-reducer";
+import { changeFilterAC, FilterValuesType, removeTodolistTC, renameTodolistTC } from "state/todolists-reducer";
 import { useAppDispatch } from "state/store";
 
 export const useTodolist = (id: string) => {

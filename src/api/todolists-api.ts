@@ -77,7 +77,7 @@ export enum TaskPriorities {
 }
 
 // response types
-type ResponseType<D = {}> = {
+export type ResponseType<D = {}> = {
   resultCode: RESULT_CODE
   messages: Array<string>
   fieldsErrors: Array<string>

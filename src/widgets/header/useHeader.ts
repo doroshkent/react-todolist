@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import { addTodolistTC } from "state/todolistsReducer";
+import { addTodolistTC } from "state/todolists-reducer";
 import { useAppDispatch, useAppSelector } from "state/store";
-import { RequestStatusType } from "state/appReducer";
+import { RequestStatusType } from "state/app-reducer";
 
 export const useHeader = () => {
   const dispatch = useAppDispatch()

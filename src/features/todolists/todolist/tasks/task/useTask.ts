@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { removeTaskTC, updateTaskTC } from "state/tasksReducer";
+import { removeTaskTC, updateTaskTC } from "state/tasks-reducer";
 import { TaskStatuses } from "api/todolists-api";
 import { useAppDispatch } from "state/store";
 

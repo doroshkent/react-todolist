@@ -3,7 +3,7 @@ import { List } from "@mui/material";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Task } from 'features/todolists/todolist/tasks/task/Task';
 import { useTasks } from "features/todolists/todolist/tasks/useTasks";
-import { FilterValuesType } from "state/todolistsReducer";
+import { FilterValuesType } from "state/todolists-reducer";
 
 export type TasksPropsType = {
   todolistId: string
