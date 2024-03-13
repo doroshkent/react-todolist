@@ -1,32 +1,34 @@
-import React from 'react';
-import { AppBar, Grid, IconButton, LinearProgress, Toolbar, Typography } from "@mui/material";
-import { AddItemForm } from "components/addItemForm/AddItemForm";
-import LoginIcon from "@mui/icons-material/Login";
-import { useHeader } from "widgets/header/useHeader";
+import React from 'react'
+import { AppBar, Grid, IconButton, LinearProgress, Toolbar, Typography } from '@mui/material'
+import { AddItemForm } from 'components/addItemForm/AddItemForm'
+import LoginIcon from '@mui/icons-material/Login'
+import { useHeader } from 'widgets/header/useHeader'
 
 export const Header = () => {
-  const { onTodolistAdded, status } = useHeader();
+  const { onTodolistAdded, status, onLogout, isLoggedIn } = useHeader()
 
   return (
     <AppBar position="static">
       <Toolbar>
-        <Grid container justifyContent={ "space-between" } alignItems={ "center" }>
+        <Grid container justifyContent={'space-between'} alignItems={'center'}>
           <Grid>
-            <AddItemForm disabled={ status === "loading" } addItem={ onTodolistAdded } item="todolist" />
+            {isLoggedIn && <AddItemForm disabled={status === 'loading'} addItem={onTodolistAdded} item="todolist" />}
           </Grid>
           <Grid>
-            <Typography variant="h4" component="div" marginRight="150px">
-              Tasks Board
+            <Typography variant="h4" component="div" marginRight={isLoggedIn ? '150px' : '0'}>
+              {isLoggedIn ? 'Tasks Board' : 'Welcome!'}
             </Typography>
           </Grid>
           <Grid>
-            <IconButton color="inherit" sx={ { marginLeft: "auto" } }>
-              <LoginIcon />
-            </IconButton>
+            {isLoggedIn && (
+              <IconButton color="inherit" sx={{ marginLeft: 'auto' }} onClick={onLogout}>
+                <LoginIcon />
+              </IconButton>
+            )}
           </Grid>
         </Grid>
       </Toolbar>
-      { status === "loading" && <LinearProgress /> }
+      {status === 'loading' && <LinearProgress />}
     </AppBar>
-  );
+  )
 }

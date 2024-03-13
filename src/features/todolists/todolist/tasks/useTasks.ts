@@ -1,34 +1,29 @@
-import { useCallback, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from "state/store";
-import { FilterValuesType } from "state/todolists-reducer";
-import { TaskStatuses } from "api/todolists-api";
-import { getTasksTC, TaskDomain } from 'state/tasks-reducer';
+import { useCallback } from 'react'
+import { useAppSelector } from 'state/store'
+import { FilterValuesType } from 'state/todolists-reducer'
+import { TaskStatuses } from 'api/todolists-api'
+import { TaskDomain } from 'state/tasks-reducer'
 
 export const useTasks = (todolistId: string, filter: FilterValuesType) => {
-  const tasks = useAppSelector<TaskDomain[]>( state => {
+  const tasks = useAppSelector<TaskDomain[]>((state) => {
     return state.tasks[todolistId]
-  } )
-  const dispatch = useAppDispatch()
+  })
 
-  useEffect( () => {
-    dispatch( getTasksTC( todolistId ) )
-  }, [] );
-
-  const filterTasks = useCallback( () => {
+  const filterTasks = useCallback(() => {
     switch (filter) {
-      case "active": {
-        return tasks.filter( (t) => t.status === TaskStatuses.New );
+      case 'active': {
+        return tasks.filter((t) => t.status === TaskStatuses.New)
       }
-      case "completed": {
-        return tasks.filter( (t) => t.status === TaskStatuses.Completed );
+      case 'completed': {
+        return tasks.filter((t) => t.status === TaskStatuses.Completed)
       }
       default: {
         return tasks
       }
     }
-  }, [ tasks, filter ] )
+  }, [tasks, filter])
 
   return {
-    filteredTasks: filterTasks()
+    filteredTasks: filterTasks(),
   }
 }

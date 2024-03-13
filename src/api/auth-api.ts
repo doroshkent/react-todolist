@@ -8,6 +8,9 @@ export const authAPI = {
   login(params: LoginParams) {
     return instance.post<ResponseType<{ userId: number }>>('auth/login', params)
   },
+  logout() {
+    return instance.delete<ResponseType>('auth/login')
+  },
 }
 
 // types

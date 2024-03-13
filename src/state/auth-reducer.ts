@@ -4,6 +4,7 @@ import { setAppRequestStatusAC, setIsInitialized } from 'state/app-reducer'
 import { RESULT_CODE, ServerError } from 'api/todolists-api'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { AxiosError } from 'axios'
+import { clearTodolistsDataAC } from 'state/todolists-reducer'
 
 const initialState = {
   isLoggedIn: false,
@@ -56,6 +57,19 @@ export const me = (): AppThunkType => async (dispatch) => {
     dispatch(setAppRequestStatusAC('failed'))
   } finally {
     dispatch(setIsInitialized(true))
+  }
+}
+
+export const logout = (): AppThunkType => async (dispatch) => {
+  dispatch(setAppRequestStatusAC('loading'))
+  try {
+    await authAPI.logout()
+    dispatch(setIsLoggedIn(false))
+    dispatch(setAppRequestStatusAC('succeeded'))
+    dispatch(clearTodolistsDataAC())
+  } catch (e) {
+    handleServerNetworkError(e as AxiosError<ServerError> | Error, dispatch)
+    dispatch(setAppRequestStatusAC('failed'))
   }
 }
 
