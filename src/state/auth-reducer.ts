@@ -1,6 +1,6 @@
 import { AppThunkType } from 'state/store'
 import { authAPI, LoginParams } from 'api/auth-api'
-import { setAppRequestStatusAC } from 'state/app-reducer'
+import { setAppRequestStatusAC, setIsInitialized } from 'state/app-reducer'
 import { RESULT_CODE, ServerError } from 'api/todolists-api'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { AxiosError } from 'axios'
@@ -40,6 +40,24 @@ export const login =
       dispatch(setAppRequestStatusAC('failed'))
     }
   }
+
+export const me = (): AppThunkType => async (dispatch) => {
+  dispatch(setAppRequestStatusAC('loading'))
+  try {
+    const res = await authAPI.me()
+    if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
+      dispatch(setIsLoggedIn(true))
+      dispatch(setAppRequestStatusAC('succeeded'))
+    } else {
+      dispatch(setAppRequestStatusAC('failed'))
+    }
+  } catch (e) {
+    handleServerNetworkError(e as AxiosError<ServerError> | Error, dispatch)
+    dispatch(setAppRequestStatusAC('failed'))
+  } finally {
+    dispatch(setIsInitialized(true))
+  }
+}
 
 // types
 type AuthState = typeof initialState

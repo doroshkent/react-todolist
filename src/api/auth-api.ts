@@ -2,6 +2,9 @@ import { instance } from 'api/todolists-api'
 import { ResponseType } from 'api/todolists-api'
 
 export const authAPI = {
+  me() {
+    return instance.get<ResponseType<User>>('auth/me')
+  },
   login(params: LoginParams) {
     return instance.post<ResponseType<{ userId: number }>>('auth/login', params)
   },
@@ -13,4 +16,9 @@ export type LoginParams = {
   password: string
   rememberMe?: boolean
   captcha?: string
+}
+type User = {
+  id: number
+  email: string
+  login: string
 }

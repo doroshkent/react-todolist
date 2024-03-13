@@ -8,8 +8,9 @@ import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { useAppDispatch } from 'state/store'
+import { useAppDispatch, useAppSelector } from 'state/store'
 import { login } from 'state/auth-reducer'
+import { Navigate } from 'react-router-dom'
 
 type Inputs = {
   email: string
@@ -34,9 +35,14 @@ export const Login = () => {
   })
 
   const dispatch = useAppDispatch()
+  const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn)
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     dispatch(login(data))
+  }
+
+  if (isLoggedIn) {
+    return <Navigate to={'/'} />
   }
 
   return (
