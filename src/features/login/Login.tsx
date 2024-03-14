@@ -8,7 +8,7 @@ import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { useAppDispatch, useAppSelector } from 'state/store'
+import { useAppDispatch, useAppSelector } from 'app/store'
 import { login } from 'state/auth-reducer'
 import { Navigate } from 'react-router-dom'
 

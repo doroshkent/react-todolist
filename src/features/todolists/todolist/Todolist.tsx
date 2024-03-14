@@ -6,7 +6,7 @@ import ClearIcon from '@mui/icons-material/Clear'
 import { Tasks } from 'features/todolists/todolist/tasks/Tasks'
 import { useTodolist } from 'features/todolists/todolist/useTodolist'
 import { FilterValuesType } from 'state/todolists-reducer'
-import { RequestStatusType } from 'state/app-reducer'
+import { RequestStatusType } from 'app/app-reducer'
 import { FilterButton } from 'components/buttons/FilterButton'
 
 type TodolistPropsType = {

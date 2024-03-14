@@ -1,6 +1,6 @@
-import { AppThunkType } from 'state/store'
+import { AppThunkType } from 'app/store'
 import { authAPI, LoginParams } from 'api/auth-api'
-import { setAppRequestStatusAC, setIsInitialized } from 'state/app-reducer'
+import { setAppRequestStatus, setIsInitialized } from 'app/app-reducer'
 import { RESULT_CODE, ServerError } from 'api/todolists-api'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { AxiosError } from 'axios'
@@ -26,50 +26,50 @@ export const setIsLoggedIn = (isLoggedIn: boolean) => ({ type: 'login/SET-IS-LOG
 export const login =
   (data: LoginParams): AppThunkType =>
   async (dispatch) => {
-    dispatch(setAppRequestStatusAC('loading'))
+    dispatch(setAppRequestStatus('loading'))
     try {
       const res = await authAPI.login(data)
       if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
         dispatch(setIsLoggedIn(true))
-        dispatch(setAppRequestStatusAC('succeeded'))
+        dispatch(setAppRequestStatus('succeeded'))
       } else {
         handleServerAppError(res.data, dispatch)
-        dispatch(setAppRequestStatusAC('failed'))
+        dispatch(setAppRequestStatus('failed'))
       }
     } catch (e) {
       handleServerNetworkError(e as AxiosError<ServerError> | Error, dispatch)
-      dispatch(setAppRequestStatusAC('failed'))
+      dispatch(setAppRequestStatus('failed'))
     }
   }
 
 export const me = (): AppThunkType => async (dispatch) => {
-  dispatch(setAppRequestStatusAC('loading'))
+  dispatch(setAppRequestStatus('loading'))
   try {
     const res = await authAPI.me()
     if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
       dispatch(setIsLoggedIn(true))
-      dispatch(setAppRequestStatusAC('succeeded'))
+      dispatch(setAppRequestStatus('succeeded'))
     } else {
-      dispatch(setAppRequestStatusAC('failed'))
+      dispatch(setAppRequestStatus('failed'))
     }
   } catch (e) {
     handleServerNetworkError(e as AxiosError<ServerError> | Error, dispatch)
-    dispatch(setAppRequestStatusAC('failed'))
+    dispatch(setAppRequestStatus('failed'))
   } finally {
     dispatch(setIsInitialized(true))
   }
 }
 
 export const logout = (): AppThunkType => async (dispatch) => {
-  dispatch(setAppRequestStatusAC('loading'))
+  dispatch(setAppRequestStatus('loading'))
   try {
     await authAPI.logout()
     dispatch(setIsLoggedIn(false))
-    dispatch(setAppRequestStatusAC('succeeded'))
+    dispatch(setAppRequestStatus('succeeded'))
     dispatch(clearTodolistsDataAC())
   } catch (e) {
     handleServerNetworkError(e as AxiosError<ServerError> | Error, dispatch)
-    dispatch(setAppRequestStatusAC('failed'))
+    dispatch(setAppRequestStatus('failed'))
   }
 }
 

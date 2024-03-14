@@ -3,7 +3,7 @@ import { TodolistsActionsType, todolistsReducer } from 'state/todolists-reducer'
 import { TasksActionsType, tasksReducer } from 'state/tasks-reducer'
 import { thunk, ThunkAction } from 'redux-thunk'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { AppActionsType, appReducer } from 'state/app-reducer'
+import { AppActionsType, appReducer } from 'app/app-reducer'
 import { AuthActions, authReducer } from 'state/auth-reducer'
 
 const rootReducer = combineReducers({

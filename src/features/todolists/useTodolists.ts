@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from 'state/store'
+import { useAppDispatch, useAppSelector } from 'app/store'
 import { getTodolists, TodolistDomainType } from 'state/todolists-reducer'
 
 export const useTodolists = () => {

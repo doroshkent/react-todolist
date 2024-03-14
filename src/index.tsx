@@ -7,7 +7,7 @@ import { ThemeProvider } from '@mui/material'
 import { theme } from 'styles/theme'
 import { GlobalStyle } from 'styles/Global.styled'
 import { Provider } from 'react-redux'
-import { store } from 'state/store'
+import { store } from 'app/store'
 import { BrowserRouter } from 'react-router-dom'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)

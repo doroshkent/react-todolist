@@ -1,6 +1,6 @@
 import { RESULT_CODE, ServerError, todolistsApi, TodolistType } from 'api/todolists-api'
-import { ActionsType, AppThunkType } from 'state/store'
-import { RequestStatusType, setAppRequestStatusAC } from 'state/app-reducer'
+import { ActionsType, AppThunkType } from 'app/store'
+import { RequestStatusType, setAppRequestStatus } from 'app/app-reducer'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { AxiosError } from 'axios'
 import { getTasksTC } from 'state/tasks-reducer'
@@ -51,29 +51,29 @@ export const getTodolists = (): AppThunkType => async (dispatch) => {
     const res = await todolistsApi.getTodolists()
     const todos = res.data
     dispatch(setTodolistsAC(todos))
-    dispatch(setAppRequestStatusAC('succeeded'))
+    dispatch(setAppRequestStatus('succeeded'))
     todos.forEach((tl) => dispatch(getTasksTC(tl.id)))
   } catch (e) {
     handleServerNetworkError(e as AxiosError<ServerError> | Error, dispatch)
-    dispatch(setAppRequestStatusAC('failed'))
+    dispatch(setAppRequestStatus('failed'))
   }
 }
 export const addTodolistTC =
   (title: string): AppThunkType =>
   async (dispatch) => {
-    dispatch(setAppRequestStatusAC('loading'))
+    dispatch(setAppRequestStatus('loading'))
     try {
       const res = await todolistsApi.createTodolist(title)
       if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
         dispatch(addTodolistAC(res.data.data.item))
-        dispatch(setAppRequestStatusAC('succeeded'))
+        dispatch(setAppRequestStatus('succeeded'))
       } else {
         handleServerAppError(res.data, dispatch)
-        dispatch(setAppRequestStatusAC('failed'))
+        dispatch(setAppRequestStatus('failed'))
       }
     } catch (e) {
       handleServerNetworkError(e as AxiosError<ServerError> | Error, dispatch)
-      dispatch(setAppRequestStatusAC('failed'))
+      dispatch(setAppRequestStatus('failed'))
     }
   }
 export const removeTodolistTC =
