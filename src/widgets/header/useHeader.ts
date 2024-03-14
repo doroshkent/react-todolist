@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { addTodolistTC } from 'state/todolists-reducer'
-import { useAppDispatch, useAppSelector } from 'state/store'
-import { RequestStatusType } from 'state/app-reducer'
+import { useAppDispatch, useAppSelector } from 'app/store'
+import { RequestStatusType } from 'app/app-reducer'
 import { logout } from 'state/auth-reducer'
 
 export const useHeader = () => {
