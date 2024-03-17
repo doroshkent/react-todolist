@@ -5,14 +5,14 @@ import EditIcon from '@mui/icons-material/Edit'
 import React, { memo } from 'react'
 import { useTask } from 'features/todolists/todolist/tasks/task/useTask'
 import { TaskStatuses } from 'api/todolists-api'
-import { RequestStatusType } from 'app/app-reducer'
+import { RequestStatus } from 'app/app-reducer'
 
 export type TaskPropsType = {
   id: string
   todolistId: string
   status: TaskStatuses
   title: string
-  entityStatus: RequestStatusType
+  entityStatus: RequestStatus
 }
 
 export const Task = memo(({ id, todolistId, status, title, entityStatus }: TaskPropsType) => {

@@ -7,17 +7,20 @@ import {
   todolistsApi,
   UpdateTaskModelType,
 } from 'api/todolists-api'
-import { ActionsType, AppRootStateType, AppThunkType } from 'app/store'
-import { RequestStatusType, setAppRequestStatus } from 'app/app-reducer'
+import { AppRootStateType, AppThunkType } from 'app/store'
+import { RequestStatus, setAppRequestStatus } from 'app/app-reducer'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { AxiosError } from 'axios'
-import { setTodolistEntityStatusAC } from 'state/todolists-reducer'
+import { setTodolistEntityStatusAC, TodolistsActions } from 'features/todolists/todolists-reducer'
 
 const initialState: TasksStateType = {}
 
-export function tasksReducer(state: TasksStateType = initialState, action: ActionsType): TasksStateType {
+export function tasksReducer(
+  state: TasksStateType = initialState,
+  action: TasksActionsType | TodolistsActions
+): TasksStateType {
   switch (action.type) {
-    case 'SET-TODOLISTS':
+    case 'todolists/SET-TODOLISTS':
       return action.todolists.reduce(
         (acc, tl) => {
           acc[tl.id] = []
@@ -56,13 +59,13 @@ export function tasksReducer(state: TasksStateType = initialState, action: Actio
           t.id === action.taskId ? { ...t, entityStatus: action.entityStatus } : t
         ),
       }
-    case 'ADD-TODOLIST':
+    case 'todolists/ADD-TODOLIST':
       return { ...state, [action.todolist.id]: [] }
-    case 'REMOVE-TODOLIST':
+    case 'todolists/REMOVE-TODOLIST':
       const stateCopy = { ...state }
       delete stateCopy[action.id]
       return stateCopy
-    case 'CLEAR-TODOLISTS-DATA':
+    case 'todolists/CLEAR-TODOLISTS-DATA':
       return {}
     default:
       return state
@@ -75,7 +78,7 @@ export const removeTaskAC = (todolistId: string, taskId: string) =>
 export const addTaskAC = (todolistId: string, task: TaskType) => ({ type: 'ADD-TASK', todolistId, task } as const)
 export const setTasksAC = (todolistId: string, tasks: TaskType[]) => ({ type: 'SET-TASKS', todolistId, tasks } as const)
 export const updateTaskAC = (todolistId: string, task: TaskType) => ({ type: 'UPDATE-TASK', todolistId, task } as const)
-export const setTaskEntityStatusAC = (todolistId: string, taskId: string, entityStatus: RequestStatusType) =>
+export const setTaskEntityStatusAC = (todolistId: string, taskId: string, entityStatus: RequestStatus) =>
   ({ type: 'SET-TASK-ENTITY-STATUS', todolistId, taskId, entityStatus } as const)
 
 // thunks
@@ -181,5 +184,5 @@ type UpdateTaskDomainModelType = {
   deadline?: string
 }
 export type TaskDomain = TaskType & {
-  entityStatus: RequestStatusType
+  entityStatus: RequestStatus
 }

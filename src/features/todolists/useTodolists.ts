@@ -1,10 +1,13 @@
 import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from 'app/store'
-import { getTodolists, TodolistDomainType } from 'state/todolists-reducer'
+import { useAppDispatch } from 'app/store'
+import { getTodolists } from 'features/todolists/todolists-reducer'
+import { selectTodolists } from 'features/todolists/todolists-selectors'
+import { useSelector } from 'react-redux'
+import { selectIsLoggedIn } from 'features/login/auth-selectors'
 
 export const useTodolists = () => {
-  const todolists = useAppSelector<TodolistDomainType[]>((state) => state.todolists)
-  const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn)
+  const todolists = useSelector(selectTodolists)
+  const isLoggedIn = useSelector(selectIsLoggedIn)
   const dispatch = useAppDispatch()
 
   useEffect(() => {

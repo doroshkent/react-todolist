@@ -1,14 +1,17 @@
 import React, { memo } from 'react'
-import { Container, Grid } from '@mui/material'
+import Container from '@mui/material/Container'
+import Grid from '@mui/material/Grid'
 import { Todolist } from 'features/todolists/todolist/Todolist'
 import { useTodolists } from 'features/todolists/useTodolists'
 import { Navigate } from 'react-router-dom'
+import { PATH } from 'app/pages/Pages'
+import { NoItemsPrompt } from 'components/NoItemsPrompt'
 
 export const Todolists = memo(() => {
   const { todolists, isLoggedIn } = useTodolists()
 
   if (!isLoggedIn) {
-    return <Navigate to={'/login'} />
+    return <Navigate to={PATH.LOGIN} />
   }
 
   return (
@@ -24,7 +27,7 @@ export const Todolists = memo(() => {
           })}
         </Grid>
       ) : (
-        <p style={{ fontStyle: 'italic', opacity: '0.5', textAlign: 'center' }}>You have no todolists yet</p>
+        <NoItemsPrompt item={'todolist'} />
       )}
     </Container>
   )

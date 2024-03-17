@@ -4,7 +4,7 @@ import { setAppRequestStatus, setIsInitialized } from 'app/app-reducer'
 import { RESULT_CODE, ServerError } from 'api/todolists-api'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { AxiosError } from 'axios'
-import { clearTodolistsDataAC } from 'state/todolists-reducer'
+import { clearTodolistsDataAC } from 'features/todolists/todolists-reducer'
 
 const initialState = {
   isLoggedIn: false,
