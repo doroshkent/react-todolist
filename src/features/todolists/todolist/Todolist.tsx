@@ -35,7 +35,10 @@ export const Todolist = memo(({ id, title, filter, entityStatus }: TodolistProps
               <EditItemField title={title} renameItem={onTodoListRenamed} toggleEditMode={toggleTitleEditMode} />
             ) : (
               <Tooltip title={'Double click to rename'}>
-                <Typography variant={'h5'} onDoubleClick={() => toggleTitleEditMode(true)} sx={{ cursor: 'pointer' }}>
+                <Typography
+                  variant={'h5'}
+                  onDoubleClick={() => toggleTitleEditMode(true)}
+                  sx={{ cursor: 'pointer', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
                   {title}
                 </Typography>
               </Tooltip>
