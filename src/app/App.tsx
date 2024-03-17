@@ -1,10 +1,11 @@
 import React from 'react'
-import { S } from 'app/App_Styles'
 import { Header } from 'widgets/header/Header'
 import { ErrorSnackbar } from 'components/errorSnackbar/ErrorSnackbar'
 import { InitializeProgress } from 'components/InitializeProgress'
 import { useApp } from 'app/useApp'
 import { Pages } from 'app/pages/Pages'
+import styled from '@emotion/styled'
+import Box from '@mui/material/Box'
 
 function App() {
   const { isInitialized } = useApp()
@@ -14,15 +15,21 @@ function App() {
   }
 
   return (
-    <S.AppContainer>
+    <AppContainer>
       <Header />
       <Pages />
       <ErrorSnackbar />
-    </S.AppContainer>
+    </AppContainer>
   )
 }
 
 export default App
+
+const AppContainer = styled(Box)`
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+`
 
 // types
 export type ItemsType = 'todolist' | 'task'
