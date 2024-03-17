@@ -1,33 +1,31 @@
-import React, { memo } from 'react';
-import { List } from "@mui/material";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { Task } from 'features/todolists/todolist/tasks/task/Task';
-import { useTasks } from "features/todolists/todolist/tasks/useTasks";
-import { FilterValuesType } from "state/todolists-reducer";
+import React, { memo } from 'react'
+import List from '@mui/material/List'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { Task } from 'features/todolists/todolist/tasks/task/Task'
+import { useTasks } from 'features/todolists/todolist/tasks/useTasks'
+import { FilterValues } from 'features/todolists/todolists-reducer'
+import { NoItemsPrompt } from 'components/NoItemsPrompt'
 
-export type TasksPropsType = {
+export type TasksProps = {
   todolistId: string
-  filter: FilterValuesType
+  filter: FilterValues
 }
 
-export const Tasks = memo( ({ todolistId, filter }: TasksPropsType) => {
-  const [ listRef ] = useAutoAnimate<HTMLUListElement>();
-  const { filteredTasks } = useTasks( todolistId, filter );
+export const Tasks = memo(({ todolistId, filter }: TasksProps) => {
+  const [listRef] = useAutoAnimate<HTMLUListElement>()
+  const { filteredTasks } = useTasks(todolistId, filter)
 
   return (
     <>
-      { filteredTasks.length > 0
-        ? <List ref={ listRef }>
-          { filteredTasks.map( (task) => (
-            <Task
-              key={ task.id }
-              todolistId={ todolistId }
-              { ...task }
-            />
-          ) ) }
+      {filteredTasks.length > 0 ? (
+        <List ref={listRef}>
+          {filteredTasks.map((task) => (
+            <Task key={task.id} todolistId={todolistId} {...task} />
+          ))}
         </List>
-        : <p style={ { fontStyle: "italic", opacity: "0.5",
-          textAlign: "center", marginBottom: "10px" } }>You have no tasks yet</p> }
+      ) : (
+        <NoItemsPrompt item={'task'} />
+      )}
     </>
-  );
-} )
+  )
+})

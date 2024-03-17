@@ -1,11 +1,11 @@
 import { memo } from 'react'
 import Button, { ButtonProps } from '@mui/material/Button'
-import { FilterValuesType } from 'state/todolists-reducer'
+import { FilterValues } from 'features/todolists/todolists-reducer'
 
 type FilterButtonProps = {
-  filter: FilterValuesType
-  onClickCallback: (filter: FilterValuesType) => void
-  filterName: FilterValuesType
+  filter: FilterValues
+  onClickCallback: (filter: FilterValues) => void
+  filterName: FilterValues
 } & ButtonProps
 
 export const FilterButton = memo(({ filterName, filter, onClickCallback, ...rest }: FilterButtonProps) => {

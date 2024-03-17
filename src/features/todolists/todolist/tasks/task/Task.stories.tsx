@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Task } from 'features/todolists/todolist/tasks/task/Task'
 import { ReduxStoreProviderDecorator } from 'stories/decorators/ReduxStoreProviderDecorator'
 import { useAppSelector } from 'app/store'
-import { TaskDomain } from 'state/tasks-reducer'
+import { TaskDomain } from 'features/todolists/todolist/tasks/tasks-reducer'
 
 const meta: Meta<typeof Task> = {
   title: 'TODOLISTS/Task',

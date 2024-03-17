@@ -14,8 +14,8 @@ export const AddItemForm = memo(({ addItem, item, disabled = false }: AddItemFor
   const { newItemTitle, error, onTitleChange, onEnterPress, onAddItem } = useAddItemForm(addItem)
 
   return (
-    <Grid container alignItems={'center'}>
-      <Grid item sx={{ position: 'relative' }}>
+    <Grid container alignItems={'center'} justifyContent={'space-between'}>
+      <Grid item flexGrow={2}>
         <TextField
           fullWidth
           multiline
@@ -31,7 +31,9 @@ export const AddItemForm = memo(({ addItem, item, disabled = false }: AddItemFor
           onKeyDown={onEnterPress}
           disabled={disabled}
         />
-        <IconButton sx={{ position: 'absolute', top: '19%' }} onClick={onAddItem} disabled={!newItemTitle || disabled}>
+      </Grid>
+      <Grid item>
+        <IconButton onClick={onAddItem} disabled={!newItemTitle || disabled}>
           <AddIcon />
         </IconButton>
       </Grid>

@@ -1,55 +1,35 @@
 import React, { memo } from 'react'
 import { AddItemForm } from 'components/addItemForm/AddItemForm'
-import { EditItemField } from 'components/editItemField/EditItemField'
-import { ButtonGroup, Card, Grid, IconButton, Tooltip, Typography } from '@mui/material'
-import ClearIcon from '@mui/icons-material/Clear'
+import ButtonGroup from '@mui/material/ButtonGroup'
+import Card from '@mui/material/Card'
+import Grid from '@mui/material/Grid'
 import { Tasks } from 'features/todolists/todolist/tasks/Tasks'
 import { useTodolist } from 'features/todolists/todolist/useTodolist'
-import { FilterValuesType } from 'state/todolists-reducer'
-import { RequestStatusType } from 'app/app-reducer'
+import { FilterValues } from 'features/todolists/todolists-reducer'
+import { RequestStatus } from 'app/app-reducer'
 import { FilterButton } from 'components/buttons/FilterButton'
+import { DeleteButton } from 'components/buttons/DeleteButton'
+import { EditableTitle } from 'components/editableTitle/EditableTitle'
 
-type TodolistPropsType = {
+type TodolistProps = {
   id: string
   title: string
-  filter: FilterValuesType
-  entityStatus: RequestStatusType
+  filter: FilterValues
+  entityStatus: RequestStatus
 }
 
-export const Todolist = memo(({ id, title, filter, entityStatus }: TodolistPropsType) => {
-  const {
-    titleEditMode,
-    onTodoListRenamed,
-    toggleTitleEditMode,
-    onTodoListDeleted,
-    addNewTask,
-    onFilterButtonClicked,
-  } = useTodolist(id, entityStatus)
+export const Todolist = memo(({ id, title, filter, entityStatus }: TodolistProps) => {
+  const { onTodoListDeleted, addNewTask, onFilterButtonClicked, onTodoListRenamed } = useTodolist(id)
 
   return (
-    <Card sx={{ padding: '15px', width: '300px' }}>
+    <Card sx={{ padding: '15px', minWidth: '300px', maxWidth: '450px' }}>
       <Grid container flexDirection={'column'}>
         <Grid item container justifyContent={'space-between'} alignItems={'center'}>
           <Grid item>
-            {titleEditMode ? (
-              <EditItemField title={title} renameItem={onTodoListRenamed} toggleEditMode={toggleTitleEditMode} />
-            ) : (
-              <Tooltip title={'Double click to rename'}>
-                <Typography
-                  variant={'h5'}
-                  onDoubleClick={() => toggleTitleEditMode(true)}
-                  sx={{ cursor: 'pointer', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-                  {title}
-                </Typography>
-              </Tooltip>
-            )}
+            <EditableTitle renameItemCallback={onTodoListRenamed} entityStatus={entityStatus} title={title} />
           </Grid>
           <Grid item>
-            <Tooltip title={'Remove'}>
-              <IconButton disabled={entityStatus === 'loading'} onClick={onTodoListDeleted}>
-                <ClearIcon />
-              </IconButton>
-            </Tooltip>
+            <DeleteButton disabled={entityStatus === 'loading'} onClick={onTodoListDeleted} />
           </Grid>
         </Grid>
 

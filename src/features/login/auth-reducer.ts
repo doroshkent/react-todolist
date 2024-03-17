@@ -1,10 +1,10 @@
-import { AppThunkType } from 'app/store'
-import { authAPI, LoginParams } from 'api/auth-api'
+import { AppThunk } from 'app/store'
+import { authAPI, LoginParams } from 'features/login/auth-api'
 import { setAppRequestStatus, setIsInitialized } from 'app/app-reducer'
 import { RESULT_CODE, ServerError } from 'api/todolists-api'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { AxiosError } from 'axios'
-import { clearTodolistsDataAC } from 'state/todolists-reducer'
+import { clearTodolistsDataAC } from 'features/todolists/todolists-reducer'
 
 const initialState = {
   isLoggedIn: false,
@@ -24,7 +24,7 @@ export const setIsLoggedIn = (isLoggedIn: boolean) => ({ type: 'login/SET-IS-LOG
 
 // thunks
 export const login =
-  (data: LoginParams): AppThunkType =>
+  (data: LoginParams): AppThunk =>
   async (dispatch) => {
     dispatch(setAppRequestStatus('loading'))
     try {
@@ -42,7 +42,7 @@ export const login =
     }
   }
 
-export const me = (): AppThunkType => async (dispatch) => {
+export const me = (): AppThunk => async (dispatch) => {
   dispatch(setAppRequestStatus('loading'))
   try {
     const res = await authAPI.me()
@@ -60,7 +60,7 @@ export const me = (): AppThunkType => async (dispatch) => {
   }
 }
 
-export const logout = (): AppThunkType => async (dispatch) => {
+export const logout = (): AppThunk => async (dispatch) => {
   dispatch(setAppRequestStatus('loading'))
   try {
     await authAPI.logout()

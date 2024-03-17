@@ -1,19 +1,9 @@
-import { useCallback, useState } from 'react'
-import { addTaskTC } from 'state/tasks-reducer'
-import { changeFilterAC, FilterValuesType, removeTodolistTC, renameTodolistTC } from 'state/todolists-reducer'
+import { useCallback } from 'react'
+import { addTaskTC } from 'features/todolists/todolist/tasks/tasks-reducer'
+import { changeFilterAC, FilterValues, removeTodolistTC, renameTodolistTC } from 'features/todolists/todolists-reducer'
 import { useAppDispatch } from 'app/store'
-import { RequestStatusType } from 'app/app-reducer'
 
-export const useTodolist = (id: string, entityStatus: RequestStatusType) => {
-  const [titleEditMode, setTitleEditMode] = useState(false)
-  const toggleTitleEditMode = useCallback(
-    (toggleValue: boolean) => {
-      if (entityStatus === 'loading') return
-      setTitleEditMode(toggleValue)
-    },
-    [entityStatus]
-  )
-
+export const useTodolist = (id: string) => {
   const dispatch = useAppDispatch()
 
   const onTodoListDeleted = useCallback(() => {
@@ -35,16 +25,14 @@ export const useTodolist = (id: string, entityStatus: RequestStatusType) => {
   )
 
   const onFilterButtonClicked = useCallback(
-    (value: FilterValuesType) => {
+    (value: FilterValues) => {
       dispatch(changeFilterAC(id, value))
     },
     [id]
   )
 
   return {
-    titleEditMode,
     onTodoListRenamed,
-    toggleTitleEditMode,
     onTodoListDeleted,
     addNewTask,
     onFilterButtonClicked,

@@ -1,14 +1,8 @@
-import {
-  appReducer,
-  RequestStatusType,
-  setAppRequestError,
-  setAppRequestStatus,
-  setIsInitialized,
-} from 'app/app-reducer'
+import { appReducer, RequestStatus, setAppRequestError, setAppRequestStatus, setIsInitialized } from 'app/app-reducer'
 
 describe('appReducer', () => {
   const initialState = {
-    status: 'idle' as RequestStatusType,
+    status: 'idle' as RequestStatus,
     error: null as string | null,
     isInitialized: false,
   }

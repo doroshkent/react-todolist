@@ -1,6 +1,6 @@
 import { useAppDispatch } from 'app/store'
 import { useEffect } from 'react'
-import { me } from 'state/auth-reducer'
+import { me } from 'features/login/auth-reducer'
 import { useSelector } from 'react-redux'
 import { selectAppIsInitialized } from 'app/app-selectors'
 
