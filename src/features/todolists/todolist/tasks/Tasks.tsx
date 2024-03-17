@@ -1,16 +1,17 @@
 import React, { memo } from 'react'
-import { List } from '@mui/material'
+import List from '@mui/material/List'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { Task } from 'features/todolists/todolist/tasks/task/Task'
 import { useTasks } from 'features/todolists/todolist/tasks/useTasks'
 import { FilterValues } from 'features/todolists/todolists-reducer'
+import { NoItemsPrompt } from 'components/NoItemsPrompt'
 
-export type TasksPropsType = {
+export type TasksProps = {
   todolistId: string
   filter: FilterValues
 }
 
-export const Tasks = memo(({ todolistId, filter }: TasksPropsType) => {
+export const Tasks = memo(({ todolistId, filter }: TasksProps) => {
   const [listRef] = useAutoAnimate<HTMLUListElement>()
   const { filteredTasks } = useTasks(todolistId, filter)
 
@@ -23,9 +24,7 @@ export const Tasks = memo(({ todolistId, filter }: TasksPropsType) => {
           ))}
         </List>
       ) : (
-        <p style={{ fontStyle: 'italic', opacity: '0.5', textAlign: 'center', marginBottom: '10px' }}>
-          You have no tasks yet
-        </p>
+        <NoItemsPrompt item={'task'} />
       )}
     </>
   )

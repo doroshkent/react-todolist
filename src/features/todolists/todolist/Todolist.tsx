@@ -29,7 +29,7 @@ export const Todolist = memo(({ id, title, filter, entityStatus }: TodolistProps
             <EditableTitle renameItemCallback={onTodoListRenamed} entityStatus={entityStatus} title={title} />
           </Grid>
           <Grid item>
-            <DeleteButton entityStatus={entityStatus} onClick={onTodoListDeleted} />
+            <DeleteButton disabled={entityStatus === 'loading'} onClick={onTodoListDeleted} />
           </Grid>
         </Grid>
 

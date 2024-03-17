@@ -1,5 +1,5 @@
 import { addTodolistAC, TodolistDomain, todolistsReducer } from 'features/todolists/todolists-reducer'
-import { tasksReducer, TasksStateType } from 'features/todolists/todolist/tasks/tasks-reducer'
+import { tasksReducer, TasksState } from 'features/todolists/todolist/tasks/tasks-reducer'
 
 test('new array should be added when new todolist is added', () => {
   const newTodolist = {
@@ -9,7 +9,7 @@ test('new array should be added when new todolist is added', () => {
     addedDate: new Date(),
     order: 0,
   }
-  const startState: TasksStateType = {}
+  const startState: TasksState = {}
 
   const action = addTodolistAC(newTodolist)
 
@@ -26,7 +26,7 @@ test('new array should be added when new todolist is added', () => {
 })
 
 test('ids should be equal', () => {
-  const tasksStartState: TasksStateType = {}
+  const tasksStartState: TasksState = {}
   const todolistsStartState: TodolistDomain[] = []
   const newTodolist = {
     id: '1',

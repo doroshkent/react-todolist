@@ -1,13 +1,17 @@
-import { Checkbox, IconButton, ListItem, ListItemButton, ListItemText, Tooltip, Typography } from '@mui/material'
+import Checkbox from '@mui/material/Checkbox'
+import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemText from '@mui/material/ListItemText'
+import Typography from '@mui/material/Typography'
 import { EditItemField } from 'components/editItemField/EditItemField'
-import ClearIcon from '@mui/icons-material/Clear'
-import EditIcon from '@mui/icons-material/Edit'
 import React, { memo } from 'react'
 import { useTask } from 'features/todolists/todolist/tasks/task/useTask'
 import { TaskStatuses } from 'api/todolists-api'
 import { RequestStatus } from 'app/app-reducer'
+import { DeleteButton } from 'components/buttons/DeleteButton'
+import { EditButton } from 'components/buttons/EditButton'
 
-export type TaskPropsType = {
+export type TaskProps = {
   id: string
   todolistId: string
   status: TaskStatuses
@@ -15,7 +19,7 @@ export type TaskPropsType = {
   entityStatus: RequestStatus
 }
 
-export const Task = memo(({ id, todolistId, status, title, entityStatus }: TaskPropsType) => {
+export const Task = memo(({ id, todolistId, status, title, entityStatus }: TaskProps) => {
   const { editMode, toggleEditMode, onTaskRenamed, onTaskChecked, onTaskRemoved } = useTask(id, todolistId, status)
 
   return (
@@ -38,16 +42,8 @@ export const Task = memo(({ id, todolistId, status, title, entityStatus }: TaskP
           </ListItemText>
         </ListItemButton>
       )}
-      <Tooltip title={'Edit'} arrow>
-        <IconButton disabled={entityStatus === 'loading'} onClick={() => toggleEditMode(true)}>
-          <EditIcon />
-        </IconButton>
-      </Tooltip>
-      <Tooltip title={'Remove'} arrow>
-        <IconButton disabled={entityStatus === 'loading'} onClick={onTaskRemoved}>
-          <ClearIcon />
-        </IconButton>
-      </Tooltip>
+      <EditButton disabled={entityStatus === 'loading'} onClick={() => toggleEditMode(true)} />
+      <DeleteButton disabled={entityStatus === 'loading'} onClick={onTaskRemoved} />
     </ListItem>
   )
 })

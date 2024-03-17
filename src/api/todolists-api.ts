@@ -24,13 +24,13 @@ export const todolistsApi = {
     return instance.get<GetTasksResponseType>(`todo-lists/${todolistId}/tasks`)
   },
   createTask(todolistId: string, title: string) {
-    return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, { title })
+    return instance.post<ResponseType<{ item: Task }>>(`todo-lists/${todolistId}/tasks`, { title })
   },
   deleteTask(todolistId: string, taskId: string) {
     return instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
   },
   updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
-    return instance.put<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
+    return instance.put<ResponseType<{ item: Task }>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
   },
 }
 
@@ -41,7 +41,7 @@ export type Todolist = {
   order: number
   title: string
 }
-export type TaskType = {
+export type Task = {
   todoListId: string
   id: string
   title: string
@@ -86,7 +86,7 @@ export type ResponseType<D = {}> = {
 type GetTasksResponseType = {
   error: string | null
   totalCount: number
-  items: TaskType[]
+  items: Task[]
 }
 export enum RESULT_CODE {
   SUCCEEDED,

@@ -1,5 +1,5 @@
 import { RESULT_CODE, ServerError, todolistsApi, Todolist } from 'api/todolists-api'
-import { AppThunkType } from 'app/store'
+import { AppThunk } from 'app/store'
 import { RequestStatus, setAppRequestStatus } from 'app/app-reducer'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { AxiosError } from 'axios'
@@ -48,7 +48,7 @@ export const setTodolistEntityStatusAC = (id: string, status: RequestStatus) =>
 export const clearTodolistsDataAC = () => ({ type: 'todolists/CLEAR-TODOLISTS-DATA' } as const)
 
 // thunks
-export const getTodolists = (): AppThunkType => async (dispatch) => {
+export const getTodolists = (): AppThunk => async (dispatch) => {
   try {
     const res = await todolistsApi.getTodolists()
     const todos = res.data
@@ -61,7 +61,7 @@ export const getTodolists = (): AppThunkType => async (dispatch) => {
   }
 }
 export const addTodolistTC =
-  (title: string): AppThunkType =>
+  (title: string): AppThunk =>
   async (dispatch) => {
     dispatch(setAppRequestStatus('loading'))
     try {
@@ -79,7 +79,7 @@ export const addTodolistTC =
     }
   }
 export const removeTodolistTC =
-  (todolistId: string): AppThunkType =>
+  (todolistId: string): AppThunk =>
   async (dispatch) => {
     dispatch(setTodolistEntityStatusAC(todolistId, 'loading'))
     try {
@@ -97,7 +97,7 @@ export const removeTodolistTC =
     }
   }
 export const renameTodolistTC =
-  (todolistsId: string, newTitle: string): AppThunkType =>
+  (todolistsId: string, newTitle: string): AppThunk =>
   async (dispatch) => {
     dispatch(setTodolistEntityStatusAC(todolistsId, 'loading'))
     try {

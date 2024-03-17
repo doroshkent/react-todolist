@@ -4,16 +4,16 @@ import {
   removeTaskAC,
   setTaskEntityStatusAC,
   tasksReducer,
-  TasksStateType,
+  TasksState,
   updateTaskAC,
 } from 'features/todolists/todolist/tasks/tasks-reducer'
 import { addTodolistAC, removeTodolistAC, setTodolistsAC } from 'features/todolists/todolists-reducer'
-import { TaskPriorities, TaskStatuses, TaskType, Todolist } from 'api/todolists-api'
+import { TaskPriorities, TaskStatuses, Task, Todolist } from 'api/todolists-api'
 
 const todolistId1 = v4()
 const todolistId2 = v4()
 
-const startState: TasksStateType = {
+const startState: TasksState = {
   [todolistId1]: [
     {
       id: '1',
@@ -177,7 +177,7 @@ test('should remove the correct task from the correct todolist', () => {
 })
 
 test('should update the correct task', () => {
-  const updatedTask: TaskType = {
+  const updatedTask: Task = {
     id: '2',
     title: newTitle,
     status: TaskStatuses.New,
@@ -225,7 +225,7 @@ test('should change status of task in correct todolist', () => {
 })
 
 test('should add new task', () => {
-  const newTask: TaskType = {
+  const newTask: Task = {
     id: '1',
     title: newTitle,
     status: TaskStatuses.New,

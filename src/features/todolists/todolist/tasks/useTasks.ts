@@ -1,13 +1,11 @@
 import { useCallback } from 'react'
-import { useAppSelector } from 'app/store'
 import { FilterValues } from 'features/todolists/todolists-reducer'
 import { TaskStatuses } from 'api/todolists-api'
-import { TaskDomain } from 'features/todolists/todolist/tasks/tasks-reducer'
+import { selectTasks } from 'features/todolists/todolist/tasks/tasks-selectors'
+import { useSelector } from 'react-redux'
 
 export const useTasks = (todolistId: string, filter: FilterValues) => {
-  const tasks = useAppSelector<TaskDomain[]>((state) => {
-    return state.tasks[todolistId]
-  })
+  const tasks = useSelector(selectTasks(todolistId))
 
   const filterTasks = useCallback(() => {
     switch (filter) {
