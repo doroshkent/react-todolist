@@ -1,5 +1,5 @@
 import { AppThunkType } from 'app/store'
-import { authAPI, LoginParams } from 'api/auth-api'
+import { authAPI, LoginParams } from 'features/login/auth-api'
 import { setAppRequestStatus, setIsInitialized } from 'app/app-reducer'
 import { RESULT_CODE, ServerError } from 'api/todolists-api'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'

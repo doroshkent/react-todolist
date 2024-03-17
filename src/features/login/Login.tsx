@@ -7,12 +7,11 @@ import FormGroup from '@mui/material/FormGroup'
 import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { useAppDispatch, useAppSelector } from 'app/store'
-import { login } from 'state/auth-reducer'
+import { Controller, useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
+import { useLogin } from 'features/login/useLogin'
 
-type Inputs = {
+export type Inputs = {
   email: string
   password: string
   rememberMe: boolean
@@ -34,12 +33,7 @@ export const Login = () => {
     mode: 'onBlur',
   })
 
-  const dispatch = useAppDispatch()
-  const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn)
-
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    dispatch(login(data))
-  }
+  const { isLoggedIn, onSubmit } = useLogin()
 
   if (isLoggedIn) {
     return <Navigate to={'/'} />
