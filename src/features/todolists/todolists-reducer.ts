@@ -1,4 +1,4 @@
-import { RESULT_CODE, ServerError, todolistsApi, Todolist } from 'api/todolists-api'
+import { RESULT_CODE, ServerError, todolistsApi, Todolist } from 'features/todolists/todolists-api'
 import { AppThunk } from 'app/store'
 import { RequestStatus, setAppRequestStatus } from 'app/app-reducer'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'

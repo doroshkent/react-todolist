@@ -1,9 +1,9 @@
 import { Dispatch } from 'redux'
 import { SetAppError, setAppRequestError, setAppRequestStatus, SetAppStatus } from 'app/app-reducer'
-import { ResponseType } from 'api/todolists-api'
+import { Response } from 'features/todolists/todolists-api'
 
 // generic function
-export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: ErrorUtilsDispatch) => {
+export const handleServerAppError = <T>(data: Response<T>, dispatch: ErrorUtilsDispatch) => {
   if (data.messages.length) {
     dispatch(setAppRequestError(data.messages[0]))
   } else {

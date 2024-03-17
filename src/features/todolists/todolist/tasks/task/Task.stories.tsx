@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Task } from 'features/todolists/todolist/tasks/task/Task'
 import { ReduxStoreProviderDecorator } from 'stories/decorators/ReduxStoreProviderDecorator'
-import { useAppSelector } from 'app/store'
-import { TaskDomain } from 'features/todolists/todolist/tasks/tasks-reducer'
+import { selectTasks } from 'features/todolists/todolist/tasks/tasks-selectors'
+import { useSelector } from 'react-redux'
 
 const meta: Meta<typeof Task> = {
   title: 'TODOLISTS/Task',
@@ -15,7 +15,7 @@ export default meta
 type Story = StoryObj<typeof Task>
 
 const Component = ({ todolistId }: { todolistId: string }) => {
-  const tasks = useAppSelector<TaskDomain[]>((state) => state.tasks[todolistId])
+  const tasks = useSelector(selectTasks(todolistId))
   return (
     <Task
       id={tasks[0].id}

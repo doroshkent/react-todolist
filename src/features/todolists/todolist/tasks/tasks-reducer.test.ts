@@ -8,7 +8,7 @@ import {
   updateTaskAC,
 } from 'features/todolists/todolist/tasks/tasks-reducer'
 import { addTodolistAC, removeTodolistAC, setTodolistsAC } from 'features/todolists/todolists-reducer'
-import { TaskPriorities, TaskStatuses, Task, Todolist } from 'api/todolists-api'
+import { TaskPriorities, TaskStatuses, Task, Todolist } from 'features/todolists/todolists-api'
 
 const todolistId1 = v4()
 const todolistId2 = v4()

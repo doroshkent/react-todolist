@@ -10,7 +10,7 @@ import {
   TodolistDomain,
   todolistsReducer,
 } from 'features/todolists/todolists-reducer'
-import { Todolist } from 'api/todolists-api'
+import { Todolist } from 'features/todolists/todolists-api'
 
 const todolistId1 = v4()
 const todolistId2 = v4()

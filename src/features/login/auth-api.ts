@@ -1,15 +1,15 @@
-import { instance } from 'api/todolists-api'
-import { ResponseType } from 'api/todolists-api'
+import { instance } from 'features/todolists/todolists-api'
+import { Response } from 'features/todolists/todolists-api'
 
 export const authAPI = {
   me() {
-    return instance.get<ResponseType<User>>('auth/me')
+    return instance.get<Response<User>>('auth/me')
   },
   login(params: LoginParams) {
-    return instance.post<ResponseType<{ userId: number }>>('auth/login', params)
+    return instance.post<Response<{ userId: number }>>('auth/login', params)
   },
   logout() {
-    return instance.delete<ResponseType>('auth/login')
+    return instance.delete<Response>('auth/login')
   },
 }
 

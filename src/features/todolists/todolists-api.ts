@@ -11,26 +11,26 @@ export const todolistsApi = {
     return instance.get<Todolist[]>('todo-lists')
   },
   createTodolist(title: string) {
-    return instance.post<ResponseType<{ item: Todolist }>>('todo-lists', { title })
+    return instance.post<Response<{ item: Todolist }>>('todo-lists', { title })
   },
   deleteTodolist(todolistId: string) {
-    return instance.delete<ResponseType>(`todo-lists/${todolistId}`)
+    return instance.delete<Response>(`todo-lists/${todolistId}`)
   },
   updateTodolistTitle(todolistId: string, title: string) {
-    return instance.put<ResponseType>(`todo-lists/${todolistId}`, { title })
+    return instance.put<Response>(`todo-lists/${todolistId}`, { title })
   },
   // tasks
   getTasks(todolistId: string) {
-    return instance.get<GetTasksResponseType>(`todo-lists/${todolistId}/tasks`)
+    return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`)
   },
   createTask(todolistId: string, title: string) {
-    return instance.post<ResponseType<{ item: Task }>>(`todo-lists/${todolistId}/tasks`, { title })
+    return instance.post<Response<{ item: Task }>>(`todo-lists/${todolistId}/tasks`, { title })
   },
   deleteTask(todolistId: string, taskId: string) {
-    return instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
+    return instance.delete<Response>(`/todo-lists/${todolistId}/tasks/${taskId}`)
   },
-  updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
-    return instance.put<ResponseType<{ item: Task }>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
+  updateTask(todolistId: string, taskId: string, model: UpdateTaskModel) {
+    return instance.put<Response<{ item: Task }>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
   },
 }
 
@@ -53,7 +53,7 @@ export type Task = {
   priority: TaskPriorities
   startDate: null
 }
-export type UpdateTaskModelType = {
+export type UpdateTaskModel = {
   title: string
   description: string | null
   status: TaskStatuses
@@ -77,13 +77,13 @@ export enum TaskPriorities {
 }
 
 // response types
-export type ResponseType<D = {}> = {
+export type Response<D = {}> = {
   resultCode: RESULT_CODE
   messages: Array<string>
   fieldsErrors: Array<string>
   data: D
 }
-type GetTasksResponseType = {
+type GetTasksResponse = {
   error: string | null
   totalCount: number
   items: Task[]
