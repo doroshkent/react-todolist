@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { removeTaskTC, updateTaskTC } from 'features/todolists/todolist/tasks/tasks-reducer'
-import { TaskStatuses } from 'api/todolists-api'
+import { TaskStatuses } from 'features/todolists/todolists-api'
 import { useAppDispatch } from 'app/store'
 
 export const useTask = (id: string, todolistId: string, status: TaskStatuses) => {

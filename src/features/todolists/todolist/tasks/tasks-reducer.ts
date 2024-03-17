@@ -5,8 +5,8 @@ import {
   TaskStatuses,
   Task,
   todolistsApi,
-  UpdateTaskModelType,
-} from 'api/todolists-api'
+  UpdateTaskModel,
+} from 'features/todolists/todolists-api'
 import { AppRootState, AppThunk } from 'app/store'
 import { RequestStatus, setAppRequestStatus } from 'app/app-reducer'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
@@ -129,7 +129,7 @@ export const updateTaskTC =
       if (!task) {
         return
       }
-      const model: UpdateTaskModelType = {
+      const model: UpdateTaskModel = {
         title: task.title,
         status: task.status,
         description: task.description,

@@ -1,7 +1,7 @@
 import { AppThunk } from 'app/store'
 import { authAPI, LoginParams } from 'features/login/auth-api'
 import { setAppRequestStatus, setIsInitialized } from 'app/app-reducer'
-import { RESULT_CODE, ServerError } from 'api/todolists-api'
+import { RESULT_CODE, ServerError } from 'features/todolists/todolists-api'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { AxiosError } from 'axios'
 import { clearTodolistsDataAC } from 'features/todolists/todolists-reducer'

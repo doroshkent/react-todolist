@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { FilterValues } from 'features/todolists/todolists-reducer'
-import { TaskStatuses } from 'api/todolists-api'
+import { TaskStatuses } from 'features/todolists/todolists-api'
 import { selectTasks } from 'features/todolists/todolist/tasks/tasks-selectors'
 import { useSelector } from 'react-redux'
 
