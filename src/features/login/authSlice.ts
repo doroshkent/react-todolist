@@ -37,21 +37,6 @@ export const login =
     }
   }
 
-export const me = (): AppThunk => async (dispatch) => {
-  dispatch(appActions.setAppRequestStatus({ status: 'loading' }))
-  try {
-    const res = await authAPI.me()
-    if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
-      dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }))
-      dispatch(appActions.setAppRequestStatus({ status: 'succeeded' }))
-    }
-  } catch (e) {
-    handleServerNetworkError(e as AxiosError<ServerError> | Error, dispatch)
-  } finally {
-    dispatch(appActions.setIsInitialized({ isInitialized: true }))
-  }
-}
-
 export const logout = (): AppThunk => async (dispatch) => {
   dispatch(appActions.setAppRequestStatus({ status: 'loading' }))
   try {
