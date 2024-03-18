@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { addTodolistTC } from 'features/todolists/todolists-reducer'
 import { useAppDispatch } from 'app/store'
-import { logout } from 'features/login/auth-reducer'
+import { logout } from 'features/login/auth-slice'
 import { selectIsLoggedIn } from 'features/login/auth-selectors'
 import { useSelector } from 'react-redux'
 import { selectAppStatus } from 'app/app-selectors'
