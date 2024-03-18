@@ -1,6 +1,6 @@
 import { useAppDispatch } from 'app/store'
 import * as React from 'react'
-import { setAppRequestError } from 'app/app-reducer'
+import { appActions } from 'app/appSlice'
 import { selectAppError } from 'app/app-selectors'
 import { useSelector } from 'react-redux'
 
@@ -12,7 +12,7 @@ export const useErrorSnackbar = () => {
     if (reason === 'clickaway') {
       return
     }
-    dispatch(setAppRequestError(null))
+    dispatch(appActions.setAppRequestError({ error: null }))
   }
   return {
     error,

@@ -7,7 +7,7 @@ import { EditItemField } from 'components/editItemField/EditItemField'
 import React, { memo } from 'react'
 import { useTask } from 'features/todolists/todolist/tasks/task/useTask'
 import { TaskStatuses } from 'features/todolists/todolists-api'
-import { RequestStatus } from 'app/app-reducer'
+import { RequestStatus } from 'app/appSlice'
 import { DeleteButton } from 'components/buttons/DeleteButton'
 import { EditButton } from 'components/buttons/EditButton'
 

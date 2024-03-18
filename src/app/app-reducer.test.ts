@@ -1,4 +1,4 @@
-import { appReducer, RequestStatus, setAppRequestError, setAppRequestStatus, setIsInitialized } from 'app/app-reducer'
+import { appActions, appReducer, RequestStatus } from 'app/appSlice'
 
 describe('appReducer', () => {
   const initialState = {
@@ -8,17 +8,17 @@ describe('appReducer', () => {
   }
 
   test('should handle setAppRequestStatus', () => {
-    const endState = appReducer(initialState, setAppRequestStatus('loading'))
+    const endState = appReducer(initialState, appActions.setAppRequestStatus({ status: 'loading' }))
     expect(endState.status).toBe('loading')
   })
 
   test('should handle setAppRequestError', () => {
-    const endState = appReducer(initialState, setAppRequestError('An error has occurred'))
+    const endState = appReducer(initialState, appActions.setAppRequestError({ error: 'An error has occurred' }))
     expect(endState.error).toBe('An error has occurred')
   })
 
   test('should handle setIsInitialized', () => {
-    const endState = appReducer(initialState, setIsInitialized(true))
+    const endState = appReducer(initialState, appActions.setIsInitialized({ isInitialized: true }))
     expect(endState.isInitialized).toBe(true)
   })
 })

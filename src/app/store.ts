@@ -3,8 +3,8 @@ import { todolistsReducer } from 'features/todolists/todolists-reducer'
 import { tasksReducer } from 'features/todolists/todolist/tasks/tasks-reducer'
 import { ThunkAction } from 'redux-thunk'
 import { useDispatch } from 'react-redux'
-import { appReducer } from 'app/app-reducer'
-import { authReducer } from 'features/login/auth-slice'
+import { appReducer } from 'app/appSlice'
+import { authReducer } from 'features/login/authSlice'
 import { configureStore } from '@reduxjs/toolkit'
 
 const rootReducer = combineReducers({

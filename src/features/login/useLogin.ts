@@ -1,6 +1,6 @@
 import { SubmitHandler } from 'react-hook-form'
 import { useAppDispatch } from 'app/store'
-import { login } from 'features/login/auth-slice'
+import { login } from 'features/login/authSlice'
 import { selectIsLoggedIn } from 'features/login/auth-selectors'
 import { useSelector } from 'react-redux'
 import { Inputs } from 'features/login/Login'
