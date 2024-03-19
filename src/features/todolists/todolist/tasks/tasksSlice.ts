@@ -45,9 +45,11 @@ const tasksSlice = createSlice({
       state,
       action: PayloadAction<{ todolistId: string; taskId: string; entityStatus: RequestStatus }>
     ) => {
-      state[action.payload.todolistId] = state[action.payload.todolistId].map((t) =>
-        t.id === action.payload.taskId ? { ...t, entityStatus: action.payload.entityStatus } : t
-      )
+      const tasks = state[action.payload.todolistId]
+      const task = tasks.find((t) => t.id === action.payload.taskId)
+      if (task) {
+        task.entityStatus = action.payload.entityStatus
+      }
     },
   },
   extraReducers: (builder) => {
@@ -63,8 +65,11 @@ const tasksSlice = createSlice({
       .addCase(todolistsActions.removeTodolist, (state, action) => {
         delete state[action.payload.id]
       })
-      .addCase(todolistsActions.clearTodolistsData, () => {
-        return {}
+      .addCase(todolistsActions.clearTodolistsData, (state) => {
+        const todolistIds = Object.keys(state)
+        todolistIds.forEach((id) => {
+          delete state[id]
+        })
       })
   },
 })

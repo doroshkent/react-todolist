@@ -34,6 +34,8 @@ export const initializeApp = (): AppThunk => async (dispatch) => {
     if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
       dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }))
       dispatch(appActions.setAppRequestStatus({ status: 'succeeded' }))
+    } else {
+      dispatch(appActions.setAppRequestStatus({ status: 'failed' }))
     }
   } catch (e) {
     handleServerNetworkError(e as AxiosError<ServerError> | Error, dispatch)

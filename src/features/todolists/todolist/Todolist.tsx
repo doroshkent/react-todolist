@@ -38,7 +38,7 @@ export const Todolist = memo(({ id, title, filter, entityStatus }: TodolistProps
         </Grid>
 
         <Grid item>
-          <Tasks todolistId={id} filter={filter} />
+          <Tasks todolistId={id} />
         </Grid>
 
         <Grid item alignSelf={'center'}>

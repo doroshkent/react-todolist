@@ -1,27 +1,10 @@
-import { useCallback } from 'react'
-import { FilterValues } from 'features/todolists/todolistsSlice'
-import { TaskStatuses } from 'features/todolists/todolists-api'
-import { selectTasks } from 'features/todolists/todolist/tasks/tasks-selectors'
+import { selectFilteredTasks } from 'features/todolists/todolist/tasks/tasks-selectors'
 import { useSelector } from 'react-redux'
 
-export const useTasks = (todolistId: string, filter: FilterValues) => {
-  const tasks = useSelector(selectTasks(todolistId))
-
-  const filterTasks = useCallback(() => {
-    switch (filter) {
-      case 'active': {
-        return tasks.filter((t) => t.status === TaskStatuses.New)
-      }
-      case 'completed': {
-        return tasks.filter((t) => t.status === TaskStatuses.Completed)
-      }
-      default: {
-        return tasks
-      }
-    }
-  }, [tasks, filter])
+export const useTasks = (todolistId: string) => {
+  const tasks = useSelector(selectFilteredTasks(todolistId))
 
   return {
-    filteredTasks: filterTasks(),
+    tasks,
   }
 }

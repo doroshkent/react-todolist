@@ -11,9 +11,6 @@ const meta: Meta<typeof Tasks> = {
     todolistId: {
       description: 'Id of todolist, from which tasks are shown.',
     },
-    filter: {
-      description: 'Determines which tasks should me shown',
-    },
   },
 }
 
@@ -23,6 +20,5 @@ type Story = StoryObj<typeof Tasks>
 export const TasksStory: Story = {
   args: {
     todolistId: 'todolistId1',
-    filter: 'all',
   },
 }
