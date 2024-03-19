@@ -7,8 +7,8 @@ import {
   TasksState,
   updateTaskAC,
 } from 'features/todolists/todolist/tasks/tasks-reducer'
-import { addTodolistAC, removeTodolistAC, setTodolistsAC } from 'features/todolists/todolists-reducer'
 import { TaskPriorities, TaskStatuses, Task, Todolist } from 'features/todolists/todolists-api'
+import { todolistsActions } from 'features/todolists/todolistsSlice'
 
 const todolistId1 = v4()
 const todolistId2 = v4()
@@ -254,7 +254,7 @@ test('should add a new property with a new array when a new todolist is added', 
     addedDate: new Date(),
     order: 0,
   }
-  const endState = tasksReducer(startState, addTodolistAC(newTodolist))
+  const endState = tasksReducer(startState, todolistsActions.addTodolist({ todolist: newTodolist }))
 
   const keys = Object.keys(endState)
   const newKey = keys.find((k) => k !== todolistId1 && k !== todolistId2)
@@ -267,7 +267,7 @@ test('should add a new property with a new array when a new todolist is added', 
 })
 
 test('should delete the property with todolistId', () => {
-  const endState = tasksReducer(startState, removeTodolistAC(todolistId2))
+  const endState = tasksReducer(startState, todolistsActions.removeTodolist({ id: todolistId2 }))
 
   const keys = Object.keys(endState)
 
@@ -280,7 +280,7 @@ test('should add a new property with a new array when a new todolists are set', 
     { id: todolistId1, title: 'To Learn', addedDate: new Date(), order: 0 },
     { id: todolistId2, title: 'To Buy', addedDate: new Date(), order: 0 },
   ]
-  const endState = tasksReducer({}, setTodolistsAC(dataFromApi))
+  const endState = tasksReducer({}, todolistsActions.setTodolists({ todolists: dataFromApi }))
 
   const keys = Object.keys(endState)
 

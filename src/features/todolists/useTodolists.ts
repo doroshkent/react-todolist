@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useAppDispatch } from 'app/store'
-import { getTodolists } from 'features/todolists/todolists-reducer'
+import { getTodolists } from 'features/todolists/todolistsSlice'
 import { selectTodolists } from 'features/todolists/todolists-selectors'
 import { useSelector } from 'react-redux'
 import { selectIsLoggedIn } from 'features/login/auth-selectors'

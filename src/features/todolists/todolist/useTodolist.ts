@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { addTaskTC } from 'features/todolists/todolist/tasks/tasks-reducer'
-import { changeFilterAC, FilterValues, removeTodolistTC, renameTodolistTC } from 'features/todolists/todolists-reducer'
+import { FilterValues, removeTodolistTC, renameTodolistTC, todolistsActions } from 'features/todolists/todolistsSlice'
 import { useAppDispatch } from 'app/store'
 
 export const useTodolist = (id: string) => {
@@ -26,7 +26,7 @@ export const useTodolist = (id: string) => {
 
   const onFilterButtonClicked = useCallback(
     (value: FilterValues) => {
-      dispatch(changeFilterAC(id, value))
+      dispatch(todolistsActions.changeFilter({ id, filter: value }))
     },
     [id]
   )

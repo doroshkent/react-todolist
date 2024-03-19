@@ -1,4 +1,4 @@
-import { addTodolistAC, TodolistDomain, todolistsReducer } from 'features/todolists/todolists-reducer'
+import { TodolistDomain, todolistsActions, todolistsReducer } from 'features/todolists/todolistsSlice'
 import { tasksReducer, TasksState } from 'features/todolists/todolist/tasks/tasks-reducer'
 
 test('new array should be added when new todolist is added', () => {
@@ -11,7 +11,7 @@ test('new array should be added when new todolist is added', () => {
   }
   const startState: TasksState = {}
 
-  const action = addTodolistAC(newTodolist)
+  const action = todolistsActions.addTodolist({ todolist: newTodolist })
 
   const endState = tasksReducer(startState, action)
 
@@ -36,7 +36,7 @@ test('ids should be equal', () => {
     order: 0,
   }
 
-  const action = addTodolistAC(newTodolist)
+  const action = todolistsActions.addTodolist({ todolist: newTodolist })
 
   const tasksEndState = tasksReducer(tasksStartState, action)
   const todolistsEndState = todolistsReducer(todolistsStartState, action)
@@ -45,6 +45,6 @@ test('ids should be equal', () => {
   const idFromTasks = keys[0]
   const idFromTodolists = todolistsEndState[0].id
 
-  expect(idFromTasks).toBe(action.todolist.id)
-  expect(idFromTodolists).toBe(action.todolist.id)
+  expect(idFromTasks).toBe(action.payload.todolist.id)
+  expect(idFromTodolists).toBe(action.payload.todolist.id)
 })

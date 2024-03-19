@@ -4,7 +4,7 @@ import { appActions } from 'app/appSlice'
 import { RESULT_CODE, ServerError } from 'features/todolists/todolists-api'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { AxiosError } from 'axios'
-import { clearTodolistsDataAC } from 'features/todolists/todolists-reducer'
+import { todolistsActions } from 'features/todolists/todolistsSlice'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const authSlice = createSlice({
@@ -43,7 +43,7 @@ export const logout = (): AppThunk => async (dispatch) => {
     await authAPI.logout()
     dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }))
     dispatch(appActions.setAppRequestStatus({ status: 'succeeded' }))
-    dispatch(clearTodolistsDataAC())
+    dispatch(todolistsActions.clearTodolistsData())
   } catch (e) {
     handleServerNetworkError(e as AxiosError<ServerError> | Error, dispatch)
   }

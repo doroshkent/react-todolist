@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { addTodolistTC } from 'features/todolists/todolists-reducer'
+import { addTodolistTC } from 'features/todolists/todolistsSlice'
 import { useAppDispatch } from 'app/store'
 import { logout } from 'features/login/authSlice'
 import { selectIsLoggedIn } from 'features/login/auth-selectors'

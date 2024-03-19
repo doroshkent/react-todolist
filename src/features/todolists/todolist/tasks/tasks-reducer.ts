@@ -11,20 +11,20 @@ import { AppRootState, AppThunk } from 'app/store'
 import { appActions, RequestStatus } from 'app/appSlice'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { AxiosError } from 'axios'
-import { setTodolistEntityStatusAC, TodolistsActions } from 'features/todolists/todolists-reducer'
+import { todolistsActions } from 'features/todolists/todolistsSlice'
 
 const initialState: TasksState = {}
 
-export function tasksReducer(state: TasksState = initialState, action: TasksActions | TodolistsActions): TasksState {
+export function tasksReducer(state: TasksState = initialState, action: TasksActions): TasksState {
   switch (action.type) {
-    case 'todolists/SET-TODOLISTS':
-      return action.todolists.reduce(
-        (acc, tl) => {
-          acc[tl.id] = []
-          return acc
-        },
-        { ...state }
-      )
+    // case 'todolists/SET-TODOLISTS':
+    //   return action.todolists.reduce(
+    //     (acc, tl) => {
+    //       acc[tl.id] = []
+    //       return acc
+    //     },
+    //     { ...state }
+    //   )
     case 'tasks/SET-TASKS':
       return { ...state, [action.todolistId]: action.tasks.map((t) => ({ ...t, entityStatus: 'idle' })) }
     case 'tasks/REMOVE-TASK':
@@ -45,14 +45,14 @@ export function tasksReducer(state: TasksState = initialState, action: TasksActi
           t.id === action.taskId ? { ...t, entityStatus: action.entityStatus } : t
         ),
       }
-    case 'todolists/ADD-TODOLIST':
-      return { ...state, [action.todolist.id]: [] }
-    case 'todolists/REMOVE-TODOLIST':
-      const stateCopy = { ...state }
-      delete stateCopy[action.id]
-      return stateCopy
-    case 'todolists/CLEAR-TODOLISTS-DATA':
-      return {}
+    // case 'todolists/ADD-TODOLIST':
+    //   return { ...state, [action.todolist.id]: [] }
+    // case 'todolists/REMOVE-TODOLIST':
+    //   const stateCopy = { ...state }
+    //   delete stateCopy[action.id]
+    //   return stateCopy
+    // case 'todolists/CLEAR-TODOLISTS-DATA':
+    //   return {}
     default:
       return state
   }
@@ -103,20 +103,20 @@ export const removeTaskTC =
 export const addTaskTC =
   (todolistId: string, title: string): AppThunk =>
   async (dispatch) => {
-    dispatch(setTodolistEntityStatusAC(todolistId, 'loading'))
+    dispatch(todolistsActions.setTodolistEntityStatus({ id: todolistId, status: 'loading' }))
     try {
       const res = await todolistsApi.createTask(todolistId, title)
       if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
         dispatch(addTaskAC(todolistId, res.data.data.item))
         dispatch(appActions.setAppRequestStatus({ status: 'succeeded' }))
-        dispatch(setTodolistEntityStatusAC(todolistId, 'succeeded'))
+        dispatch(todolistsActions.setTodolistEntityStatus({ id: todolistId, status: 'succeeded' }))
       } else {
         handleServerAppError(res.data, dispatch)
-        dispatch(setTodolistEntityStatusAC(todolistId, 'failed'))
+        dispatch(todolistsActions.setTodolistEntityStatus({ id: todolistId, status: 'failed' }))
       }
     } catch (e) {
       handleServerNetworkError(e as AxiosError<ServerError> | Error, dispatch)
-      dispatch(setTodolistEntityStatusAC(todolistId, 'failed'))
+      dispatch(todolistsActions.setTodolistEntityStatus({ id: todolistId, status: 'failed' }))
     }
   }
 export const updateTaskTC =
