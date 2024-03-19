@@ -1,12 +1,5 @@
 import { v4 } from 'uuid'
-import {
-  addTaskAC,
-  removeTaskAC,
-  setTaskEntityStatusAC,
-  tasksReducer,
-  TasksState,
-  updateTaskAC,
-} from 'features/todolists/todolist/tasks/tasks-reducer'
+import { tasksActions, tasksReducer, TasksState } from 'features/todolists/todolist/tasks/tasksSlice'
 import { TaskPriorities, TaskStatuses, Task, Todolist } from 'features/todolists/todolists-api'
 import { todolistsActions } from 'features/todolists/todolistsSlice'
 
@@ -101,7 +94,7 @@ const startState: TasksState = {
 const newTitle = 'new task'
 
 test('should remove the correct task from the correct todolist', () => {
-  const endState = tasksReducer(startState, removeTaskAC(todolistId2, '2'))
+  const endState = tasksReducer(startState, tasksActions.removeTask({ todolistId: todolistId2, taskId: '2' }))
 
   expect(endState).toEqual({
     [todolistId1]: [
@@ -190,7 +183,7 @@ test('should update the correct task', () => {
     todoListId: todolistId2,
   }
 
-  const endState = tasksReducer(startState, updateTaskAC(todolistId2, updatedTask))
+  const endState = tasksReducer(startState, tasksActions.updateTask({ todolistId: todolistId2, task: updatedTask }))
 
   expect(endState[todolistId1][1].title).toBe('JS')
   expect(endState[todolistId2][1].title).toBe(newTitle)
@@ -211,14 +204,20 @@ test('should not affect other properties of the task', () => {
     todoListId: todolistId2,
   }
 
-  const endState = tasksReducer(startState, updateTaskAC(todolistId2, updatedTaskTitle))
+  const endState = tasksReducer(
+    startState,
+    tasksActions.updateTask({ todolistId: todolistId2, task: updatedTaskTitle })
+  )
 
   expect(endState[todolistId2][1].title).toBe(newTitle)
   expect(endState[todolistId2][1].status).toBe(TaskStatuses.Completed) // or whatever it was initially
 })
 
 test('should change status of task in correct todolist', () => {
-  const endState = tasksReducer(startState, setTaskEntityStatusAC(todolistId1, '1', 'succeeded'))
+  const endState = tasksReducer(
+    startState,
+    tasksActions.setTaskEntityStatus({ todolistId: todolistId1, taskId: '1', entityStatus: 'succeeded' })
+  )
 
   expect(endState[todolistId1][0].entityStatus).toBe('succeeded')
   expect(endState[todolistId2][0].entityStatus).toBe('idle')
@@ -237,7 +236,7 @@ test('should add new task', () => {
     startDate: null,
     todoListId: todolistId2,
   }
-  const endState = tasksReducer(startState, addTaskAC(todolistId2, newTask))
+  const endState = tasksReducer(startState, tasksActions.addTask({ todolistId: todolistId2, task: newTask }))
 
   expect(endState[todolistId1].length).toBe(3)
   expect(endState[todolistId2].length).toBe(4)

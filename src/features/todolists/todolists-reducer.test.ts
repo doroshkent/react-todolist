@@ -64,7 +64,7 @@ test('should update the state with todolists and set the filter to "all"', () =>
 test('should update entityStatus of todo with a given id', () => {
   const endState = todolistsReducer(
     startState,
-    todolistsActions.setTodolistEntityStatus({ id: todolistId1, status: 'loading' })
+    todolistsActions.setTodolistEntityStatus({ id: todolistId1, entityStatus: 'loading' })
   )
 
   expect(endState).toEqual([

@@ -3,7 +3,7 @@ import { AppThunk } from 'app/store'
 import { appActions, RequestStatus } from 'app/appSlice'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { AxiosError } from 'axios'
-import { getTasksTC } from 'features/todolists/todolist/tasks/tasks-reducer'
+import { getTasksTC } from 'features/todolists/todolist/tasks/tasksSlice'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const todolistsSlice = createSlice({
@@ -30,9 +30,9 @@ const todolistsSlice = createSlice({
       const index = state.findIndex((tl) => tl.id === action.payload.id)
       if (index !== -1) state[index].filter = action.payload.filter
     },
-    setTodolistEntityStatus: (state, action: PayloadAction<{ id: string; status: RequestStatus }>) => {
+    setTodolistEntityStatus: (state, action: PayloadAction<{ id: string; entityStatus: RequestStatus }>) => {
       const index = state.findIndex((tl) => tl.id === action.payload.id)
-      if (index) state[index].entityStatus = action.payload.status
+      if (index !== -1) state[index].entityStatus = action.payload.entityStatus
     },
     clearTodolistsData: (state) => {
       state.length = 0
@@ -75,37 +75,37 @@ export const addTodolistTC =
 export const removeTodolistTC =
   (id: string): AppThunk =>
   async (dispatch) => {
-    dispatch(todolistsActions.setTodolistEntityStatus({ id, status: 'loading' }))
+    dispatch(todolistsActions.setTodolistEntityStatus({ id, entityStatus: 'loading' }))
     try {
       const res = await todolistsApi.deleteTodolist(id)
       if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
         dispatch(todolistsActions.removeTodolist({ id }))
-        dispatch(todolistsActions.setTodolistEntityStatus({ id, status: 'succeeded' }))
+        dispatch(todolistsActions.setTodolistEntityStatus({ id, entityStatus: 'succeeded' }))
       } else {
         handleServerAppError(res.data, dispatch)
-        dispatch(todolistsActions.setTodolistEntityStatus({ id, status: 'failed' }))
+        dispatch(todolistsActions.setTodolistEntityStatus({ id, entityStatus: 'failed' }))
       }
     } catch (e) {
       handleServerNetworkError(e as AxiosError<ServerError> | Error, dispatch)
-      dispatch(todolistsActions.setTodolistEntityStatus({ id, status: 'failed' }))
+      dispatch(todolistsActions.setTodolistEntityStatus({ id, entityStatus: 'failed' }))
     }
   }
 export const renameTodolistTC =
   (id: string, newTitle: string): AppThunk =>
   async (dispatch) => {
-    dispatch(todolistsActions.setTodolistEntityStatus({ id, status: 'loading' }))
+    dispatch(todolistsActions.setTodolistEntityStatus({ id, entityStatus: 'loading' }))
     try {
       const res = await todolistsApi.updateTodolistTitle(id, newTitle)
       if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
         dispatch(todolistsActions.renameTodolist({ id, title: newTitle }))
-        dispatch(todolistsActions.setTodolistEntityStatus({ id, status: 'succeeded' }))
+        dispatch(todolistsActions.setTodolistEntityStatus({ id, entityStatus: 'succeeded' }))
       } else {
         handleServerAppError(res.data, dispatch)
-        dispatch(todolistsActions.setTodolistEntityStatus({ id, status: 'failed' }))
+        dispatch(todolistsActions.setTodolistEntityStatus({ id, entityStatus: 'failed' }))
       }
     } catch (e) {
       handleServerNetworkError(e as AxiosError<ServerError> | Error, dispatch)
-      dispatch(todolistsActions.setTodolistEntityStatus({ id, status: 'failed' }))
+      dispatch(todolistsActions.setTodolistEntityStatus({ id, entityStatus: 'failed' }))
     }
   }
 

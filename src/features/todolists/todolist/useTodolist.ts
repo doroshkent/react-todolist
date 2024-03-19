@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { addTaskTC } from 'features/todolists/todolist/tasks/tasks-reducer'
+import { addTaskTC } from 'features/todolists/todolist/tasks/tasksSlice'
 import { FilterValues, removeTodolistTC, renameTodolistTC, todolistsActions } from 'features/todolists/todolistsSlice'
 import { useAppDispatch } from 'app/store'
 
