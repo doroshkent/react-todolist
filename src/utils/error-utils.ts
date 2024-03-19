@@ -1,6 +1,6 @@
-import { Dispatch } from 'redux'
 import { Response } from 'features/todolists/todolists-api'
 import { appActions } from 'app/appSlice'
+import { Dispatch } from '@reduxjs/toolkit'
 
 // generic function
 export const handleServerAppError = <T>(data: Response<T>, dispatch: Dispatch) => {

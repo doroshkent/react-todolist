@@ -1,11 +1,10 @@
-import { UnknownAction } from 'redux'
 import { todolistsReducer } from 'features/todolists/todolistsSlice'
 import { tasksReducer } from 'features/todolists/todolist/tasks/tasksSlice'
 import { ThunkAction } from 'redux-thunk'
 import { useDispatch } from 'react-redux'
 import { appReducer } from 'app/appSlice'
 import { authReducer } from 'features/login/authSlice'
-import { configureStore } from '@reduxjs/toolkit'
+import { UnknownAction, configureStore } from '@reduxjs/toolkit'
 
 export const store = configureStore({
   reducer: {
