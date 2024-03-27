@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react'
-import { removeTaskTC, updateTaskTC } from 'features/todolists/todolist/tasks/tasks-slice'
+import { tasksThunks } from 'features/todolists/todolist/tasks/tasks-slice'
 import { TaskStatuses } from 'features/todolists/todolists-api'
 import { useDispatch } from 'react-redux'
 
-export const useTask = (id: string, todolistId: string, status: TaskStatuses) => {
+export const useTask = (taskId: string, todolistId: string, status: TaskStatuses) => {
   const [editMode, setEditMode] = useState(false)
   const dispatch = useDispatch()
 
@@ -12,22 +12,38 @@ export const useTask = (id: string, todolistId: string, status: TaskStatuses) =>
   }
 
   const onTaskRemoved = useCallback(() => {
-    dispatch(removeTaskTC(todolistId, id))
-  }, [todolistId, id])
+    dispatch(tasksThunks.removeTask({ todolistId, taskId }))
+  }, [todolistId, taskId])
 
   const onTaskChecked = useCallback(
     (status: TaskStatuses) => {
       const newStatusValue = status === TaskStatuses.New ? TaskStatuses.Completed : TaskStatuses.New
-      dispatch(updateTaskTC(todolistId, id, { status: newStatusValue }))
+      dispatch(
+        tasksThunks.updateTask({
+          todolistId,
+          taskId,
+          model: {
+            status: newStatusValue,
+          },
+        })
+      )
     },
-    [todolistId, id, status]
+    [todolistId, taskId, status]
   )
 
   const onTaskRenamed = useCallback(
     (newTitle: string) => {
-      dispatch(updateTaskTC(todolistId, id, { title: newTitle }))
+      dispatch(
+        tasksThunks.updateTask({
+          todolistId,
+          taskId,
+          model: {
+            title: newTitle,
+          },
+        })
+      )
     },
-    [todolistId, id]
+    [todolistId, taskId]
   )
 
   return {

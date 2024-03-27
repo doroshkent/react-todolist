@@ -94,7 +94,16 @@ const startState: TasksState = {
 const newTitle = 'new task'
 
 test('should remove the correct task from the correct todolist', () => {
-  const endState = tasksReducer(startState, tasksActions.removeTask({ todolistId: todolistId2, taskId: '2' }))
+  type RemoveTask = Omit<ReturnType<typeof tasksThunks.removeTask.fulfilled>, 'meta'>
+
+  const action: RemoveTask = {
+    type: tasksThunks.removeTask.fulfilled.type,
+    payload: {
+      todolistId: todolistId2,
+      taskId: '2',
+    },
+  }
+  const endState = tasksReducer(startState, action)
 
   expect(endState).toEqual({
     [todolistId1]: [
@@ -169,6 +178,8 @@ test('should remove the correct task from the correct todolist', () => {
   })
 })
 
+type UpdateTask = Omit<ReturnType<typeof tasksThunks.updateTask.fulfilled>, 'meta'>
+
 test('should update the correct task', () => {
   const updatedTask: Task = {
     id: '2',
@@ -183,7 +194,15 @@ test('should update the correct task', () => {
     todoListId: todolistId2,
   }
 
-  const endState = tasksReducer(startState, tasksActions.updateTask({ todolistId: todolistId2, task: updatedTask }))
+  const action: UpdateTask = {
+    type: tasksThunks.updateTask.fulfilled.type,
+    payload: {
+      task: updatedTask,
+      todolistId: todolistId2,
+    },
+  }
+
+  const endState = tasksReducer(startState, action)
 
   expect(endState[todolistId1][1].title).toBe('JS')
   expect(endState[todolistId2][1].title).toBe(newTitle)
@@ -191,7 +210,7 @@ test('should update the correct task', () => {
 })
 
 test('should not affect other properties of the task', () => {
-  const updatedTaskTitle = {
+  const taskWithUpdatedTitle = {
     id: '2',
     title: newTitle,
     status: TaskStatuses.Completed,
@@ -204,10 +223,15 @@ test('should not affect other properties of the task', () => {
     todoListId: todolistId2,
   }
 
-  const endState = tasksReducer(
-    startState,
-    tasksActions.updateTask({ todolistId: todolistId2, task: updatedTaskTitle })
-  )
+  const action: UpdateTask = {
+    type: tasksThunks.updateTask.fulfilled.type,
+    payload: {
+      task: taskWithUpdatedTitle,
+      todolistId: todolistId2,
+    },
+  }
+
+  const endState = tasksReducer(startState, action)
 
   expect(endState[todolistId2][1].title).toBe(newTitle)
   expect(endState[todolistId2][1].status).toBe(TaskStatuses.Completed) // or whatever it was initially
@@ -223,7 +247,7 @@ test('should change status of task in correct todolist', () => {
   expect(endState[todolistId2][0].entityStatus).toBe('idle')
 })
 
-test('should add new task', () => {
+test('should add new task with entity status', () => {
   const newTask: Task = {
     id: '1',
     title: newTitle,
@@ -236,7 +260,18 @@ test('should add new task', () => {
     startDate: null,
     todoListId: todolistId2,
   }
-  const endState = tasksReducer(startState, tasksActions.addTask({ todolistId: todolistId2, task: newTask }))
+
+  type AddTask = Omit<ReturnType<typeof tasksThunks.addTask.fulfilled>, 'meta'>
+
+  const action: AddTask = {
+    type: tasksThunks.addTask.fulfilled.type,
+    payload: {
+      task: newTask,
+      todolistId: todolistId2,
+    },
+  }
+
+  const endState = tasksReducer(startState, action)
 
   expect(endState[todolistId1].length).toBe(3)
   expect(endState[todolistId2].length).toBe(4)

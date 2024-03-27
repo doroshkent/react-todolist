@@ -23,18 +23,18 @@ export const todolistsApi = {
   getTasks(todolistId: string) {
     return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`)
   },
-  createTask(todolistId: string, title: string) {
-    return instance.post<Response<{ item: Task }>>(`todo-lists/${todolistId}/tasks`, { title })
+  createTask(arg: CreateTaskArg) {
+    return instance.post<Response<{ item: Task }>>(`todo-lists/${arg.todolistId}/tasks`, { title: arg.title })
   },
-  deleteTask(todolistId: string, taskId: string) {
-    return instance.delete<Response>(`/todo-lists/${todolistId}/tasks/${taskId}`)
+  deleteTask(arg: RemoveTaskArg) {
+    return instance.delete<Response>(`/todo-lists/${arg.todolistId}/tasks/${arg.taskId}`)
   },
-  updateTask(todolistId: string, taskId: string, model: UpdateTaskModel) {
-    return instance.put<Response<{ item: Task }>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
+  updateTask(arg: UpdateTaskArg<UpdateTaskModel>) {
+    return instance.put<Response<{ item: Task }>>(`todo-lists/${arg.todolistId}/tasks/${arg.taskId}`, arg.model)
   },
 }
 
-// entity types
+// types
 export type Todolist = {
   id: string
   addedDate: Date
@@ -60,6 +60,19 @@ export type UpdateTaskModel = {
   priority: TaskPriorities
   startDate: string | null
   deadline: string | null
+}
+export type CreateTaskArg = {
+  todolistId: string
+  title: string
+}
+export type UpdateTaskArg<T> = {
+  todolistId: string
+  taskId: string
+  model: T
+}
+export type RemoveTaskArg = {
+  todolistId: string
+  taskId: string
 }
 
 export enum TaskStatuses {

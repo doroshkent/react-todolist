@@ -1,34 +1,34 @@
 import { useCallback } from 'react'
-import { addTaskTC } from 'features/todolists/todolist/tasks/tasks-slice'
 import { FilterValues, removeTodolistTC, renameTodolistTC, todolistsActions } from 'features/todolists/todolistsSlice'
 import { useDispatch } from 'react-redux'
+import { tasksThunks } from 'features/todolists/todolist/tasks/tasks-slice'
 
-export const useTodolist = (id: string) => {
+export const useTodolist = (todolistId: string) => {
   const dispatch = useDispatch()
 
   const onTodoListDeleted = useCallback(() => {
-    dispatch(removeTodolistTC(id))
-  }, [id])
+    dispatch(removeTodolistTC(todolistId))
+  }, [todolistId])
 
   const onTodoListRenamed = useCallback(
     (newTitle: string) => {
-      dispatch(renameTodolistTC(id, newTitle))
+      dispatch(renameTodolistTC(todolistId, newTitle))
     },
-    [id]
+    [todolistId]
   )
 
   const addNewTask = useCallback(
     (title: string) => {
-      dispatch(addTaskTC(id, title))
+      dispatch(tasksThunks.addTask({ todolistId, title }))
     },
-    [id]
+    [todolistId]
   )
 
   const onFilterButtonClicked = useCallback(
     (value: FilterValues) => {
-      dispatch(todolistsActions.changeFilter({ id, filter: value }))
+      dispatch(todolistsActions.changeFilter({ id: todolistId, filter: value }))
     },
-    [id]
+    [todolistId]
   )
 
   return {

@@ -65,7 +65,7 @@ export const CreateTask = () => {
   const [state, setState] = useState<any>(null)
   useEffect(() => {
     const id = 'b6cd041e-0116-4942-b149-8f00aa06f5e6'
-    todolistsApi.createTask(id, 'smth new').then((res) => {
+    todolistsApi.createTask({ todolistId: id, title: 'smth new' }).then((res) => {
       setState(res.data)
     })
   }, [])
@@ -77,7 +77,7 @@ export const DeleteTask = () => {
   useEffect(() => {
     const todolistId = 'b6cd041e-0116-4942-b149-8f00aa06f5e6'
     const taskId = 'cd21f8af-68d7-4800-9ed7-7c2ef9adc891'
-    todolistsApi.deleteTask(todolistId, taskId).then((res) => {
+    todolistsApi.deleteTask({ todolistId, taskId }).then((res) => {
       setState(res.data)
     })
   }, [])
@@ -98,7 +98,7 @@ export const UpdateTaskTitle = () => {
       description: '',
       priority: TaskPriorities.Low,
     }
-    todolistsApi.updateTask(todolistId, taskId, model).then((res) => {
+    todolistsApi.updateTask({ todolistId, taskId, model }).then((res) => {
       setState(res.data)
     })
   }, [])
