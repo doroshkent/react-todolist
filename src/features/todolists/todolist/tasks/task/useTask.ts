@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import { tasksThunks } from 'features/todolists/todolist/tasks/tasks-slice'
-import { TaskStatuses } from 'features/todolists/todolists-api'
 import { useDispatch } from 'react-redux'
+import { TaskStatuses } from 'common/enums/enums'
 
 export const useTask = (taskId: string, todolistId: string, status: TaskStatuses) => {
   const [editMode, setEditMode] = useState(false)

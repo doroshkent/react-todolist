@@ -3,13 +3,13 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
-import { EditItemField } from 'components/editItemField/EditItemField'
+import { EditItemField } from 'common/components/editItemField/EditItemField'
 import React, { memo } from 'react'
 import { useTask } from 'features/todolists/todolist/tasks/task/useTask'
-import { TaskStatuses } from 'features/todolists/todolists-api'
 import { RequestStatus } from 'app/appSlice'
-import { DeleteButton } from 'components/buttons/DeleteButton'
-import { EditButton } from 'components/buttons/EditButton'
+import { DeleteButton } from 'common/components/buttons/DeleteButton'
+import { EditButton } from 'common/components/buttons/EditButton'
+import { TaskStatuses } from 'common/enums/enums'
 
 export type TaskProps = {
   id: string

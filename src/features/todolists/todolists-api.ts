@@ -1,9 +1,6 @@
-import axios from 'axios'
-
-export const instance = axios.create({
-  baseURL: 'https://social-network.samuraijs.com/api/1.1/',
-  withCredentials: true,
-})
+import { instance } from 'common/api/instance'
+import { Response } from 'common/types/Response'
+import { TaskPriorities, TaskStatuses } from 'common/enums/enums'
 
 export const todolistsApi = {
   // todolists
@@ -75,45 +72,9 @@ export type RemoveTaskArg = {
   taskId: string
 }
 
-export enum TaskStatuses {
-  New,
-  InProgress,
-  Completed,
-  Draft,
-}
-export enum TaskPriorities {
-  Low,
-  Middle,
-  High,
-  Urgently,
-  Later,
-}
-
 // response types
-export type Response<D = {}> = {
-  resultCode: RESULT_CODE
-  messages: Array<string>
-  fieldsErrors: Array<string>
-  data: D
-}
 type GetTasksResponse = {
   error: string | null
   totalCount: number
   items: Task[]
-}
-export enum RESULT_CODE {
-  SUCCEEDED,
-  ERROR,
-  CAPTCHA = 10,
-}
-export type ServerError = {
-  statusCode: number
-  messages: [
-    {
-      message: string
-      field: string
-    },
-    string
-  ]
-  error: string
 }

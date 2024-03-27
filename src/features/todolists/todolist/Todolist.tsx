@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { AddItemForm } from 'components/addItemForm/AddItemForm'
+import { AddItemForm } from 'common/components/addItemForm/AddItemForm'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
@@ -7,9 +7,9 @@ import { Tasks } from 'features/todolists/todolist/tasks/Tasks'
 import { useTodolist } from 'features/todolists/todolist/useTodolist'
 import { FilterValues } from 'features/todolists/todolistsSlice'
 import { RequestStatus } from 'app/appSlice'
-import { FilterButton } from 'components/buttons/FilterButton'
-import { DeleteButton } from 'components/buttons/DeleteButton'
-import { EditableTitle } from 'components/editableTitle/EditableTitle'
+import { FilterButton } from 'common/components/buttons/FilterButton'
+import { DeleteButton } from 'common/components/buttons/DeleteButton'
+import { EditableTitle } from 'common/components/editableTitle/EditableTitle'
 
 type TodolistProps = {
   id: string

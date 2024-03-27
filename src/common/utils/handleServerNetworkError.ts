@@ -1,17 +1,6 @@
-import { Response } from 'features/todolists/todolists-api'
 import { appActions } from 'app/appSlice'
 import { Dispatch } from '@reduxjs/toolkit'
 import axios from 'axios'
-
-// generic function
-export const handleServerAppError = <T>(data: Response<T>, dispatch: Dispatch) => {
-  if (data.messages.length) {
-    dispatch(appActions.setAppRequestError({ error: data.messages[0] }))
-  } else {
-    dispatch(appActions.setAppRequestError({ error: 'Some error occurred' }))
-  }
-  dispatch(appActions.setAppRequestStatus({ status: 'failed' }))
-}
 
 export const handleServerNetworkError = (err: unknown, dispatch: Dispatch): void => {
   let errorMessage = 'Some error occurred'

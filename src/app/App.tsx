@@ -1,11 +1,11 @@
 import React from 'react'
 import { Header } from 'widgets/header/Header'
-import { ErrorSnackbar } from 'components/errorSnackbar/ErrorSnackbar'
-import { InitializeProgress } from 'components/InitializeProgress'
 import { useApp } from 'app/useApp'
 import { Pages } from 'app/pages/Pages'
 import styled from '@emotion/styled'
 import Box from '@mui/material/Box'
+import { ErrorSnackbar } from 'common/components/errorSnackbar/ErrorSnackbar'
+import { InitializeProgress } from 'common/components/InitializeProgress'
 
 function App() {
   const { isInitialized } = useApp()

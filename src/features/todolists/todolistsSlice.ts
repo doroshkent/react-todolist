@@ -1,10 +1,12 @@
-import { RESULT_CODE, ServerError, Todolist, todolistsApi } from 'features/todolists/todolists-api'
+import { Todolist, todolistsApi } from 'features/todolists/todolists-api'
 import { AppThunk } from 'app/store'
 import { appActions, RequestStatus } from 'app/appSlice'
-import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { AxiosError } from 'axios'
 import { tasksThunks } from 'features/todolists/todolist/tasks/tasks-slice'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { handleServerAppError, handleServerNetworkError } from 'common/utils'
+import { ServerError } from 'common/types/ServerError'
+import { RESULT_CODE } from 'common/enums/enums'
 
 const todolistsSlice = createSlice({
   name: 'todolists',

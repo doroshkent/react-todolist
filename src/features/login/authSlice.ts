@@ -1,11 +1,12 @@
 import { AppThunk } from 'app/store'
 import { authAPI, LoginParams } from 'features/login/auth-api'
 import { appActions } from 'app/appSlice'
-import { RESULT_CODE, ServerError } from 'features/todolists/todolists-api'
-import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { AxiosError } from 'axios'
 import { todolistsActions } from 'features/todolists/todolistsSlice'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { handleServerAppError, handleServerNetworkError } from 'common/utils'
+import { RESULT_CODE } from 'common/enums/enums'
+import { ServerError } from 'common/types/ServerError'
 
 const authSlice = createSlice({
   name: 'auth',

@@ -4,10 +4,10 @@ import { v1 } from 'uuid'
 import { tasksReducer } from 'features/todolists/todolist/tasks/tasks-slice'
 import { todolistsReducer } from 'features/todolists/todolistsSlice'
 import { AppRootState } from 'app/store'
-import { TaskPriorities, TaskStatuses } from 'features/todolists/todolists-api'
 import { configureStore } from '@reduxjs/toolkit'
 import { appReducer } from 'app/appSlice'
 import { authReducer } from 'features/login/authSlice'
+import { TaskPriorities, TaskStatuses } from 'common/enums/enums'
 
 const initialGlobalState: AppRootState = {
   todolists: [

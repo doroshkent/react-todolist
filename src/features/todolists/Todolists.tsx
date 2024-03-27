@@ -5,7 +5,7 @@ import { Todolist } from 'features/todolists/todolist/Todolist'
 import { useTodolists } from 'features/todolists/useTodolists'
 import { Navigate } from 'react-router-dom'
 import { PATH } from 'app/pages/Pages'
-import { NoItemsPrompt } from 'components/NoItemsPrompt'
+import { NoItemsPrompt } from 'common/components/NoItemsPrompt'
 
 export const Todolists = memo(() => {
   const { todolists, isLoggedIn } = useTodolists()

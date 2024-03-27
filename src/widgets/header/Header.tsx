@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton'
 import LinearProgress from '@mui/material/LinearProgress'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import { AddItemForm } from 'components/addItemForm/AddItemForm'
+import { AddItemForm } from 'common/components/addItemForm/AddItemForm'
 import LoginIcon from '@mui/icons-material/Login'
 import { useHeader } from 'widgets/header/useHeader'
 

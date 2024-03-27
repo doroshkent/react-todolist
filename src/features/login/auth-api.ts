@@ -1,5 +1,5 @@
-import { instance } from 'features/todolists/todolists-api'
-import { Response } from 'features/todolists/todolists-api'
+import { Response } from 'common/types/Response'
+import { instance } from 'common/api/instance'
 
 export const authAPI = {
   me() {

@@ -1,7 +1,7 @@
 import { AppRootState } from 'app/store'
 import { createSelector } from '@reduxjs/toolkit'
 import { selectTodolistFilter } from 'features/todolists/todolists-selectors'
-import { TaskStatuses } from 'features/todolists/todolists-api'
+import { TaskStatuses } from 'common/enums/enums'
 
 export const selectTasks = (todolistId: string) => (state: AppRootState) => state.tasks[todolistId]
 

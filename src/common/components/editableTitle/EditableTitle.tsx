@@ -1,4 +1,4 @@
-import { EditItemField } from 'components/editItemField/EditItemField'
+import { EditItemField } from 'common/components/editItemField/EditItemField'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import React, { useCallback, useState } from 'react'

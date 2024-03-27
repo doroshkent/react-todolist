@@ -3,7 +3,7 @@ import List from '@mui/material/List'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { Task } from 'features/todolists/todolist/tasks/task/Task'
 import { useTasks } from 'features/todolists/todolist/tasks/useTasks'
-import { NoItemsPrompt } from 'components/NoItemsPrompt'
+import { NoItemsPrompt } from 'common/components/NoItemsPrompt'
 
 export type TasksProps = {
   todolistId: string

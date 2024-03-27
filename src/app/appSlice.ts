@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppThunk } from 'app/store'
 import { authAPI } from 'features/login/auth-api'
-import { RESULT_CODE, ServerError } from 'features/todolists/todolists-api'
-import { handleServerNetworkError } from 'utils/error-utils'
-import { AxiosError } from 'axios'
 import { authActions } from 'features/login/authSlice'
+import { handleServerNetworkError } from 'common/utils'
+import { RESULT_CODE } from 'common/enums/enums'
 
 const appSlice = createSlice({
   name: 'app',
@@ -38,7 +37,7 @@ export const initializeApp = (): AppThunk => async (dispatch) => {
       dispatch(appActions.setAppRequestStatus({ status: 'failed' }))
     }
   } catch (e) {
-    handleServerNetworkError(e as AxiosError<ServerError> | Error, dispatch)
+    handleServerNetworkError(e, dispatch)
   } finally {
     dispatch(appActions.setIsInitialized({ isInitialized: true }))
   }
