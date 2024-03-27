@@ -6,19 +6,21 @@ const meta: Meta<typeof Tasks> = {
   title: 'TODOLISTS/Tasks',
   component: Tasks,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+  },
   decorators: [ReduxStoreProviderDecorator],
   argTypes: {
     todolistId: {
       description: 'Id of todolist, from which tasks are shown.',
     },
   },
+  args: {
+    todolistId: 'todolistId1',
+  },
 }
 
 export default meta
 type Story = StoryObj<typeof Tasks>
 
-export const TasksStory: Story = {
-  args: {
-    todolistId: 'todolistId1',
-  },
-}
+export const TasksStory: Story = {}

@@ -8,6 +8,9 @@ const meta: Meta<typeof Task> = {
   title: 'TODOLISTS/Task',
   component: Task,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+  },
   decorators: [ReduxStoreProviderDecorator],
 }
 

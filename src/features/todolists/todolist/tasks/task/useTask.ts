@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react'
 import { removeTaskTC, updateTaskTC } from 'features/todolists/todolist/tasks/tasksSlice'
 import { TaskStatuses } from 'features/todolists/todolists-api'
-import { useAppDispatch } from 'app/store'
+import { useDispatch } from 'react-redux'
 
 export const useTask = (id: string, todolistId: string, status: TaskStatuses) => {
   const [editMode, setEditMode] = useState(false)
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
 
   const toggleEditMode = (toggleValue: boolean) => {
     setEditMode(toggleValue)

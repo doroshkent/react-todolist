@@ -1,10 +1,10 @@
 import { useCallback } from 'react'
 import { addTaskTC } from 'features/todolists/todolist/tasks/tasksSlice'
 import { FilterValues, removeTodolistTC, renameTodolistTC, todolistsActions } from 'features/todolists/todolistsSlice'
-import { useAppDispatch } from 'app/store'
+import { useDispatch } from 'react-redux'
 
 export const useTodolist = (id: string) => {
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
 
   const onTodoListDeleted = useCallback(() => {
     dispatch(removeTodolistTC(id))
