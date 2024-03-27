@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { removeTaskTC, updateTaskTC } from 'features/todolists/todolist/tasks/tasksSlice'
+import { removeTaskTC, updateTaskTC } from 'features/todolists/todolist/tasks/tasks-slice'
 import { TaskStatuses } from 'features/todolists/todolists-api'
 import { useDispatch } from 'react-redux'
 

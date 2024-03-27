@@ -1,5 +1,5 @@
 import { v4 } from 'uuid'
-import { tasksActions, tasksReducer, TasksState } from 'features/todolists/todolist/tasks/tasksSlice'
+import { tasksActions, tasksReducer, TasksState, tasksThunks } from 'features/todolists/todolist/tasks/tasks-slice'
 import { TaskPriorities, TaskStatuses, Task, Todolist } from 'features/todolists/todolists-api'
 import { todolistsActions } from 'features/todolists/todolistsSlice'
 
@@ -286,4 +286,37 @@ test('should add a new property with a new array when a new todolists are set', 
   expect(keys.length).toBe(2)
   expect(keys[0]).toBe(todolistId1)
   expect(keys[1]).toBe(todolistId2)
+})
+
+test('should set tasks with entity status for todolist', () => {
+  type FetchTasks = Omit<ReturnType<typeof tasksThunks.fetchTasks.fulfilled>, 'meta'>
+
+  const taskFromApi: Task[] = [
+    {
+      id: '1',
+      title: 'HTML&CSS',
+      status: TaskStatuses.Completed,
+      addedDate: '',
+      order: 0,
+      deadline: null,
+      description: '',
+      priority: TaskPriorities.Low,
+      startDate: null,
+      todoListId: todolistId1,
+    },
+  ]
+
+  const action: FetchTasks = {
+    type: tasksThunks.fetchTasks.fulfilled.type,
+    payload: {
+      tasks: taskFromApi,
+      todolistId: todolistId1,
+    },
+  }
+
+  const endState = tasksReducer({ [todolistId1]: [], [todolistId2]: [] }, action)
+
+  expect(endState[todolistId1].length).toBe(1)
+  expect(endState[todolistId1][0].entityStatus).toBe('idle')
+  expect(endState[todolistId2].length).toBe(0)
 })

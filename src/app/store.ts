@@ -1,5 +1,5 @@
 import { todolistsReducer } from 'features/todolists/todolistsSlice'
-import { tasksReducer } from 'features/todolists/todolist/tasks/tasksSlice'
+import { tasksReducer } from 'features/todolists/todolist/tasks/tasks-slice'
 import { ThunkAction } from 'redux-thunk'
 import { appReducer } from 'app/appSlice'
 import { authReducer } from 'features/login/authSlice'
@@ -13,6 +13,7 @@ export const store = configureStore({
     auth: authReducer,
   },
 })
+
 // types
 export type AppRootState = ReturnType<typeof store.getState>
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootState, unknown, UnknownAction>

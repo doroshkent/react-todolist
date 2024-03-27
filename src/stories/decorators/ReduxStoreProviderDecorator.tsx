@@ -1,7 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { v1 } from 'uuid'
-import { tasksReducer } from 'features/todolists/todolist/tasks/tasksSlice'
+import { tasksReducer } from 'features/todolists/todolist/tasks/tasks-slice'
 import { todolistsReducer } from 'features/todolists/todolistsSlice'
 import { AppRootState } from 'app/store'
 import { TaskPriorities, TaskStatuses } from 'features/todolists/todolists-api'

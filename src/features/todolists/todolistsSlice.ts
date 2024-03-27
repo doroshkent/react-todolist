@@ -3,7 +3,7 @@ import { AppThunk } from 'app/store'
 import { appActions, RequestStatus } from 'app/appSlice'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { AxiosError } from 'axios'
-import { getTasksTC } from 'features/todolists/todolist/tasks/tasksSlice'
+import { tasksThunks } from 'features/todolists/todolist/tasks/tasks-slice'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const todolistsSlice = createSlice({
@@ -51,7 +51,7 @@ export const getTodolists = (): AppThunk => async (dispatch) => {
     const todolists = res.data
     dispatch(todolistsActions.setTodolists({ todolists }))
     dispatch(appActions.setAppRequestStatus({ status: 'succeeded' }))
-    todolists.forEach((tl) => dispatch(getTasksTC(tl.id)))
+    todolists.forEach((tl) => dispatch(tasksThunks.fetchTasks(tl.id)))
   } catch (e) {
     handleServerNetworkError(e as AxiosError<ServerError> | Error, dispatch)
   }
