@@ -1,9 +1,7 @@
 import { v4 } from 'uuid'
-import { tasksActions, tasksReducer, TasksState, tasksThunks } from 'features/todolists/todolist/tasks/tasks-slice'
-import { Todolist } from 'features/todolists/todolists-api'
-import { todolistsActions } from 'features/todolists/todolistsSlice'
-import { TaskPriorities, TaskStatuses } from 'common/enums/enums'
-import { Task } from 'features/todolists/todolist/tasks/tasks-api'
+import { tasksActions, tasksReducer, tasksThunks, TasksState, ApiTask } from 'features/todolists/todolist/tasks'
+import { todolistsActions, TodolistApi } from 'features/todolists'
+import { TaskPriorities, TaskStatuses } from 'common/enums'
 
 const todolistId1 = v4()
 const todolistId2 = v4()
@@ -183,7 +181,7 @@ test('should remove the correct task from the correct todolist', () => {
 type UpdateTask = Omit<ReturnType<typeof tasksThunks.updateTask.fulfilled>, 'meta'>
 
 test('should update the correct task', () => {
-  const updatedTask: Task = {
+  const updatedTask: ApiTask = {
     id: '2',
     title: newTitle,
     status: TaskStatuses.New,
@@ -250,7 +248,7 @@ test('should change status of task in correct todolist', () => {
 })
 
 test('should add new task with entity status', () => {
-  const newTask: Task = {
+  const newTask: ApiTask = {
     id: '1',
     title: newTitle,
     status: TaskStatuses.New,
@@ -312,7 +310,7 @@ test('should delete the property with todolistId', () => {
 })
 
 test('should add a new property with a new array when a new todolists are set', () => {
-  const dataFromApi: Todolist[] = [
+  const dataFromApi: TodolistApi[] = [
     { id: todolistId1, title: 'To Learn', addedDate: new Date(), order: 0 },
     { id: todolistId2, title: 'To Buy', addedDate: new Date(), order: 0 },
   ]
@@ -328,7 +326,7 @@ test('should add a new property with a new array when a new todolists are set', 
 test('should set tasks with entity status for todolist', () => {
   type FetchTasks = Omit<ReturnType<typeof tasksThunks.fetchTasks.fulfilled>, 'meta'>
 
-  const taskFromApi: Task[] = [
+  const taskFromApi: ApiTask[] = [
     {
       id: '1',
       title: 'HTML&CSS',

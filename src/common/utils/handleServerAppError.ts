@@ -1,6 +1,6 @@
 import { Dispatch } from '@reduxjs/toolkit'
-import { appActions } from 'app/app-slice'
-import { Response } from 'common/types/Response'
+import { appActions } from 'app'
+import { Response } from 'common/types'
 
 export const handleServerAppError = <T>(data: Response<T>, dispatch: Dispatch) => {
   if (data.messages.length) {

@@ -1,5 +1,5 @@
-import { TodolistDomain, todolistsActions, todolistsReducer } from 'features/todolists/todolistsSlice'
-import { tasksReducer, TasksState } from 'features/todolists/todolist/tasks/tasks-slice'
+import { TodolistDomain, todolistsActions, todolistsReducer } from 'features/todolists'
+import { tasksReducer, TasksState } from 'features/todolists/todolist/tasks'
 
 test('new array should be added when new todolist is added', () => {
   const newTodolist = {

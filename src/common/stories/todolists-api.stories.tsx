@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { todolistsApi } from 'features/todolists/todolists-api'
-import { TaskPriorities, TaskStatuses } from 'common/enums/enums'
-import { tasksApi, UpdateTaskModel } from 'features/todolists/todolist/tasks/tasks-api'
+import { todolistsApi } from 'features/todolists'
+import { TaskPriorities, TaskStatuses } from 'common/enums'
+import { tasksApi, UpdateApiTaskModel } from 'features/todolists/todolist/tasks'
 
 export default {
   title: 'API',
@@ -92,7 +92,7 @@ export const UpdateTaskTitle = () => {
     const todolistId = 'a3a8cf4c-757a-4ecf-8a3f-0e62e7f8810d'
     const taskId = 'c4fbd0ce-a1f3-40e4-850e-13387f3a8b38'
     const title = 'feeling well'
-    const model: UpdateTaskModel = {
+    const model: UpdateApiTaskModel = {
       title,
       status: TaskStatuses.New,
       deadline: null,

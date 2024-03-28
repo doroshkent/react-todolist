@@ -1,18 +1,17 @@
-import { Todolist, todolistsApi } from 'features/todolists/todolists-api'
-import { AppThunk } from 'app/store'
-import { appActions, RequestStatus } from 'app/app-slice'
-import { AxiosError } from 'axios'
-import { tasksThunks } from 'features/todolists/todolist/tasks/tasks-slice'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { AxiosError } from 'axios'
+import { TodolistApi, todolistsApi } from 'features/todolists'
+import { appActions } from 'app'
+import { tasksThunks } from 'features/todolists/todolist/tasks'
 import { handleServerAppError, handleServerNetworkError } from 'common/utils'
-import { ServerError } from 'common/types/ServerError'
-import { RESULT_CODE } from 'common/enums/enums'
+import { RESULT_CODE } from 'common/enums'
+import { AppThunk, RequestStatus, ServerError } from 'common/types'
 
 const todolistsSlice = createSlice({
   name: 'todolists',
   initialState: [] as TodolistDomain[],
   reducers: {
-    setTodolists: (state, action: PayloadAction<{ todolists: Todolist[] }>) => {
+    setTodolists: (state, action: PayloadAction<{ todolists: TodolistApi[] }>) => {
       action.payload.todolists.forEach((tl) => {
         state.push({ ...tl, filter: 'all', entityStatus: 'idle' })
       })
@@ -25,7 +24,7 @@ const todolistsSlice = createSlice({
       const index = state.findIndex((todo) => todo.id === action.payload.id)
       if (index) state[index].title = action.payload.title
     },
-    addTodolist: (state, action: PayloadAction<{ todolist: Todolist }>) => {
+    addTodolist: (state, action: PayloadAction<{ todolist: TodolistApi }>) => {
       state.unshift({ ...action.payload.todolist, filter: 'all', entityStatus: 'idle' })
     },
     changeFilter: (state, action: PayloadAction<{ id: string; filter: FilterValues }>) => {
@@ -41,9 +40,6 @@ const todolistsSlice = createSlice({
     },
   },
 })
-
-export const todolistsReducer = todolistsSlice.reducer
-export const todolistsActions = todolistsSlice.actions
 
 // thunks
 export const getTodolists = (): AppThunk => async (dispatch) => {
@@ -111,9 +107,13 @@ export const renameTodolistTC =
     }
   }
 
+export const todolistsReducer = todolistsSlice.reducer
+export const todolistsActions = todolistsSlice.actions
+export const todolistsThunks = { getTodolists, removeTodolistTC, renameTodolistTC, addTodolistTC }
+
 //types
 export type FilterValues = 'all' | 'active' | 'completed'
-export type TodolistDomain = Todolist & {
+export type TodolistDomain = TodolistApi & {
   filter: FilterValues
   entityStatus: RequestStatus
 }

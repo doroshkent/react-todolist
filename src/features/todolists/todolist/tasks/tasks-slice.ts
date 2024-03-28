@@ -1,21 +1,21 @@
-import { appActions, RequestStatus } from 'app/app-slice'
-import { todolistsActions } from 'features/todolists/todolistsSlice'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { appActions } from 'app'
+import { todolistsActions } from 'features/todolists'
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from 'common/utils'
-import { RESULT_CODE, TaskPriorities, TaskStatuses } from 'common/enums/enums'
+import { RESULT_CODE, TaskPriorities, TaskStatuses } from 'common/enums'
 import {
   CreateTaskArg,
   RemoveTaskArg,
-  Task,
+  ApiTask,
   tasksApi,
   UpdateTaskArg,
-  UpdateTaskModel,
+  UpdateApiTaskModel,
 } from 'features/todolists/todolist/tasks/tasks-api'
-import { todolistsApi } from 'features/todolists/todolists-api'
+import { RequestStatus } from 'common/types'
 
 const tasksSlice = createSlice({
   name: 'tasks',
-  initialState: {} as { [key: string]: TaskDomain[] },
+  initialState: {} as { [key: string]: DomainTask[] },
   reducers: {
     setTaskEntityStatus: (
       state,
@@ -74,7 +74,7 @@ const tasksSlice = createSlice({
 })
 
 // thunks
-const fetchTasks = createAppAsyncThunk<{ tasks: Task[]; todolistId: string }, string>(
+const fetchTasks = createAppAsyncThunk<{ tasks: ApiTask[]; todolistId: string }, string>(
   `${tasksSlice.name}/fetchTasks`,
   async (todolistId, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
@@ -91,7 +91,7 @@ const fetchTasks = createAppAsyncThunk<{ tasks: Task[]; todolistId: string }, st
   }
 )
 
-const addTask = createAppAsyncThunk<{ task: Task; todolistId: string }, CreateTaskArg>(
+const addTask = createAppAsyncThunk<{ task: ApiTask; todolistId: string }, CreateTaskArg>(
   `${tasksSlice.name}/addTask`,
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
@@ -118,7 +118,7 @@ const addTask = createAppAsyncThunk<{ task: Task; todolistId: string }, CreateTa
   }
 )
 
-const updateTask = createAppAsyncThunk<{ task: Task; todolistId: string }, UpdateTaskArg<UpdateTaskDomainModel>>(
+const updateTask = createAppAsyncThunk<{ task: ApiTask; todolistId: string }, UpdateTaskArg<UpdateDomainTaskModel>>(
   `${tasksSlice.name}/updateTask`,
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue, getState } = thunkAPI
@@ -132,7 +132,7 @@ const updateTask = createAppAsyncThunk<{ task: Task; todolistId: string }, Updat
         return rejectWithValue(null)
       }
 
-      const apiModel: UpdateTaskModel = {
+      const apiModel: UpdateApiTaskModel = {
         title: task.title,
         status: task.status,
         description: task.description,
@@ -188,7 +188,7 @@ const removeTask = createAppAsyncThunk<RemoveTaskArg, RemoveTaskArg>(
 )
 
 // types
-type UpdateTaskDomainModel = {
+type UpdateDomainTaskModel = {
   title?: string
   status?: TaskStatuses
   description?: string
@@ -196,7 +196,7 @@ type UpdateTaskDomainModel = {
   startDate?: Date | null
   deadline?: Date | null
 }
-export type TaskDomain = Task & {
+export type DomainTask = ApiTask & {
   entityStatus: RequestStatus
 }
 export type TasksState = ReturnType<typeof tasksSlice.getInitialState>

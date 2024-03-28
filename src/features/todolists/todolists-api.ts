@@ -1,12 +1,12 @@
-import { instance } from 'common/api/instance'
-import { Response } from 'common/types/Response'
+import { instance } from 'common/api'
+import { Response } from 'common/types'
 
 export const todolistsApi = {
   getTodolists() {
-    return instance.get<Todolist[]>('todo-lists')
+    return instance.get<TodolistApi[]>('todo-lists')
   },
   createTodolist(title: string) {
-    return instance.post<Response<{ item: Todolist }>>('todo-lists', { title })
+    return instance.post<Response<{ item: TodolistApi }>>('todo-lists', { title })
   },
   deleteTodolist(todolistId: string) {
     return instance.delete<Response>(`todo-lists/${todolistId}`)
@@ -17,7 +17,7 @@ export const todolistsApi = {
 }
 
 // types
-export type Todolist = {
+export type TodolistApi = {
   id: string
   addedDate: Date
   order: number

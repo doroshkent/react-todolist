@@ -1,6 +1,5 @@
 import { v4 } from 'uuid'
-import { FilterValues, TodolistDomain, todolistsReducer, todolistsActions } from 'features/todolists/todolistsSlice'
-import { Todolist } from 'features/todolists/todolists-api'
+import { FilterValues, TodolistDomain, todolistsReducer, todolistsActions, TodolistApi } from 'features/todolists'
 
 const todolistId1 = v4()
 const todolistId2 = v4()
@@ -53,7 +52,7 @@ test('should change the filter of the correct todolist', () => {
 })
 
 test('should update the state with todolists and set the filter to "all"', () => {
-  const dataFromApi: Todolist[] = [
+  const dataFromApi: TodolistApi[] = [
     { id: todolistId1, title: 'To Learn', addedDate: DATE, order: 0 },
     { id: todolistId2, title: 'To Buy', addedDate: DATE, order: 0 },
   ]

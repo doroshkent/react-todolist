@@ -1,9 +1,8 @@
 import React, { memo } from 'react'
-import List from '@mui/material/List'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import { Task } from 'features/todolists/todolist/tasks/task/Task'
-import { useTasks } from 'features/todolists/todolist/tasks/useTasks'
-import { NoItemsPrompt } from 'common/components/NoItemsPrompt'
+import { Task, useTasks } from 'features/todolists/todolist/tasks'
+import { NoItemsPrompt } from 'common/components'
+import List from '@mui/material/List'
 
 export type TasksProps = {
   todolistId: string

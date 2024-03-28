@@ -1,9 +1,8 @@
 import { useCallback } from 'react'
-import { addTodolistTC } from 'features/todolists/todolistsSlice'
-import { logout } from 'features/login/authSlice'
-import { selectIsLoggedIn } from 'features/login/auth-selectors'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectAppStatus } from 'app/app-selectors'
+import { todolistsThunks } from 'features/todolists'
+import { authThunks, selectIsLoggedIn } from 'features/login'
+import { selectAppStatus } from 'app'
 
 export const useHeader = () => {
   const dispatch = useDispatch()
@@ -11,11 +10,11 @@ export const useHeader = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn)
 
   const onTodolistAdded = useCallback((title: string) => {
-    dispatch(addTodolistTC(title))
+    dispatch(todolistsThunks.addTodolistTC(title))
   }, [])
 
   const onLogout = useCallback(() => {
-    dispatch(logout())
+    dispatch(authThunks.logout())
   }, [])
 
   return { onTodolistAdded, status, onLogout, isLoggedIn }

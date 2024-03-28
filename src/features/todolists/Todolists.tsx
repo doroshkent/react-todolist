@@ -1,11 +1,10 @@
 import React, { memo } from 'react'
+import { Navigate } from 'react-router-dom'
+import { Todolist, useTodolists } from 'features/todolists'
+import { PATH } from 'app/pages'
+import { NoItemsPrompt } from 'common/components'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
-import { Todolist } from 'features/todolists/todolist/Todolist'
-import { useTodolists } from 'features/todolists/useTodolists'
-import { Navigate } from 'react-router-dom'
-import { PATH } from 'app/pages/Pages'
-import { NoItemsPrompt } from 'common/components/NoItemsPrompt'
 
 export const Todolists = memo(() => {
   const { todolists, isLoggedIn } = useTodolists()

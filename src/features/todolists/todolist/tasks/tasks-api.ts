@@ -1,23 +1,23 @@
-import { instance } from 'common/api/instance'
-import { Response } from 'common/types/Response'
-import { TaskPriorities, TaskStatuses } from 'common/enums/enums'
+import { instance } from 'common/api'
+import { Response } from 'common/types'
+import { TaskPriorities, TaskStatuses } from 'common/enums'
 
 export const tasksApi = {
   getTasks(todolistId: string) {
     return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`)
   },
   createTask(arg: CreateTaskArg) {
-    return instance.post<Response<{ item: Task }>>(`todo-lists/${arg.todolistId}/tasks`, { title: arg.title })
+    return instance.post<Response<{ item: ApiTask }>>(`todo-lists/${arg.todolistId}/tasks`, { title: arg.title })
   },
   deleteTask(arg: RemoveTaskArg) {
     return instance.delete<Response>(`/todo-lists/${arg.todolistId}/tasks/${arg.taskId}`)
   },
-  updateTask(arg: UpdateTaskArg<UpdateTaskModel>) {
-    return instance.put<Response<{ item: Task }>>(`todo-lists/${arg.todolistId}/tasks/${arg.taskId}`, arg.model)
+  updateTask(arg: UpdateTaskArg<UpdateApiTaskModel>) {
+    return instance.put<Response<{ item: ApiTask }>>(`todo-lists/${arg.todolistId}/tasks/${arg.taskId}`, arg.model)
   },
 }
 
-export type Task = {
+export type ApiTask = {
   todoListId: string
   id: string
   title: string
@@ -29,7 +29,7 @@ export type Task = {
   priority: TaskPriorities
   startDate: Date | null
 }
-export type UpdateTaskModel = {
+export type UpdateApiTaskModel = {
   title: string
   description: string | null
   status: TaskStatuses
@@ -53,5 +53,5 @@ export type RemoveTaskArg = {
 type GetTasksResponse = {
   error: string | null
   totalCount: number
-  items: Task[]
+  items: ApiTask[]
 }

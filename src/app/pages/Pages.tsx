@@ -1,8 +1,8 @@
-import { Route, Routes } from 'react-router-dom'
-import { Todolists } from 'features/todolists/Todolists'
-import { Login } from 'features/login/Login'
-import { Error404 } from 'common/components/error404/Error404'
 import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import { Todolists } from 'features/todolists'
+import { Error404 } from 'common/components'
+import { Login } from 'features/login'
 
 export const PATH = {
   LOGIN: '/login',

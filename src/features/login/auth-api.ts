@@ -1,5 +1,5 @@
-import { Response } from 'common/types/Response'
-import { instance } from 'common/api/instance'
+import { Response } from 'common/types'
+import { instance } from 'common/api'
 
 export const authAPI = {
   me() {

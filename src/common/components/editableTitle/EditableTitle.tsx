@@ -1,8 +1,8 @@
-import { EditItemField } from 'common/components/editItemField/EditItemField'
+import React, { useCallback, useState } from 'react'
+import { EditItemField } from 'common/components'
+import { RequestStatus } from 'common/types'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-import React, { useCallback, useState } from 'react'
-import { RequestStatus } from 'app/app-slice'
 
 type EditableTitleProps = {
   renameItemCallback: (title: string) => void

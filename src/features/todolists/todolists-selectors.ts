@@ -1,4 +1,4 @@
-import { AppRootState } from 'app/store'
+import { AppRootState } from 'common/types'
 
 export const selectTodolists = (state: AppRootState) => state.todolists
 export const selectTodolistFilter = (id: string) => (state: AppRootState) =>

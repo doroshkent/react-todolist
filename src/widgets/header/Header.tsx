@@ -1,13 +1,13 @@
 import React from 'react'
+import { AddItemForm } from 'common/components'
+import { useHeader } from 'widgets/header'
 import AppBar from '@mui/material/AppBar'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import LinearProgress from '@mui/material/LinearProgress'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import { AddItemForm } from 'common/components/addItemForm/AddItemForm'
 import LoginIcon from '@mui/icons-material/Login'
-import { useHeader } from 'widgets/header/useHeader'
 
 export const Header = () => {
   const { onTodolistAdded, status, onLogout, isLoggedIn } = useHeader()

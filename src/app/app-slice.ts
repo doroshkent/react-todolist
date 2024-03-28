@@ -1,9 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { AppThunk } from 'app/store'
-import { authAPI } from 'features/login/auth-api'
-import { authActions } from 'features/login/authSlice'
-import { handleServerNetworkError } from 'common/utils'
-import { RESULT_CODE } from 'common/enums/enums'
+import { RequestStatus } from 'common/types'
 
 const appSlice = createSlice({
   name: 'app',
@@ -25,26 +21,5 @@ const appSlice = createSlice({
   },
 })
 
-// thunks
-export const initializeApp = (): AppThunk => async (dispatch) => {
-  dispatch(appActions.setAppRequestStatus({ status: 'loading' }))
-  try {
-    const res = await authAPI.me()
-    if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
-      dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }))
-      dispatch(appActions.setAppRequestStatus({ status: 'succeeded' }))
-    } else {
-      dispatch(appActions.setAppRequestStatus({ status: 'failed' }))
-    }
-  } catch (e) {
-    handleServerNetworkError(e, dispatch)
-  } finally {
-    dispatch(appActions.setIsInitialized({ isInitialized: true }))
-  }
-}
-
 export const appReducer = appSlice.reducer
 export const appActions = appSlice.actions
-
-// types
-export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed'

@@ -1,15 +1,13 @@
+import React, { memo } from 'react'
+import { useTask } from 'features/todolists/todolist/tasks'
+import { DeleteButton, EditButton, EditItemField } from 'common/components'
+import { TaskStatuses } from 'common/enums'
+import { RequestStatus } from 'common/types'
 import Checkbox from '@mui/material/Checkbox'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
-import { EditItemField } from 'common/components/editItemField/EditItemField'
-import React, { memo } from 'react'
-import { useTask } from 'features/todolists/todolist/tasks/task/useTask'
-import { RequestStatus } from 'app/app-slice'
-import { DeleteButton } from 'common/components/buttons/DeleteButton'
-import { EditButton } from 'common/components/buttons/EditButton'
-import { TaskStatuses } from 'common/enums/enums'
 
 export type TaskProps = {
   id: string
