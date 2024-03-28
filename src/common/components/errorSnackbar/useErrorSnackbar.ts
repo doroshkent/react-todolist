@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { appActions } from 'app/appSlice'
+import { appActions } from 'app/app-slice'
 import { selectAppError } from 'app/app-selectors'
 import { useDispatch, useSelector } from 'react-redux'
 

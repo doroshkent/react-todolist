@@ -1,6 +1,6 @@
 import { AppThunk } from 'app/store'
 import { authAPI, LoginParams } from 'features/login/auth-api'
-import { appActions } from 'app/appSlice'
+import { appActions } from 'app/app-slice'
 import { AxiosError } from 'axios'
 import { todolistsActions } from 'features/todolists/todolistsSlice'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'

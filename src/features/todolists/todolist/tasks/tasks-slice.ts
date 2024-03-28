@@ -1,16 +1,17 @@
-import {
-  CreateTaskArg,
-  RemoveTaskArg,
-  Task,
-  todolistsApi,
-  UpdateTaskArg,
-  UpdateTaskModel,
-} from 'features/todolists/todolists-api'
-import { appActions, RequestStatus } from 'app/appSlice'
+import { appActions, RequestStatus } from 'app/app-slice'
 import { todolistsActions } from 'features/todolists/todolistsSlice'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from 'common/utils'
 import { RESULT_CODE, TaskPriorities, TaskStatuses } from 'common/enums/enums'
+import {
+  CreateTaskArg,
+  RemoveTaskArg,
+  Task,
+  tasksApi,
+  UpdateTaskArg,
+  UpdateTaskModel,
+} from 'features/todolists/todolist/tasks/tasks-api'
+import { todolistsApi } from 'features/todolists/todolists-api'
 
 const tasksSlice = createSlice({
   name: 'tasks',
@@ -79,7 +80,7 @@ const fetchTasks = createAppAsyncThunk<{ tasks: Task[]; todolistId: string }, st
     const { dispatch, rejectWithValue } = thunkAPI
     try {
       dispatch(appActions.setAppRequestStatus({ status: 'loading' }))
-      const res = await todolistsApi.getTasks(todolistId)
+      const res = await tasksApi.getTasks(todolistId)
       const tasks = res.data.items
       dispatch(appActions.setAppRequestStatus({ status: 'succeeded' }))
       return { tasks, todolistId }
@@ -99,7 +100,7 @@ const addTask = createAppAsyncThunk<{ task: Task; todolistId: string }, CreateTa
     dispatch(todolistsActions.setTodolistEntityStatus({ id: todolistId, entityStatus: 'loading' }))
 
     try {
-      const res = await todolistsApi.createTask(arg)
+      const res = await tasksApi.createTask(arg)
       if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
         const task = res.data.data.item
         dispatch(todolistsActions.setTodolistEntityStatus({ id: todolistId, entityStatus: 'succeeded' }))
@@ -141,7 +142,7 @@ const updateTask = createAppAsyncThunk<{ task: Task; todolistId: string }, Updat
         ...model,
       }
 
-      const res = await todolistsApi.updateTask({ todolistId, taskId, model: apiModel })
+      const res = await tasksApi.updateTask({ todolistId, taskId, model: apiModel })
 
       if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
         const task = res.data.data.item
@@ -168,7 +169,7 @@ const removeTask = createAppAsyncThunk<RemoveTaskArg, RemoveTaskArg>(
     dispatch(tasksActions.setTaskEntityStatus({ ...arg, entityStatus: 'loading' }))
 
     try {
-      const res = await todolistsApi.deleteTask(arg)
+      const res = await tasksApi.deleteTask(arg)
 
       if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
         dispatch(tasksActions.setTaskEntityStatus({ ...arg, entityStatus: 'succeeded' }))
@@ -192,8 +193,8 @@ type UpdateTaskDomainModel = {
   status?: TaskStatuses
   description?: string
   priority?: TaskPriorities
-  startDate?: string
-  deadline?: string
+  startDate?: Date | null
+  deadline?: Date | null
 }
 export type TaskDomain = Task & {
   entityStatus: RequestStatus

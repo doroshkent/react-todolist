@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { todolistsApi, UpdateTaskModel } from 'features/todolists/todolists-api'
+import { todolistsApi } from 'features/todolists/todolists-api'
 import { TaskPriorities, TaskStatuses } from 'common/enums/enums'
+import { tasksApi, UpdateTaskModel } from 'features/todolists/todolist/tasks/tasks-api'
 
 export default {
   title: 'API',
@@ -55,7 +56,7 @@ export const GetTasks = () => {
   const [state, setState] = useState<any>(null)
   useEffect(() => {
     const id = 'b6cd041e-0116-4942-b149-8f00aa06f5e6'
-    todolistsApi.getTasks(id).then((res) => {
+    tasksApi.getTasks(id).then((res) => {
       setState(res.data.items.map((i) => `${i.title} ${i.id}`))
     })
   }, [])
@@ -66,7 +67,7 @@ export const CreateTask = () => {
   const [state, setState] = useState<any>(null)
   useEffect(() => {
     const id = 'b6cd041e-0116-4942-b149-8f00aa06f5e6'
-    todolistsApi.createTask({ todolistId: id, title: 'smth new' }).then((res) => {
+    tasksApi.createTask({ todolistId: id, title: 'smth new' }).then((res) => {
       setState(res.data)
     })
   }, [])
@@ -78,7 +79,7 @@ export const DeleteTask = () => {
   useEffect(() => {
     const todolistId = 'b6cd041e-0116-4942-b149-8f00aa06f5e6'
     const taskId = 'cd21f8af-68d7-4800-9ed7-7c2ef9adc891'
-    todolistsApi.deleteTask({ todolistId, taskId }).then((res) => {
+    tasksApi.deleteTask({ todolistId, taskId }).then((res) => {
       setState(res.data)
     })
   }, [])
@@ -94,12 +95,12 @@ export const UpdateTaskTitle = () => {
     const model: UpdateTaskModel = {
       title,
       status: TaskStatuses.New,
-      deadline: '',
-      startDate: '',
+      deadline: null,
+      startDate: null,
       description: '',
       priority: TaskPriorities.Low,
     }
-    todolistsApi.updateTask({ todolistId, taskId, model }).then((res) => {
+    tasksApi.updateTask({ todolistId, taskId, model }).then((res) => {
       setState(res.data)
     })
   }, [])

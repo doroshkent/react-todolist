@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { ReduxStoreProviderDecorator } from 'stories/decorators/ReduxStoreProviderDecorator'
+import { ReduxStoreProviderDecorator } from 'common/stories/decorators/ReduxStoreProviderDecorator'
 import { Tasks } from 'features/todolists/todolist/tasks/Tasks'
 
 const meta: Meta<typeof Tasks> = {

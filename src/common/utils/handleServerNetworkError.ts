@@ -1,4 +1,4 @@
-import { appActions } from 'app/appSlice'
+import { appActions } from 'app/app-slice'
 import { Dispatch } from '@reduxjs/toolkit'
 import axios from 'axios'
 

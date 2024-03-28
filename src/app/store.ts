@@ -1,7 +1,7 @@
 import { todolistsReducer } from 'features/todolists/todolistsSlice'
 import { tasksReducer } from 'features/todolists/todolist/tasks/tasks-slice'
 import { ThunkAction } from 'redux-thunk'
-import { appReducer } from 'app/appSlice'
+import { appReducer } from 'app/app-slice'
 import { authReducer } from 'features/login/authSlice'
 import { configureStore, UnknownAction } from '@reduxjs/toolkit'
 

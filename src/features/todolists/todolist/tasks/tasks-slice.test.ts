@@ -1,8 +1,9 @@
 import { v4 } from 'uuid'
 import { tasksActions, tasksReducer, TasksState, tasksThunks } from 'features/todolists/todolist/tasks/tasks-slice'
-import { Task, Todolist } from 'features/todolists/todolists-api'
+import { Todolist } from 'features/todolists/todolists-api'
 import { todolistsActions } from 'features/todolists/todolistsSlice'
 import { TaskPriorities, TaskStatuses } from 'common/enums/enums'
+import { Task } from 'features/todolists/todolist/tasks/tasks-api'
 
 const todolistId1 = v4()
 const todolistId2 = v4()
@@ -13,7 +14,7 @@ const startState: TasksState = {
       id: '1',
       title: 'HTML&CSS',
       status: TaskStatuses.Completed,
-      addedDate: '',
+      addedDate: null,
       order: 0,
       deadline: null,
       description: '',
@@ -26,7 +27,7 @@ const startState: TasksState = {
       id: '2',
       title: 'JS',
       status: TaskStatuses.Completed,
-      addedDate: '',
+      addedDate: null,
       order: 0,
       deadline: null,
       description: '',
@@ -39,7 +40,7 @@ const startState: TasksState = {
       id: '3',
       title: 'React',
       status: TaskStatuses.New,
-      addedDate: '',
+      addedDate: null,
       order: 0,
       deadline: null,
       description: '',
@@ -54,7 +55,7 @@ const startState: TasksState = {
       id: '1',
       title: 'milk',
       status: TaskStatuses.Completed,
-      addedDate: '',
+      addedDate: null,
       order: 0,
       deadline: null,
       description: '',
@@ -67,7 +68,7 @@ const startState: TasksState = {
       id: '2',
       title: 'book',
       status: TaskStatuses.Completed,
-      addedDate: '',
+      addedDate: null,
       order: 0,
       deadline: null,
       description: '',
@@ -80,7 +81,7 @@ const startState: TasksState = {
       id: '3',
       title: 'tea',
       status: TaskStatuses.New,
-      addedDate: '',
+      addedDate: null,
       order: 0,
       deadline: null,
       description: '',
@@ -253,7 +254,7 @@ test('should add new task with entity status', () => {
     id: '1',
     title: newTitle,
     status: TaskStatuses.New,
-    addedDate: '',
+    addedDate: null,
     order: 0,
     deadline: null,
     description: '',
@@ -332,7 +333,7 @@ test('should set tasks with entity status for todolist', () => {
       id: '1',
       title: 'HTML&CSS',
       status: TaskStatuses.Completed,
-      addedDate: '',
+      addedDate: null,
       order: 0,
       deadline: null,
       description: '',

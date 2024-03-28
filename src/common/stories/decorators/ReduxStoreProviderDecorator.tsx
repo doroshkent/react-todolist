@@ -5,7 +5,7 @@ import { tasksReducer } from 'features/todolists/todolist/tasks/tasks-slice'
 import { todolistsReducer } from 'features/todolists/todolistsSlice'
 import { AppRootState } from 'app/store'
 import { configureStore } from '@reduxjs/toolkit'
-import { appReducer } from 'app/appSlice'
+import { appReducer } from 'app/app-slice'
 import { authReducer } from 'features/login/authSlice'
 import { TaskPriorities, TaskStatuses } from 'common/enums/enums'
 
@@ -20,7 +20,7 @@ const initialGlobalState: AppRootState = {
         id: 'task1_1',
         title: 'HTML&CSS',
         status: TaskStatuses.New,
-        addedDate: '',
+        addedDate: null,
         order: 0,
         deadline: null,
         description: '',
@@ -33,7 +33,7 @@ const initialGlobalState: AppRootState = {
         id: 'task1_2',
         title: 'JS',
         status: TaskStatuses.Completed,
-        addedDate: '',
+        addedDate: null,
         order: 0,
         deadline: null,
         description: '',
@@ -48,7 +48,7 @@ const initialGlobalState: AppRootState = {
         id: v1(),
         title: 'Milk',
         status: TaskStatuses.New,
-        addedDate: '',
+        addedDate: null,
         order: 0,
         deadline: null,
         description: '',
@@ -61,7 +61,7 @@ const initialGlobalState: AppRootState = {
         id: v1(),
         title: 'React Book',
         status: TaskStatuses.Completed,
-        addedDate: '',
+        addedDate: null,
         order: 0,
         deadline: null,
         description: '',

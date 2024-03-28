@@ -1,5 +1,5 @@
 import { Dispatch } from '@reduxjs/toolkit'
-import { appActions } from 'app/appSlice'
+import { appActions } from 'app/app-slice'
 import { Response } from 'common/types/Response'
 
 export const handleServerAppError = <T>(data: Response<T>, dispatch: Dispatch) => {

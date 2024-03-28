@@ -1,6 +1,6 @@
 import { Todolist, todolistsApi } from 'features/todolists/todolists-api'
 import { AppThunk } from 'app/store'
-import { appActions, RequestStatus } from 'app/appSlice'
+import { appActions, RequestStatus } from 'app/app-slice'
 import { AxiosError } from 'axios'
 import { tasksThunks } from 'features/todolists/todolist/tasks/tasks-slice'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'

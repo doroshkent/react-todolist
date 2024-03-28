@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Task } from 'features/todolists/todolist/tasks/task/Task'
-import { ReduxStoreProviderDecorator } from 'stories/decorators/ReduxStoreProviderDecorator'
+import { ReduxStoreProviderDecorator } from 'common/stories/decorators/ReduxStoreProviderDecorator'
 import { selectTasks } from 'features/todolists/todolist/tasks/tasks-selectors'
 import { useSelector } from 'react-redux'
 
