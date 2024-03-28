@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { selectFilteredTasks } from 'features/todolists/todolist/tasks'
+import { selectFilteredTasks } from './tasks-selectors'
 
 export const useTasks = (todolistId: string) => {
   const tasks = useSelector(selectFilteredTasks(todolistId))

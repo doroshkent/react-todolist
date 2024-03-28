@@ -1,4 +1,4 @@
-import { RESULT_CODE } from 'common/enums/enums'
+import { RESULT_CODE } from '../enums'
 
 export type Response<D = {}> = {
   resultCode: RESULT_CODE

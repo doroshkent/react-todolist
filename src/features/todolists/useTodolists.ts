@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { todolistsThunks, selectTodolists } from 'features/todolists'
-import { selectIsLoggedIn } from 'features/login'
+import { selectIsLoggedIn } from '../login'
+import { todolistsThunks } from './todolistsSlice'
+import { selectTodolists } from './todolists-selectors'
 
 export const useTodolists = () => {
   const todolists = useSelector(selectTodolists)

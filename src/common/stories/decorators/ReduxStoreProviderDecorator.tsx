@@ -2,12 +2,12 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { v1 } from 'uuid'
 import { configureStore } from '@reduxjs/toolkit'
-import { tasksReducer } from 'features/todolists/todolist/tasks'
+import { tasksReducer } from 'features/tasks'
 import { todolistsReducer } from 'features/todolists'
 import { appReducer } from 'app'
 import { authReducer } from 'features/login'
-import { TaskPriorities, TaskStatuses } from 'common/enums'
-import { AppRootState } from 'common/types'
+import { TaskPriorities, TaskStatuses } from '../../enums'
+import { AppRootState } from '../../types'
 
 const initialGlobalState: AppRootState = {
   todolists: [

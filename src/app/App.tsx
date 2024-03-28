@@ -2,9 +2,9 @@ import React from 'react'
 import styled from '@emotion/styled'
 import Box from '@mui/material/Box'
 import { ErrorSnackbar, InitializeProgress } from 'common/components'
-import { useApp } from 'app'
 import { Header } from 'widgets/header'
-import { Pages } from 'app/pages'
+import { Pages } from 'pages'
+import { useApp } from './useApp'
 
 export function App() {
   const { isInitialized } = useApp()

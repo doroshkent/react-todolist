@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
-import { TodolistApi, todolistsApi } from 'features/todolists'
 import { appActions } from 'app'
-import { tasksThunks } from 'features/todolists/todolist/tasks'
+import { tasksThunks } from '../tasks'
 import { handleServerAppError, handleServerNetworkError } from 'common/utils'
 import { RESULT_CODE } from 'common/enums'
 import { AppThunk, RequestStatus, ServerError } from 'common/types'
+import { TodolistApi, todolistsApi } from './todolists-api'
 
 const todolistsSlice = createSlice({
   name: 'todolists',

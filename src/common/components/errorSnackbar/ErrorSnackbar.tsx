@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
-import { useErrorSnackbar } from 'common/components/errorSnackbar/useErrorSnackbar'
+import { useErrorSnackbar } from './useErrorSnackbar'
 
 export const ErrorSnackbar = () => {
   const { error, handleClose } = useErrorSnackbar()

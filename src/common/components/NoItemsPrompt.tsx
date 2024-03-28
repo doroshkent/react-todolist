@@ -1,5 +1,5 @@
 import React from 'react'
-import { ItemType } from 'common/types'
+import { ItemType } from '../types'
 
 export const NoItemsPrompt = ({ item }: { item: ItemType }) => {
   return (

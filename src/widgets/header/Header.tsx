@@ -1,6 +1,6 @@
 import React from 'react'
 import { AddItemForm } from 'common/components'
-import { useHeader } from 'widgets/header'
+import { useHeader } from './useHeader'
 import AppBar from '@mui/material/AppBar'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'

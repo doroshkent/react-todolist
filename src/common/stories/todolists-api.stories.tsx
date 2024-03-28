@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { todolistsApi } from 'features/todolists'
-import { TaskPriorities, TaskStatuses } from 'common/enums'
-import { tasksApi, UpdateApiTaskModel } from 'features/todolists/todolist/tasks'
+import { TaskPriorities, TaskStatuses } from '../enums'
+import { tasksApi, UpdateApiTaskModel } from 'features/tasks'
 
 export default {
   title: 'API',

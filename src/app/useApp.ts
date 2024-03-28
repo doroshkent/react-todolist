@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectAppIsInitialized } from 'app'
+import { selectAppIsInitialized } from './app-selectors'
 import { authThunks } from 'features/login'
 
 export const useApp = () => {

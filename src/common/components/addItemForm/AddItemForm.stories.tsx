@@ -1,11 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { AddItemForm } from 'common/components'
+import { AddItemForm } from './AddItemForm'
 
 const meta: Meta<typeof AddItemForm> = {
   title: 'TODOLISTS/AddItemForm',
   component: AddItemForm,
-  // This component will have an automatically generated Autodocs entry
   tags: ['autodocs'],
   argTypes: {
     addItem: {

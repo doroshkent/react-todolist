@@ -1,7 +1,8 @@
 import { v4 } from 'uuid'
-import { tasksActions, tasksReducer, tasksThunks, TasksState, ApiTask } from 'features/todolists/todolist/tasks'
-import { todolistsActions, TodolistApi } from 'features/todolists'
+import { TodolistApi, todolistsActions } from '../todolists/'
 import { TaskPriorities, TaskStatuses } from 'common/enums'
+import { tasksActions, tasksReducer, TasksState, tasksThunks } from './tasks-slice'
+import { ApiTask } from './tasks-api'
 
 const todolistId1 = v4()
 const todolistId2 = v4()

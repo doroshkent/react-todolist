@@ -1,6 +1,6 @@
 // task
-export { Task } from 'features/todolists/todolist/tasks/task/Task'
-export { useTask } from 'features/todolists/todolist/tasks/task/useTask'
+export { Task } from './task/Task'
+export { useTask } from './task/useTask'
 
 // tasks
 export { tasksApi } from './tasks-api'

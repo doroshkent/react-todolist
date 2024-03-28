@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit'
-import { selectTodolistFilter } from 'features/todolists'
+import { selectTodolistFilter } from '../todolists'
 import { TaskStatuses } from 'common/enums'
 import { AppRootState } from 'common/types'
 

@@ -1,5 +1,6 @@
 import { v4 } from 'uuid'
-import { FilterValues, TodolistDomain, todolistsReducer, todolistsActions, TodolistApi } from 'features/todolists'
+import { FilterValues, TodolistDomain, todolistsActions, todolistsReducer } from './todolistsSlice'
+import { TodolistApi } from './todolists-api'
 
 const todolistId1 = v4()
 const todolistId2 = v4()

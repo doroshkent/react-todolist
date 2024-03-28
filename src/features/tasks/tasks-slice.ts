@@ -1,16 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { appActions } from 'app'
-import { todolistsActions } from 'features/todolists'
+import { todolistsActions } from '../todolists/'
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from 'common/utils'
 import { RESULT_CODE, TaskPriorities, TaskStatuses } from 'common/enums'
-import {
-  CreateTaskArg,
-  RemoveTaskArg,
-  ApiTask,
-  tasksApi,
-  UpdateTaskArg,
-  UpdateApiTaskModel,
-} from 'features/todolists/todolist/tasks/tasks-api'
+import { CreateTaskArg, RemoveTaskArg, ApiTask, tasksApi, UpdateTaskArg, UpdateApiTaskModel } from './tasks-api'
 import { RequestStatus } from 'common/types'
 
 const tasksSlice = createSlice({

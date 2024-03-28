@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { useTask } from 'features/todolists/todolist/tasks'
+import { useTask } from './useTask'
 import { DeleteButton, EditButton, EditItemField } from 'common/components'
 import { TaskStatuses } from 'common/enums'
 import { RequestStatus } from 'common/types'

@@ -1,5 +1,5 @@
-import { appActions, appReducer } from 'app'
 import { RequestStatus } from 'common/types'
+import { appActions, appReducer } from './app-slice'
 
 describe('appReducer', () => {
   const initialState = {

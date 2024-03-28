@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { FilterValues, todolistsThunks, todolistsActions } from 'features/todolists'
-import { tasksThunks } from 'features/todolists/todolist/tasks'
+import { tasksThunks } from '../../tasks'
+import { FilterValues, todolistsActions, todolistsThunks } from '../todolistsSlice'
 
 export const useTodolist = (todolistId: string) => {
   const dispatch = useDispatch()

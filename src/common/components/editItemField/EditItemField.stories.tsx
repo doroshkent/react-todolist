@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { EditItemField } from 'common/components'
+import { EditItemField } from './EditItemField'
 
 const meta: Meta<typeof EditItemField> = {
   title: 'TODOLISTS/EditItemField',

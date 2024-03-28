@@ -1,7 +1,7 @@
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
-import { useLogin } from 'features/login'
+import { useLogin } from './useLogin'
 import Grid from '@mui/material/Grid'
 import Checkbox from '@mui/material/Checkbox'
 import FormControl from '@mui/material/FormControl'

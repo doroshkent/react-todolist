@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { tasksThunks } from 'features/todolists/todolist/tasks'
+import { tasksThunks } from '../tasks-slice'
 import { TaskStatuses } from 'common/enums'
 
 export const useTask = (taskId: string, todolistId: string, status: TaskStatuses) => {

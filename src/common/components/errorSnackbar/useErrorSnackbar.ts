@@ -1,7 +1,6 @@
 import * as React from 'react'
-import { appActions } from 'app/app-slice'
-import { selectAppError } from 'app/app-selectors'
 import { useDispatch, useSelector } from 'react-redux'
+import { appActions, selectAppError } from 'app'
 
 export const useErrorSnackbar = () => {
   const error = useSelector(selectAppError)
