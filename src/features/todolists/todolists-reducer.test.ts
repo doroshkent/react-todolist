@@ -1,5 +1,11 @@
 import { v4 } from 'uuid'
-import { FilterValues, TodolistDomain, todolistsActions, todolistsReducer } from './todolistsSlice'
+import {
+  FilterValues,
+  TodolistDomain,
+  todolistsActions,
+  todolistsReducer,
+  todolistsThunks,
+} from 'features/todolists/todolists-slice'
 import { TodolistApi } from './todolists-api'
 
 const todolistId1 = v4()
@@ -15,28 +21,49 @@ const startState: TodolistDomain[] = [
 const newTitle = 'new title'
 
 test('should remove the correct todolist', () => {
-  const endState = todolistsReducer(startState, todolistsActions.removeTodolist({ id: todolistId2 }))
+  type RemoveTodolist = Omit<ReturnType<typeof todolistsThunks.removeTodolist.fulfilled>, 'meta'>
+  const action: RemoveTodolist = {
+    type: todolistsThunks.removeTodolist.fulfilled.type,
+    payload: {
+      id: todolistId2,
+    },
+  }
+  const endState = todolistsReducer(startState, action)
 
   expect(endState.length).toBe(1)
   expect(endState[0].id).toBe(todolistId1)
 })
 
 test('should rename the correct todolist', () => {
-  const endState = todolistsReducer(startState, todolistsActions.renameTodolist({ id: todolistId2, title: newTitle }))
+  type RenameTodolist = Omit<ReturnType<typeof todolistsThunks.renameTodolist.fulfilled>, 'meta'>
+  const action: RenameTodolist = {
+    type: todolistsThunks.renameTodolist.fulfilled.type,
+    payload: {
+      id: todolistId2,
+      title: newTitle,
+    },
+  }
+  const endState = todolistsReducer(startState, action)
 
   expect(endState[0].title).toBe('To Learn')
   expect(endState[1].title).toBe(newTitle)
 })
 
 test('should add a new correct todolist', () => {
-  const newTodolist = {
+  const newTodolist: TodolistApi = {
     id: todolistId1,
     title: newTitle,
-    filter: 'all',
     addedDate: DATE,
     order: 0,
   }
-  const endState = todolistsReducer(startState, todolistsActions.addTodolist({ todolist: newTodolist }))
+  type AddTodolist = Omit<ReturnType<typeof todolistsThunks.addTodolist.fulfilled>, 'meta'>
+  const action: AddTodolist = {
+    type: todolistsThunks.addTodolist.fulfilled.type,
+    payload: {
+      todolist: newTodolist,
+    },
+  }
+  const endState = todolistsReducer(startState, action)
 
   expect(endState.length).toBe(3)
   expect(endState[0].title).toBe(newTitle)
@@ -57,8 +84,15 @@ test('should update the state with todolists and set the filter to "all"', () =>
     { id: todolistId1, title: 'To Learn', addedDate: DATE, order: 0 },
     { id: todolistId2, title: 'To Buy', addedDate: DATE, order: 0 },
   ]
+  type SetTodolists = Omit<ReturnType<typeof todolistsThunks.fetchTodolists.fulfilled>, 'meta'>
+  const action: SetTodolists = {
+    type: todolistsThunks.fetchTodolists.fulfilled.type,
+    payload: {
+      todolists: dataFromApi,
+    },
+  }
 
-  expect(todolistsReducer([], todolistsActions.setTodolists({ todolists: dataFromApi }))).toEqual(startState)
+  expect(todolistsReducer([], action)).toEqual(startState)
 })
 
 test('should update entityStatus of todo with a given id', () => {

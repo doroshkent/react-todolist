@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectIsLoggedIn } from '../login'
-import { todolistsThunks } from './todolistsSlice'
+import { todolistsThunks } from 'features/todolists/todolists-slice'
 import { selectTodolists } from './todolists-selectors'
 
 export const useTodolists = () => {
@@ -11,7 +11,7 @@ export const useTodolists = () => {
 
   useEffect(() => {
     if (!isLoggedIn) return
-    dispatch(todolistsThunks.getTodolists())
+    dispatch(todolistsThunks.fetchTodolists())
   }, [])
 
   return { todolists, isLoggedIn }

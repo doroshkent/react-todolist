@@ -8,11 +8,11 @@ export const todolistsApi = {
   createTodolist(title: string) {
     return instance.post<Response<{ item: TodolistApi }>>('todo-lists', { title })
   },
-  deleteTodolist(todolistId: string) {
-    return instance.delete<Response>(`todo-lists/${todolistId}`)
+  deleteTodolist(arg: RemoveTodolistArg) {
+    return instance.delete<Response>(`todo-lists/${arg.id}`)
   },
-  updateTodolistTitle(todolistId: string, title: string) {
-    return instance.put<Response>(`todo-lists/${todolistId}`, { title })
+  renameTodolist(arg: RenameTodolistArg) {
+    return instance.put<Response>(`todo-lists/${arg.id}`, { title: arg.title })
   },
 }
 
@@ -21,5 +21,12 @@ export type TodolistApi = {
   id: string
   addedDate: Date
   order: number
+  title: string
+}
+export type RemoveTodolistArg = {
+  id: string
+}
+export type RenameTodolistArg = {
+  id: string
   title: string
 }

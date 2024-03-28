@@ -10,7 +10,7 @@ export const useHeader = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn)
 
   const onTodolistAdded = useCallback((title: string) => {
-    dispatch(todolistsThunks.addTodolistTC(title))
+    dispatch(todolistsThunks.addTodolist({ title }))
   }, [])
 
   const onLogout = useCallback(() => {

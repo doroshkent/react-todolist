@@ -1,5 +1,5 @@
 import { v4 } from 'uuid'
-import { TodolistApi, todolistsActions } from '../todolists/'
+import { TodolistApi, todolistsThunks } from '../todolists/'
 import { TaskPriorities, TaskStatuses } from 'common/enums'
 import { tasksActions, tasksReducer, TasksState, tasksThunks } from './tasks-slice'
 import { ApiTask } from './tasks-api'
@@ -282,14 +282,20 @@ test('should add new task with entity status', () => {
 })
 
 test('should add a new property with a new array when a new todolist is added', () => {
-  const newTodolist = {
+  const newTodolist: TodolistApi = {
     id: '1',
     title: 'new todolist',
-    filter: 'all',
     addedDate: new Date(),
     order: 0,
   }
-  const endState = tasksReducer(startState, todolistsActions.addTodolist({ todolist: newTodolist }))
+  type AddTodolist = Omit<ReturnType<typeof todolistsThunks.addTodolist.fulfilled>, 'meta'>
+  const action: AddTodolist = {
+    type: todolistsThunks.addTodolist.fulfilled.type,
+    payload: {
+      todolist: newTodolist,
+    },
+  }
+  const endState = tasksReducer(startState, action)
 
   const keys = Object.keys(endState)
   const newKey = keys.find((k) => k !== todolistId1 && k !== todolistId2)
@@ -302,7 +308,14 @@ test('should add a new property with a new array when a new todolist is added', 
 })
 
 test('should delete the property with todolistId', () => {
-  const endState = tasksReducer(startState, todolistsActions.removeTodolist({ id: todolistId2 }))
+  type RemoveTodolist = Omit<ReturnType<typeof todolistsThunks.removeTodolist.fulfilled>, 'meta'>
+  const action: RemoveTodolist = {
+    type: todolistsThunks.removeTodolist.fulfilled.type,
+    payload: {
+      id: todolistId2,
+    },
+  }
+  const endState = tasksReducer(startState, action)
 
   const keys = Object.keys(endState)
 
@@ -315,7 +328,14 @@ test('should add a new property with a new array when a new todolists are set', 
     { id: todolistId1, title: 'To Learn', addedDate: new Date(), order: 0 },
     { id: todolistId2, title: 'To Buy', addedDate: new Date(), order: 0 },
   ]
-  const endState = tasksReducer({}, todolistsActions.setTodolists({ todolists: dataFromApi }))
+  type SetTodolists = Omit<ReturnType<typeof todolistsThunks.fetchTodolists.fulfilled>, 'meta'>
+  const action: SetTodolists = {
+    type: todolistsThunks.fetchTodolists.fulfilled.type,
+    payload: {
+      todolists: dataFromApi,
+    },
+  }
+  const endState = tasksReducer({}, action)
 
   const keys = Object.keys(endState)
 

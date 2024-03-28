@@ -33,7 +33,7 @@ export const DeleteTodolist = () => {
   const [state, setState] = useState<any>(null)
   useEffect(() => {
     const id = '6a0692fc-69c0-4899-8044-4b11702910ec'
-    todolistsApi.deleteTodolist(id).then((res) => setState(res.data))
+    todolistsApi.deleteTodolist({ id }).then((res) => setState(res.data))
   }, [])
 
   return <div>{JSON.stringify(state)}</div>
@@ -44,7 +44,7 @@ export const UpdateTodolistTitle = () => {
   useEffect(() => {
     const id = 'b979e852-e13d-41ba-9533-f15e069f2631'
     const title = 'rename refactoring'
-    todolistsApi.updateTodolistTitle(id, title).then((res) => {
+    todolistsApi.renameTodolist({ id, title }).then((res) => {
       setState(res.data)
     })
   }, [])

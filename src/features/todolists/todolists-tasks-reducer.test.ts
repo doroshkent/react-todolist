@@ -1,17 +1,22 @@
-import { tasksReducer, TasksState } from '../tasks'
-import { TodolistDomain, todolistsActions, todolistsReducer } from './todolistsSlice'
+import { tasksReducer, TasksState } from 'features/tasks/tasks-slice'
+import { TodolistDomain, todolistsReducer, todolistsThunks } from 'features/todolists/todolists-slice'
+import { TodolistApi } from 'features/todolists/todolists-api'
 
 test('new array should be added when new todolist is added', () => {
-  const newTodolist = {
+  const newTodolist: TodolistApi = {
     id: '1',
     title: 'new todolist',
-    filter: 'all',
     addedDate: new Date(),
     order: 0,
   }
   const startState: TasksState = {}
-
-  const action = todolistsActions.addTodolist({ todolist: newTodolist })
+  type AddTodolist = Omit<ReturnType<typeof todolistsThunks.addTodolist.fulfilled>, 'meta'>
+  const action: AddTodolist = {
+    type: todolistsThunks.addTodolist.fulfilled.type,
+    payload: {
+      todolist: newTodolist,
+    },
+  }
 
   const endState = tasksReducer(startState, action)
 
@@ -35,8 +40,13 @@ test('ids should be equal', () => {
     addedDate: new Date(),
     order: 0,
   }
-
-  const action = todolistsActions.addTodolist({ todolist: newTodolist })
+  type AddTodolist = Omit<ReturnType<typeof todolistsThunks.addTodolist.fulfilled>, 'meta'>
+  const action: AddTodolist = {
+    type: todolistsThunks.addTodolist.fulfilled.type,
+    payload: {
+      todolist: newTodolist,
+    },
+  }
 
   const tasksEndState = tasksReducer(tasksStartState, action)
   const todolistsEndState = todolistsReducer(todolistsStartState, action)
