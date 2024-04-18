@@ -69,8 +69,7 @@ const tasksSlice = createSlice({
 // thunks
 const fetchTasks = createAppAsyncThunk<{ tasks: ApiTask[]; todolistId: string }, string>(
   `${tasksSlice.name}/fetchTasks`,
-  async (todolistId, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI
+  async (todolistId, { dispatch, rejectWithValue }) => {
     try {
       dispatch(appActions.setAppRequestStatus({ status: 'loading' }))
       const res = await tasksApi.getTasks(todolistId)
@@ -86,8 +85,7 @@ const fetchTasks = createAppAsyncThunk<{ tasks: ApiTask[]; todolistId: string },
 
 const addTask = createAppAsyncThunk<{ task: ApiTask; todolistId: string }, CreateTaskArg>(
   `${tasksSlice.name}/addTask`,
-  async (arg, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI
+  async (arg, { dispatch, rejectWithValue }) => {
     const { todolistId } = arg
 
     dispatch(todolistsActions.setTodolistEntityStatus({ id: todolistId, entityStatus: 'loading' }))
@@ -113,8 +111,7 @@ const addTask = createAppAsyncThunk<{ task: ApiTask; todolistId: string }, Creat
 
 const updateTask = createAppAsyncThunk<{ task: ApiTask; todolistId: string }, UpdateTaskArg<UpdateDomainTaskModel>>(
   `${tasksSlice.name}/updateTask`,
-  async (arg, thunkAPI) => {
-    const { dispatch, rejectWithValue, getState } = thunkAPI
+  async (arg, { dispatch, rejectWithValue, getState }) => {
     const { todolistId, taskId, model } = arg
 
     dispatch(tasksActions.setTaskEntityStatus({ todolistId, taskId, entityStatus: 'loading' }))
@@ -156,9 +153,8 @@ const updateTask = createAppAsyncThunk<{ task: ApiTask; todolistId: string }, Up
 
 const removeTask = createAppAsyncThunk<RemoveTaskArg, RemoveTaskArg>(
   `${tasksSlice.name}/removeTask`,
-  async (arg, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI
-
+  async (arg, { dispatch, rejectWithValue }) => {
+    dispatch(appActions.setAppRequestStatus({ status: 'loading' }))
     dispatch(tasksActions.setTaskEntityStatus({ ...arg, entityStatus: 'loading' }))
 
     try {
@@ -166,6 +162,8 @@ const removeTask = createAppAsyncThunk<RemoveTaskArg, RemoveTaskArg>(
 
       if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
         dispatch(tasksActions.setTaskEntityStatus({ ...arg, entityStatus: 'succeeded' }))
+        dispatch(appActions.setAppRequestStatus({ status: 'succeeded' }))
+
         return arg
       } else {
         handleServerAppError(res.data, dispatch)
