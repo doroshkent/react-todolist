@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { appActions } from 'app'
-import { todolistsActions } from '../todolists'
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from 'common/utils'
 import { RESULT_CODE } from 'common/enums'
 import { authAPI, LoginParams } from './auth-api'
 import { appThunks } from 'app/app-slice'
+import { clearTodolistsAndTasks } from 'common/actions'
 
 const authSlice = createSlice({
   name: 'auth',
@@ -52,7 +52,7 @@ const logout = createAppAsyncThunk(`${authSlice.name}/logout`, async (_, { dispa
   try {
     await authAPI.logout()
     dispatch(appActions.setAppRequestStatus({ status: 'succeeded' }))
-    dispatch(todolistsActions.clearTodolistsData())
+    dispatch(clearTodolistsAndTasks())
     return
   } catch (e) {
     handleServerNetworkError(e, dispatch)

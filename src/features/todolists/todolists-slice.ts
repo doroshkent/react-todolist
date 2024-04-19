@@ -5,6 +5,7 @@ import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } f
 import { RESULT_CODE } from 'common/enums'
 import { RequestStatus } from 'common/types'
 import { RemoveTodolistArg, RenameTodolistArg, TodolistApi, todolistsApi } from './todolists-api'
+import { clearTodolistsAndTasks } from 'common/actions'
 
 const todolistsSlice = createSlice({
   name: 'todolists',
@@ -17,9 +18,6 @@ const todolistsSlice = createSlice({
     setTodolistEntityStatus: (state, action: PayloadAction<{ id: string; entityStatus: RequestStatus }>) => {
       const index = state.findIndex((tl) => tl.id === action.payload.id)
       if (index !== -1) state[index].entityStatus = action.payload.entityStatus
-    },
-    clearTodolistsData: (state) => {
-      state.length = 0
     },
   },
   extraReducers: (builder) => {
@@ -39,6 +37,9 @@ const todolistsSlice = createSlice({
       .addCase(renameTodolist.fulfilled, (state, action) => {
         const index = state.findIndex((todo) => todo.id === action.payload.id)
         if (index) state[index].title = action.payload.title
+      })
+      .addCase(clearTodolistsAndTasks, () => {
+        return []
       })
   },
 })

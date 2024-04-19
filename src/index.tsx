@@ -1,12 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { BrowserRouter, createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
 import { App, store } from 'app'
 import { ThemeProvider } from '@mui/material'
 import { GlobalStyle, theme } from 'styles'
-import { Login } from 'features/login'
 
 // const router = createBrowserRouter(
 //   [

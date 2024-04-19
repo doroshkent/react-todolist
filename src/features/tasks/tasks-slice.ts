@@ -5,6 +5,7 @@ import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } f
 import { RESULT_CODE, TaskPriorities, TaskStatuses } from 'common/enums'
 import { CreateTaskArg, RemoveTaskArg, ApiTask, tasksApi, UpdateTaskArg, UpdateApiTaskModel } from './tasks-api'
 import { RequestStatus } from 'common/types'
+import { clearTodolistsAndTasks } from 'common/actions'
 
 const tasksSlice = createSlice({
   name: 'tasks',
@@ -57,11 +58,8 @@ const tasksSlice = createSlice({
       .addCase(todolistsThunks.removeTodolist.fulfilled, (state, action) => {
         delete state[action.payload.id]
       })
-      .addCase(todolistsActions.clearTodolistsData, (state) => {
-        const todolistIds = Object.keys(state)
-        todolistIds.forEach((id) => {
-          delete state[id]
-        })
+      .addCase(clearTodolistsAndTasks, () => {
+        return {}
       })
   },
 })
