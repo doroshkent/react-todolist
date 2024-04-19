@@ -1,14 +1,14 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectAppIsInitialized } from './app-selectors'
-import { authThunks } from 'features/login'
+import { appThunks } from 'app/app-slice'
 
 export const useApp = () => {
   const dispatch = useDispatch()
   const isInitialized = useSelector(selectAppIsInitialized)
 
   useEffect(() => {
-    dispatch(authThunks.initializeApp())
+    dispatch(appThunks.initializeApp())
   }, [])
 
   return {

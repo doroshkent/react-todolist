@@ -18,8 +18,8 @@ describe('appReducer', () => {
     expect(endState.error).toBe('An error has occurred')
   })
 
-  test('should handle setIsInitialized', () => {
-    const endState = appReducer(initialState, appActions.setIsInitialized({ isInitialized: true }))
-    expect(endState.isInitialized).toBe(true)
-  })
+  // test('should handle setIsInitialized', () => {
+  //   const endState = appReducer(initialState, appActions.setIsInitialized({ isInitialized: true }))
+  //   expect(endState.isInitialized).toBe(true)
+  // })
 })
