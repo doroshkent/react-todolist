@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { Todolists } from 'features/todolists'
 import { Error404 } from 'common/components'
-import { Login } from 'features/login'
+import { Login } from 'features/auth'
 
 export const PATH = {
   LOGIN: '/login',

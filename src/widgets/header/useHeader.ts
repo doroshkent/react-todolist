@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { todolistsThunks } from 'features/todolists'
-import { authThunks, selectIsLoggedIn } from 'features/login'
+import { authThunks, selectIsLoggedIn } from 'features/auth'
 import { selectAppStatus } from 'app'
 
 export const useHeader = () => {

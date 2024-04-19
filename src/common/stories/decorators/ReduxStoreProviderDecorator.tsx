@@ -5,7 +5,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { tasksReducer } from 'features/tasks/tasks-slice'
 import { todolistsReducer } from 'features/todolists'
 import { appReducer } from 'app'
-import { authReducer } from 'features/login'
+import { authReducer } from 'features/auth'
 import { TaskPriorities, TaskStatuses } from '../../enums'
 import { AppRootState } from '../../types'
 

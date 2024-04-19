@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectIsLoggedIn } from '../login'
+import { selectIsLoggedIn } from '../auth'
 import { todolistsThunks } from 'features/todolists/todolists-slice'
 import { selectTodolists } from './todolists-selectors'
 

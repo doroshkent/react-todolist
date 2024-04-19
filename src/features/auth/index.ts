@@ -1,6 +1,6 @@
 export { authAPI } from './auth-api'
 export { selectIsLoggedIn } from './auth-selectors'
-export { authThunks, authActions, authReducer } from 'features/login/auth-slice'
+export { authThunks, authActions, authReducer } from 'features/auth/auth-slice'
 export { Login } from './Login'
 export { useLogin } from './useLogin'
 
