@@ -1,14 +1,37 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
-import App from 'app/App'
-import reportWebVitals from './reportWebVitals'
-import { ThemeProvider } from '@mui/material'
-import { theme } from 'styles/theme'
-import { GlobalStyle } from 'styles/Global.styled'
 import { Provider } from 'react-redux'
-import { store } from 'app/store'
 import { BrowserRouter } from 'react-router-dom'
+import reportWebVitals from './reportWebVitals'
+import { App, store } from 'app'
+import { ThemeProvider } from '@mui/material'
+import { GlobalStyle, theme } from 'styles'
+
+// const router = createBrowserRouter(
+//   [
+//     {
+//       path: '/',
+//       element: <App />,
+//     },
+//     {
+//       path: '/login',
+//       element: <Login />,
+//     },
+//   ],
+//   {
+//     basename: '/react-todolist',
+//   }
+// )
+//
+// const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+//
+// root.render(
+//   <Provider store={store}>
+//     <RouterProvider router={router} />
+//   </Provider>
+// )
+//
+// reportWebVitals()
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(

@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import App from 'app/App'
-import { ReduxStoreProviderDecorator } from 'stories/decorators/ReduxStoreProviderDecorator'
-import { ThemeProviderDecorator } from 'stories/decorators/ThemeProviderDecorator'
+import { withRouter } from 'storybook-addon-react-router-v6'
+import { App } from './App'
+import { ReduxStoreProviderDecorator, ThemeProviderDecorator } from 'common/stories/decorators'
 
 const meta: Meta<typeof App> = {
   title: 'App',
   component: App,
   tags: ['autodocs'],
-  decorators: [ReduxStoreProviderDecorator, ThemeProviderDecorator],
+  decorators: [ReduxStoreProviderDecorator, ThemeProviderDecorator, withRouter],
 }
 
 export default meta

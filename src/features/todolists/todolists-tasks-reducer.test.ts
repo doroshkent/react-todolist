@@ -1,17 +1,23 @@
-import { addTodolistAC, TodolistDomain, todolistsReducer } from 'features/todolists/todolists-reducer'
-import { tasksReducer, TasksState } from 'features/todolists/todolist/tasks/tasks-reducer'
+import { test } from 'vitest'
+import { tasksReducer, TasksState } from 'features/tasks/tasks-slice'
+import { TodolistDomain, todolistsReducer, todolistsThunks } from 'features/todolists/todolists-slice'
+import { TodolistApi } from 'features/todolists/todolists-api'
 
-test('new array should be added when new todolist is added', () => {
-  const newTodolist = {
+test('new array should be added when new todolist is added', ({ expect }) => {
+  const newTodolist: TodolistApi = {
     id: '1',
     title: 'new todolist',
-    filter: 'all',
     addedDate: new Date(),
     order: 0,
   }
   const startState: TasksState = {}
-
-  const action = addTodolistAC(newTodolist)
+  type AddTodolist = Omit<ReturnType<typeof todolistsThunks.addTodolist.fulfilled>, 'meta'>
+  const action: AddTodolist = {
+    type: todolistsThunks.addTodolist.fulfilled.type,
+    payload: {
+      todolist: newTodolist,
+    },
+  }
 
   const endState = tasksReducer(startState, action)
 
@@ -25,7 +31,7 @@ test('new array should be added when new todolist is added', () => {
   expect(endState[newKey]).toEqual([])
 })
 
-test('ids should be equal', () => {
+test('ids should be equal', ({ expect }) => {
   const tasksStartState: TasksState = {}
   const todolistsStartState: TodolistDomain[] = []
   const newTodolist = {
@@ -35,8 +41,13 @@ test('ids should be equal', () => {
     addedDate: new Date(),
     order: 0,
   }
-
-  const action = addTodolistAC(newTodolist)
+  type AddTodolist = Omit<ReturnType<typeof todolistsThunks.addTodolist.fulfilled>, 'meta'>
+  const action: AddTodolist = {
+    type: todolistsThunks.addTodolist.fulfilled.type,
+    payload: {
+      todolist: newTodolist,
+    },
+  }
 
   const tasksEndState = tasksReducer(tasksStartState, action)
   const todolistsEndState = todolistsReducer(todolistsStartState, action)
@@ -45,6 +56,6 @@ test('ids should be equal', () => {
   const idFromTasks = keys[0]
   const idFromTodolists = todolistsEndState[0].id
 
-  expect(idFromTasks).toBe(action.todolist.id)
-  expect(idFromTodolists).toBe(action.todolist.id)
+  expect(idFromTasks).toBe(action.payload.todolist.id)
+  expect(idFromTodolists).toBe(action.payload.todolist.id)
 })

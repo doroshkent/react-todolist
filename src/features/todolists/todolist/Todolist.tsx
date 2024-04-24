@@ -1,15 +1,12 @@
 import React, { memo } from 'react'
-import { AddItemForm } from 'components/addItemForm/AddItemForm'
+import { RequestStatus } from 'common/types'
+import { AddItemForm, DeleteButton, EditableTitle, FilterButton } from 'common/components'
+import { Tasks } from '../../tasks'
+import { FilterValues } from 'features/todolists/todolists-slice'
+import { useTodolist } from './useTodolist'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
-import { Tasks } from 'features/todolists/todolist/tasks/Tasks'
-import { useTodolist } from 'features/todolists/todolist/useTodolist'
-import { FilterValues } from 'features/todolists/todolists-reducer'
-import { RequestStatus } from 'app/app-reducer'
-import { FilterButton } from 'components/buttons/FilterButton'
-import { DeleteButton } from 'components/buttons/DeleteButton'
-import { EditableTitle } from 'components/editableTitle/EditableTitle'
 
 type TodolistProps = {
   id: string
@@ -38,7 +35,7 @@ export const Todolist = memo(({ id, title, filter, entityStatus }: TodolistProps
         </Grid>
 
         <Grid item>
-          <Tasks todolistId={id} filter={filter} />
+          <Tasks todolistId={id} />
         </Grid>
 
         <Grid item alignSelf={'center'}>
