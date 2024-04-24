@@ -7,6 +7,11 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  test: {
+    deps: {
+      interopDefault: false,
+    },
+  },
   root: './',
   build: { outDir: 'build', emptyOutDir: true },
   resolve: {

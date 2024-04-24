@@ -1,8 +1,9 @@
+import { test } from 'vitest'
 import { tasksReducer, TasksState } from 'features/tasks/tasks-slice'
 import { TodolistDomain, todolistsReducer, todolistsThunks } from 'features/todolists/todolists-slice'
 import { TodolistApi } from 'features/todolists/todolists-api'
 
-test('new array should be added when new todolist is added', () => {
+test('new array should be added when new todolist is added', ({ expect }) => {
   const newTodolist: TodolistApi = {
     id: '1',
     title: 'new todolist',
@@ -30,7 +31,7 @@ test('new array should be added when new todolist is added', () => {
   expect(endState[newKey]).toEqual([])
 })
 
-test('ids should be equal', () => {
+test('ids should be equal', ({ expect }) => {
   const tasksStartState: TasksState = {}
   const todolistsStartState: TodolistDomain[] = []
   const newTodolist = {

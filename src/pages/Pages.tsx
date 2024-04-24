@@ -11,7 +11,7 @@ export const PATH = {
 export const Pages = () => {
   return (
     <Routes>
-      <Route path="" element={<Todolists />} />
+      <Route path="/" element={<Todolists />} />
       <Route path={PATH.LOGIN} element={<Login />} />
       <Route path="*" element={<Error404 />} />
     </Routes>

@@ -1,4 +1,5 @@
 import { v4 } from 'uuid'
+import { test } from 'vitest'
 import { TodolistApi, todolistsThunks } from '../todolists/'
 import { TaskPriorities, TaskStatuses } from 'common/enums'
 import { tasksActions, tasksReducer, TasksState, tasksThunks } from './tasks-slice'
@@ -94,7 +95,7 @@ const startState: TasksState = {
 
 const newTitle = 'new task'
 
-test('should remove the correct task from the correct todolist', () => {
+test('should remove the correct task from the correct todolist', ({ expect }) => {
   type RemoveTask = Omit<ReturnType<typeof tasksThunks.removeTask.fulfilled>, 'meta'>
 
   const action: RemoveTask = {
@@ -181,7 +182,7 @@ test('should remove the correct task from the correct todolist', () => {
 
 type UpdateTask = Omit<ReturnType<typeof tasksThunks.updateTask.fulfilled>, 'meta'>
 
-test('should update the correct task', () => {
+test('should update the correct task', ({ expect }) => {
   const updatedTask: ApiTask = {
     id: '2',
     title: newTitle,
@@ -210,7 +211,7 @@ test('should update the correct task', () => {
   expect(endState[todolistId2][1].status).toBe(TaskStatuses.New)
 })
 
-test('should not affect other properties of the task', () => {
+test('should not affect other properties of the task', ({ expect }) => {
   const taskWithUpdatedTitle = {
     id: '2',
     title: newTitle,
@@ -238,7 +239,7 @@ test('should not affect other properties of the task', () => {
   expect(endState[todolistId2][1].status).toBe(TaskStatuses.Completed) // or whatever it was initially
 })
 
-test('should change status of task in correct todolist', () => {
+test('should change status of task in correct todolist', ({ expect }) => {
   const endState = tasksReducer(
     startState,
     tasksActions.setTaskEntityStatus({ todolistId: todolistId1, taskId: '1', entityStatus: 'succeeded' })
@@ -248,7 +249,7 @@ test('should change status of task in correct todolist', () => {
   expect(endState[todolistId2][0].entityStatus).toBe('idle')
 })
 
-test('should add new task with entity status', () => {
+test('should add new task with entity status', ({ expect }) => {
   const newTask: ApiTask = {
     id: '1',
     title: newTitle,
@@ -281,7 +282,7 @@ test('should add new task with entity status', () => {
   expect(endState[todolistId2][0].status).toBe(TaskStatuses.New)
 })
 
-test('should add a new property with a new array when a new todolist is added', () => {
+test('should add a new property with a new array when a new todolist is added', ({ expect }) => {
   const newTodolist: TodolistApi = {
     id: '1',
     title: 'new todolist',
@@ -307,7 +308,7 @@ test('should add a new property with a new array when a new todolist is added', 
   expect(endState[newKey]).toEqual([])
 })
 
-test('should delete the property with todolistId', () => {
+test('should delete the property with todolistId', ({ expect }) => {
   type RemoveTodolist = Omit<ReturnType<typeof todolistsThunks.removeTodolist.fulfilled>, 'meta'>
   const action: RemoveTodolist = {
     type: todolistsThunks.removeTodolist.fulfilled.type,
@@ -323,7 +324,7 @@ test('should delete the property with todolistId', () => {
   expect(endState[todolistId2]).toBeUndefined()
 })
 
-test('should add a new property with a new array when a new todolists are set', () => {
+test('should add a new property with a new array when a new todolists are set', ({ expect }) => {
   const dataFromApi: TodolistApi[] = [
     { id: todolistId1, title: 'To Learn', addedDate: new Date(), order: 0 },
     { id: todolistId2, title: 'To Buy', addedDate: new Date(), order: 0 },
@@ -344,7 +345,7 @@ test('should add a new property with a new array when a new todolists are set', 
   expect(keys[1]).toBe(todolistId2)
 })
 
-test('should set tasks with entity status for todolist', () => {
+test('should set tasks with entity status for todolist', ({ expect }) => {
   type FetchTasks = Omit<ReturnType<typeof tasksThunks.fetchTasks.fulfilled>, 'meta'>
 
   const taskFromApi: ApiTask[] = [

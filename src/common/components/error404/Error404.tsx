@@ -1,6 +1,6 @@
 import React from 'react'
 import error404 from './404.svg'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 
 export const Error404 = () => {
   return (
