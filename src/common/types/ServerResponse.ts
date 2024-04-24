@@ -1,6 +1,6 @@
 import { RESULT_CODE } from '../enums'
 
-export type Response<D = {}> = {
+export type ServerResponse<D = {}> = {
   resultCode: RESULT_CODE
   messages: Array<string>
   fieldsErrors: Array<string>

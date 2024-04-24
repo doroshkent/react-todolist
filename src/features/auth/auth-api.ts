@@ -1,15 +1,15 @@
-import { Response } from 'common/types'
+import { ServerResponse } from 'common/types'
 import { instance } from 'common/api'
 
 export const authAPI = {
   me() {
-    return instance.get<Response<User>>('auth/me')
+    return instance.get<ServerResponse<User>>('auth/me')
   },
   login(params: LoginParams) {
-    return instance.post<Response<{ userId: number }>>('auth/login', params)
+    return instance.post<ServerResponse<{ userId: number }>>('auth/login', params)
   },
   logout() {
-    return instance.delete<Response>('auth/login')
+    return instance.delete<ServerResponse>('auth/login')
   },
 }
 

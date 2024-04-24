@@ -1,6 +1,5 @@
 export type { RequestStatus } from './RequestStatus'
-export type { Response } from './Response'
+export type { ServerResponse } from 'common/types/ServerResponse'
 export type { ServerError } from './ServerError'
 export type { AppRootState } from './AppRootState'
-export type { AppThunk } from './AppThunk'
 export type { ItemType } from './ItemType'

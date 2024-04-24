@@ -1,18 +1,18 @@
 import { instance } from 'common/api'
-import { Response } from 'common/types'
+import { ServerResponse } from 'common/types'
 
 export const todolistsApi = {
   getTodolists() {
     return instance.get<TodolistApi[]>('todo-lists')
   },
   createTodolist(title: string) {
-    return instance.post<Response<{ item: TodolistApi }>>('todo-lists', { title })
+    return instance.post<ServerResponse<{ item: TodolistApi }>>('todo-lists', { title })
   },
   deleteTodolist(arg: RemoveTodolistArg) {
-    return instance.delete<Response>(`todo-lists/${arg.id}`)
+    return instance.delete<ServerResponse>(`todo-lists/${arg.id}`)
   },
   renameTodolist(arg: RenameTodolistArg) {
-    return instance.put<Response>(`todo-lists/${arg.id}`, { title: arg.title })
+    return instance.put<ServerResponse>(`todo-lists/${arg.id}`, { title: arg.title })
   },
 }
 

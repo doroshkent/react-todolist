@@ -1,5 +1,5 @@
 import { instance } from 'common/api'
-import { Response } from 'common/types'
+import { ServerResponse } from 'common/types'
 import { TaskPriorities, TaskStatuses } from 'common/enums'
 
 export const tasksApi = {
@@ -7,13 +7,16 @@ export const tasksApi = {
     return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`)
   },
   createTask(arg: CreateTaskArg) {
-    return instance.post<Response<{ item: ApiTask }>>(`todo-lists/${arg.todolistId}/tasks`, { title: arg.title })
+    return instance.post<ServerResponse<{ item: ApiTask }>>(`todo-lists/${arg.todolistId}/tasks`, { title: arg.title })
   },
   deleteTask(arg: RemoveTaskArg) {
-    return instance.delete<Response>(`/todo-lists/${arg.todolistId}/tasks/${arg.taskId}`)
+    return instance.delete<ServerResponse>(`/todo-lists/${arg.todolistId}/tasks/${arg.taskId}`)
   },
   updateTask(arg: UpdateTaskArg<UpdateApiTaskModel>) {
-    return instance.put<Response<{ item: ApiTask }>>(`todo-lists/${arg.todolistId}/tasks/${arg.taskId}`, arg.model)
+    return instance.put<ServerResponse<{ item: ApiTask }>>(
+      `todo-lists/${arg.todolistId}/tasks/${arg.taskId}`,
+      arg.model
+    )
   },
 }
 

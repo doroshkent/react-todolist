@@ -12,6 +12,3 @@ export const store = configureStore({
     auth: authReducer,
   },
 })
-
-//@ts-ignore
-window.store = store

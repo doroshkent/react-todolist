@@ -47,7 +47,7 @@ const login = createAppAsyncThunk<undefined, LoginParams>(
   }
 )
 
-const logout = createAppAsyncThunk(`${authSlice.name}/logout`, async (_, { dispatch, rejectWithValue }) => {
+const logout = createAppAsyncThunk<undefined>(`${authSlice.name}/logout`, async (_, { dispatch, rejectWithValue }) => {
   dispatch(appActions.setAppRequestStatus({ status: 'loading' }))
   try {
     await authAPI.logout()
