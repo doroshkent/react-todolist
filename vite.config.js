@@ -1,16 +1,15 @@
 import { defineConfig } from 'vite'
-import reactRefresh from '@vitejs/plugin-react-refresh'
+import react from '@vitejs/plugin-react'
+import circleDependency from 'vite-plugin-circular-dependency'
 // https://vitejs.dev/config/
 const path = require('path')
 export default defineConfig({
-  plugins: [reactRefresh()],
+  plugins: [react(), circleDependency()],
   server: {
     port: 3000,
   },
   test: {
-    deps: {
-      interopDefault: false,
-    },
+    environment: 'jsdom',
   },
   root: './',
   build: { outDir: 'build', emptyOutDir: true },

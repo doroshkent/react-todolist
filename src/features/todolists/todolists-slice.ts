@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { appActions } from 'app'
-import { tasksThunks } from '../tasks'
-import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from 'common/utils'
+import { handleServerAppError, handleServerNetworkError } from 'common/utils'
 import { RESULT_CODE } from 'common/enums'
 import { RequestStatus } from 'common/types'
 import { RemoveTodolistArg, RenameTodolistArg, TodolistApi, todolistsApi } from './todolists-api'
 import { clearTodolistsAndTasks } from 'common/actions'
+import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
 
 const todolistsSlice = createSlice({
   name: 'todolists',
@@ -53,7 +53,6 @@ const fetchTodolists = createAppAsyncThunk<{ todolists: TodolistApi[] }>(
       const res = await todolistsApi.getTodolists()
       const todolists = res.data
       dispatch(appActions.setAppRequestStatus({ status: 'succeeded' }))
-      todolists.forEach((tl) => dispatch(tasksThunks.fetchTasks(tl.id)))
       return { todolists }
     } catch (e) {
       handleServerNetworkError(e, dispatch)

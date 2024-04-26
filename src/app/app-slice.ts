@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RequestStatus } from 'common/types'
-import { createAppAsyncThunk, handleServerNetworkError } from 'common/utils'
+import { handleServerNetworkError } from 'common/utils'
 import { authAPI } from 'features/auth'
 import { RESULT_CODE } from 'common/enums'
+import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
 
 const appSlice = createSlice({
   name: 'app',
