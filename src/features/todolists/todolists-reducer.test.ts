@@ -15,8 +15,8 @@ const todolistId2 = v4()
 const DATE = new Date()
 
 const startState: TodolistDomain[] = [
-  { id: todolistId1, title: 'To Learn', filter: 'all', addedDate: DATE, order: 0, entityStatus: 'idle' },
-  { id: todolistId2, title: 'To Buy', filter: 'all', addedDate: DATE, order: 0, entityStatus: 'idle' },
+  { id: todolistId1, title: 'To Learn', filter: 'all', addedDate: DATE, order: 0, fetchStatus: 'idle' },
+  { id: todolistId2, title: 'To Buy', filter: 'all', addedDate: DATE, order: 0, fetchStatus: 'idle' },
 ]
 
 const newTitle = 'new title'
@@ -96,7 +96,7 @@ test('should update the state with todolists and set the filter to "all"', ({ ex
   expect(todolistsReducer([], action)).toEqual(startState)
 })
 
-test('should update entityStatus of todo with a given id', ({ expect }) => {
+test('should update fetchStatus of todo with a given id', ({ expect }) => {
   const endState = todolistsReducer(
     startState,
     todolistsActions.setTodolistEntityStatus({ id: todolistId1, entityStatus: 'loading' })

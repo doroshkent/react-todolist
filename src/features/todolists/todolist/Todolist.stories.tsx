@@ -22,7 +22,7 @@ const Component = () => {
       id={todolists[0].id}
       filter={todolists[0].filter}
       title={todolists[0].title}
-      entityStatus={todolists[0].entityStatus}
+      fetchStatus={todolists[0].fetchStatus}
     />
   )
 }

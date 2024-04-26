@@ -4,7 +4,7 @@ import { RESULT_CODE, TaskPriorities, TaskStatuses } from 'common/enums'
 import { ApiTask, CreateTaskArg, RemoveTaskArg, tasksApi, UpdateApiTaskModel, UpdateTaskArg } from './tasks-api'
 import { RequestStatus } from 'common/types'
 import { clearTodolistsAndTasks } from 'common/actions'
-import { todolistsActions, todolistsThunks } from 'features/todolists'
+import { todolistsThunks } from 'features/todolists'
 import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
 
 const tasksSlice = createSlice({
@@ -13,12 +13,12 @@ const tasksSlice = createSlice({
   reducers: {
     setTaskEntityStatus: (
       state,
-      action: PayloadAction<{ todolistId: string; taskId: string; entityStatus: RequestStatus }>
+      action: PayloadAction<{ todolistId: string; taskId: string; fetchStatus: RequestStatus }>
     ) => {
       const tasks = state[action.payload.todolistId]
       const task = tasks.find((t) => t.id === action.payload.taskId)
       if (task) {
-        task.entityStatus = action.payload.entityStatus
+        task.fetchStatus = action.payload.fetchStatus
       }
     },
   },
@@ -26,12 +26,12 @@ const tasksSlice = createSlice({
     builder
       .addCase(fetchTasks.fulfilled, (state, action) => {
         action.payload.tasks.forEach((t) => {
-          state[action.payload.todolistId].push({ ...t, entityStatus: 'idle' })
+          state[action.payload.todolistId].push({ ...t, fetchStatus: 'idle' })
         })
       })
       .addCase(addTask.fulfilled, (state, action) => {
         const tasks = state[action.payload.todolistId]
-        tasks.unshift({ ...action.payload.task, entityStatus: 'idle' })
+        tasks.unshift({ ...action.payload.task, fetchStatus: 'idle' })
       })
       .addCase(updateTask.fulfilled, (state, action) => {
         const tasks = state[action.payload.todolistId]
@@ -82,8 +82,6 @@ const addTask = createAppAsyncThunk<{ task: ApiTask; todolistId: string }, Creat
     const { todolistId } = arg
     const { dispatch, rejectWithValue } = thunkAPI
 
-    dispatch(todolistsActions.setTodolistEntityStatus({ id: todolistId, entityStatus: 'loading' }))
-
     return thunkTryCatch(thunkAPI, async () => {
       const res = await tasksApi.createTask(arg)
       if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
@@ -93,7 +91,7 @@ const addTask = createAppAsyncThunk<{ task: ApiTask; todolistId: string }, Creat
         handleServerAppError(res.data, dispatch)
         return rejectWithValue(null)
       }
-    }).finally(() => dispatch(todolistsActions.setTodolistEntityStatus({ id: todolistId, entityStatus: 'idle' })))
+    })
   }
 )
 
@@ -102,7 +100,7 @@ const updateTask = createAppAsyncThunk<{ task: ApiTask; todolistId: string }, Up
   async ({ todolistId, taskId, model }, thunkAPI) => {
     const { dispatch, rejectWithValue, getState } = thunkAPI
 
-    dispatch(tasksActions.setTaskEntityStatus({ todolistId, taskId, entityStatus: 'loading' }))
+    dispatch(tasksActions.setTaskEntityStatus({ todolistId, taskId, fetchStatus: 'loading' }))
 
     return thunkTryCatch(thunkAPI, async () => {
       const task = getState().tasks[todolistId].find((t) => t.id === taskId)
@@ -129,7 +127,7 @@ const updateTask = createAppAsyncThunk<{ task: ApiTask; todolistId: string }, Up
         handleServerAppError(res.data, dispatch)
         return rejectWithValue(null)
       }
-    }).finally(() => dispatch(tasksActions.setTaskEntityStatus({ todolistId, taskId, entityStatus: 'idle' })))
+    }).finally(() => dispatch(tasksActions.setTaskEntityStatus({ todolistId, taskId, fetchStatus: 'idle' })))
   }
 )
 
@@ -137,7 +135,7 @@ const removeTask = createAppAsyncThunk<RemoveTaskArg, RemoveTaskArg>(
   `${tasksSlice.name}/removeTask`,
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
-    dispatch(tasksActions.setTaskEntityStatus({ ...arg, entityStatus: 'loading' }))
+    dispatch(tasksActions.setTaskEntityStatus({ ...arg, fetchStatus: 'loading' }))
 
     return thunkTryCatch(thunkAPI, async () => {
       const res = await tasksApi.deleteTask(arg)
@@ -148,7 +146,7 @@ const removeTask = createAppAsyncThunk<RemoveTaskArg, RemoveTaskArg>(
         handleServerAppError(res.data, dispatch)
         return rejectWithValue(null)
       }
-    }).finally(() => dispatch(tasksActions.setTaskEntityStatus({ ...arg, entityStatus: 'idle' })))
+    }).finally(() => dispatch(tasksActions.setTaskEntityStatus({ ...arg, fetchStatus: 'idle' })))
   }
 )
 
@@ -162,7 +160,7 @@ type UpdateDomainTaskModel = {
   deadline?: Date | null
 }
 export type DomainTask = ApiTask & {
-  entityStatus: RequestStatus
+  fetchStatus: RequestStatus
 }
 export type TasksState = ReturnType<typeof tasksSlice.getInitialState>
 

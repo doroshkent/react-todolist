@@ -18,7 +18,7 @@ export const Tasks = memo(({ todolistId }: TasksProps) => {
       {tasks.length > 0 ? (
         <List ref={listRef}>
           {tasks.map((task) => (
-            <Task key={task.id} todolistId={todolistId} {...task} />
+            <Task key={task.id} todolistId={todolistId} task={task} />
           ))}
         </List>
       ) : (

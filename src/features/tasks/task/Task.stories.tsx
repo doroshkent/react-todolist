@@ -19,15 +19,7 @@ type Story = StoryObj<typeof Task>
 
 const Component = ({ todolistId }: { todolistId: string }) => {
   const tasks = useSelector(selectTasks(todolistId))
-  return (
-    <Task
-      id={tasks[0].id}
-      status={tasks[0].status}
-      title={tasks[0].title}
-      todolistId={todolistId}
-      entityStatus={tasks[0].entityStatus}
-    />
-  )
+  return <Task task={tasks[0]} todolistId={todolistId} />
 }
 
 export const TaskStory: Story = {

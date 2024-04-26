@@ -11,8 +11,8 @@ import { AppRootState } from '../../types'
 
 const initialGlobalState: AppRootState = {
   todolists: [
-    { id: 'todolistId1', title: 'What to learn', filter: 'all', addedDate: new Date(), order: 0, entityStatus: 'idle' },
-    { id: 'todolistId2', title: 'What to buy', filter: 'all', addedDate: new Date(), order: 0, entityStatus: 'idle' },
+    { id: 'todolistId1', title: 'What to learn', filter: 'all', addedDate: new Date(), order: 0, fetchStatus: 'idle' },
+    { id: 'todolistId2', title: 'What to buy', filter: 'all', addedDate: new Date(), order: 0, fetchStatus: 'idle' },
   ],
   tasks: {
     ['todolistId1']: [
@@ -27,7 +27,7 @@ const initialGlobalState: AppRootState = {
         priority: TaskPriorities.Low,
         startDate: null,
         todoListId: 'todolistId1',
-        entityStatus: 'idle',
+        fetchStatus: 'idle',
       },
       {
         id: 'task1_2',
@@ -40,7 +40,7 @@ const initialGlobalState: AppRootState = {
         priority: TaskPriorities.Low,
         startDate: null,
         todoListId: 'todolistId1',
-        entityStatus: 'idle',
+        fetchStatus: 'idle',
       },
     ],
     ['todolistId2']: [
@@ -55,7 +55,7 @@ const initialGlobalState: AppRootState = {
         priority: TaskPriorities.Low,
         startDate: null,
         todoListId: 'todolistId2',
-        entityStatus: 'idle',
+        fetchStatus: 'idle',
       },
       {
         id: v1(),
@@ -68,7 +68,7 @@ const initialGlobalState: AppRootState = {
         priority: TaskPriorities.Low,
         startDate: null,
         todoListId: 'todolistId2',
-        entityStatus: 'idle',
+        fetchStatus: 'idle',
       },
     ],
   },

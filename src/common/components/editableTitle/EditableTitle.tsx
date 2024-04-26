@@ -6,18 +6,18 @@ import { EditItemField } from '../editItemField/EditItemField'
 
 type EditableTitleProps = {
   renameItemCallback: (title: string) => void
-  entityStatus: RequestStatus
+  fetchStatus: RequestStatus
   title: string
 }
 
-export const EditableTitle = ({ renameItemCallback, entityStatus, title }: EditableTitleProps) => {
+export const EditableTitle = ({ renameItemCallback, fetchStatus, title }: EditableTitleProps) => {
   const [titleEditMode, setTitleEditMode] = useState(false)
   const toggleTitleEditMode = useCallback(
     (toggleValue: boolean) => {
-      if (entityStatus === 'loading') return
+      if (fetchStatus === 'loading') return
       setTitleEditMode(toggleValue)
     },
-    [entityStatus]
+    [fetchStatus]
   )
 
   return (

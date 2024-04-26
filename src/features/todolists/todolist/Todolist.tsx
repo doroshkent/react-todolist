@@ -12,10 +12,10 @@ type TodolistProps = {
   id: string
   title: string
   filter: FilterValues
-  entityStatus: RequestStatus
+  fetchStatus: RequestStatus
 }
 
-export const Todolist = memo(({ id, title, filter, entityStatus }: TodolistProps) => {
+export const Todolist = memo(({ id, title, filter, fetchStatus }: TodolistProps) => {
   const { onTodoListDeleted, addNewTask, onFilterButtonClicked, onTodoListRenamed } = useTodolist(id)
 
   return (
@@ -23,15 +23,15 @@ export const Todolist = memo(({ id, title, filter, entityStatus }: TodolistProps
       <Grid container flexDirection={'column'}>
         <Grid item container justifyContent={'space-between'} alignItems={'center'}>
           <Grid item>
-            <EditableTitle renameItemCallback={onTodoListRenamed} entityStatus={entityStatus} title={title} />
+            <EditableTitle renameItemCallback={onTodoListRenamed} fetchStatus={fetchStatus} title={title} />
           </Grid>
           <Grid item>
-            <DeleteButton disabled={entityStatus === 'loading'} onClick={onTodoListDeleted} />
+            <DeleteButton disabled={fetchStatus === 'loading'} onClick={onTodoListDeleted} />
           </Grid>
         </Grid>
 
         <Grid item>
-          <AddItemForm disabled={entityStatus === 'loading'} addItem={addNewTask} item="task" />
+          <AddItemForm disabled={fetchStatus === 'loading'} addItem={addNewTask} item="task" />
         </Grid>
 
         <Grid item>

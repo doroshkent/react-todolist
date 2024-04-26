@@ -245,8 +245,8 @@ test('should change status of task in correct todolist', ({ expect }) => {
     tasksActions.setTaskEntityStatus({ todolistId: todolistId1, taskId: '1', entityStatus: 'succeeded' })
   )
 
-  expect(endState[todolistId1][0].entityStatus).toBe('succeeded')
-  expect(endState[todolistId2][0].entityStatus).toBe('idle')
+  expect(endState[todolistId1][0].fetchStatus).toBe('succeeded')
+  expect(endState[todolistId2][0].fetchStatus).toBe('idle')
 })
 
 test('should add new task with entity status', ({ expect }) => {
@@ -374,6 +374,6 @@ test('should set tasks with entity status for todolist', ({ expect }) => {
   const endState = tasksReducer({ [todolistId1]: [], [todolistId2]: [] }, action)
 
   expect(endState[todolistId1].length).toBe(1)
-  expect(endState[todolistId1][0].entityStatus).toBe('idle')
+  expect(endState[todolistId1][0].fetchStatus).toBe('idle')
   expect(endState[todolistId2].length).toBe(0)
 })

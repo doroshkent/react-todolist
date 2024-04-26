@@ -13,20 +13,20 @@ const todolistsSlice = createSlice({
       const index = state.findIndex((tl) => tl.id === action.payload.id)
       if (index !== -1) state[index].filter = action.payload.filter
     },
-    setTodolistEntityStatus: (state, action: PayloadAction<{ id: string; entityStatus: RequestStatus }>) => {
+    setTodolistEntityStatus: (state, action: PayloadAction<{ id: string; fetchStatus: RequestStatus }>) => {
       const index = state.findIndex((tl) => tl.id === action.payload.id)
-      if (index !== -1) state[index].entityStatus = action.payload.entityStatus
+      if (index !== -1) state[index].fetchStatus = action.payload.fetchStatus
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchTodolists.fulfilled, (state, action) => {
         action.payload.todolists.forEach((tl) => {
-          state.push({ ...tl, filter: 'all', entityStatus: 'idle' })
+          state.push({ ...tl, filter: 'all', fetchStatus: 'idle' })
         })
       })
       .addCase(addTodolist.fulfilled, (state, action) => {
-        state.unshift({ ...action.payload.todolist, filter: 'all', entityStatus: 'idle' })
+        state.unshift({ ...action.payload.todolist, filter: 'all', fetchStatus: 'idle' })
       })
       .addCase(removeTodolist.fulfilled, (state, action) => {
         const index = state.findIndex((todo) => todo.id === action.payload.id)
@@ -73,7 +73,7 @@ const removeTodolist = createAppAsyncThunk<RemoveTodolistArg, RemoveTodolistArg>
   `${todolistsSlice.name}/removeTodolist`,
   async ({ id }, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
-    dispatch(todolistsActions.setTodolistEntityStatus({ id, entityStatus: 'loading' }))
+    dispatch(todolistsActions.setTodolistEntityStatus({ id, fetchStatus: 'loading' }))
     return thunkTryCatch(thunkAPI, async () => {
       const res = await todolistsApi.deleteTodolist({ id })
       if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
@@ -82,7 +82,7 @@ const removeTodolist = createAppAsyncThunk<RemoveTodolistArg, RemoveTodolistArg>
         handleServerAppError(res.data, dispatch)
         return rejectWithValue(null)
       }
-    }).finally(() => dispatch(todolistsActions.setTodolistEntityStatus({ id, entityStatus: 'idle' })))
+    }).finally(() => dispatch(todolistsActions.setTodolistEntityStatus({ id, fetchStatus: 'idle' })))
   }
 )
 const renameTodolist = createAppAsyncThunk<RenameTodolistArg, RenameTodolistArg>(
@@ -91,7 +91,7 @@ const renameTodolist = createAppAsyncThunk<RenameTodolistArg, RenameTodolistArg>
     const { id } = arg
     const { dispatch, rejectWithValue } = thunkAPI
 
-    dispatch(todolistsActions.setTodolistEntityStatus({ id, entityStatus: 'loading' }))
+    dispatch(todolistsActions.setTodolistEntityStatus({ id, fetchStatus: 'loading' }))
 
     return thunkTryCatch(thunkAPI, async () => {
       const res = await todolistsApi.renameTodolist(arg)
@@ -101,7 +101,7 @@ const renameTodolist = createAppAsyncThunk<RenameTodolistArg, RenameTodolistArg>
         handleServerAppError(res.data, dispatch)
         return rejectWithValue(null)
       }
-    }).finally(() => dispatch(todolistsActions.setTodolistEntityStatus({ id, entityStatus: 'idle' })))
+    }).finally(() => dispatch(todolistsActions.setTodolistEntityStatus({ id, fetchStatus: 'idle' })))
   }
 )
 
@@ -113,5 +113,5 @@ export const todolistsThunks = { fetchTodolists, removeTodolist, renameTodolist,
 export type FilterValues = 'all' | 'active' | 'completed'
 export type TodolistDomain = TodolistApi & {
   filter: FilterValues
-  entityStatus: RequestStatus
+  fetchStatus: RequestStatus
 }

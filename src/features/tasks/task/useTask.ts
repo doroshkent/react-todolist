@@ -1,11 +1,13 @@
 import { useCallback, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { tasksThunks } from '../tasks-slice'
 import { TaskStatuses } from 'common/enums'
+import { selectTodolistFetchStatus } from 'features/todolists'
 
 export const useTask = (taskId: string, todolistId: string, status: TaskStatuses) => {
   const [editMode, setEditMode] = useState(false)
   const dispatch = useDispatch()
+  const todolistFetchStatus = useSelector(selectTodolistFetchStatus(todolistId))
 
   const toggleEditMode = (toggleValue: boolean) => {
     setEditMode(toggleValue)
@@ -52,5 +54,6 @@ export const useTask = (taskId: string, todolistId: string, status: TaskStatuses
     onTaskRenamed,
     onTaskChecked,
     onTaskRemoved,
+    todolistFetchStatus,
   }
 }
