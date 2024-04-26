@@ -1,12 +1,12 @@
 import { useCallback, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { tasksThunks } from '../tasks-slice'
+import { useSelector } from 'react-redux'
 import { TaskStatuses } from 'common/enums'
 import { selectTodolistFetchStatus } from 'features/todolists'
+import { useActions } from 'common/hooks'
 
 export const useTask = (taskId: string, todolistId: string, status: TaskStatuses) => {
   const [editMode, setEditMode] = useState(false)
-  const dispatch = useDispatch()
+  const { removeTask, updateTask } = useActions()
   const todolistFetchStatus = useSelector(selectTodolistFetchStatus(todolistId))
 
   const toggleEditMode = (toggleValue: boolean) => {
@@ -14,36 +14,20 @@ export const useTask = (taskId: string, todolistId: string, status: TaskStatuses
   }
 
   const onTaskRemoved = useCallback(() => {
-    dispatch(tasksThunks.removeTask({ todolistId, taskId }))
+    removeTask({ todolistId, taskId })
   }, [todolistId, taskId])
 
   const onTaskChecked = useCallback(
     (status: TaskStatuses) => {
       const newStatusValue = status === TaskStatuses.New ? TaskStatuses.Completed : TaskStatuses.New
-      dispatch(
-        tasksThunks.updateTask({
-          todolistId,
-          taskId,
-          model: {
-            status: newStatusValue,
-          },
-        })
-      )
+      updateTask({ todolistId, taskId, model: { status: newStatusValue } })
     },
     [todolistId, taskId, status]
   )
 
   const onTaskRenamed = useCallback(
     (newTitle: string) => {
-      dispatch(
-        tasksThunks.updateTask({
-          todolistId,
-          taskId,
-          model: {
-            title: newTitle,
-          },
-        })
-      )
+      updateTask({ todolistId, taskId, model: { title: newTitle } })
     },
     [todolistId, taskId]
   )
