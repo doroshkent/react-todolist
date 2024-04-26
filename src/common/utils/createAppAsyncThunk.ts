@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { AppRootState } from '../types'
+import { AppRootState, ServerError } from '../types'
 
 export const createAppAsyncThunk = createAsyncThunk.withTypes<{
   state: AppRootState
-  rejectValue: null
+  rejectValue: ServerError | null
 }>()

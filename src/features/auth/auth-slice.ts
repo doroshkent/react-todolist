@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { appActions } from 'app'
-import { handleServerAppError, handleServerNetworkError } from 'common/utils'
+import { handleServerAppError, thunkTryCatch } from 'common/utils'
 import { RESULT_CODE } from 'common/enums'
 import { authAPI, LoginParams } from './auth-api'
 import { appThunks } from 'app/app-slice'
@@ -28,37 +27,26 @@ const authSlice = createSlice({
 })
 
 // thunks
-const login = createAppAsyncThunk<undefined, LoginParams>(
-  `${authSlice.name}/login`,
-  async (arg, { dispatch, rejectWithValue }) => {
-    dispatch(appActions.setAppRequestStatus({ status: 'loading' }))
-    try {
-      const res = await authAPI.login(arg)
-      if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
-        dispatch(appActions.setAppRequestStatus({ status: 'succeeded' }))
-        return
-      } else {
-        handleServerAppError(res.data, dispatch)
-        return rejectWithValue(null)
-      }
-    } catch (e) {
-      handleServerNetworkError(e, dispatch)
+const login = createAppAsyncThunk<undefined, LoginParams>(`${authSlice.name}/login`, async (arg, thunkAPI) => {
+  const { dispatch, rejectWithValue } = thunkAPI
+  return thunkTryCatch(thunkAPI, async () => {
+    const res = await authAPI.login(arg)
+    if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
+      return undefined
+    } else {
+      handleServerAppError(res.data, dispatch)
       return rejectWithValue(null)
     }
-  }
-)
+  })
+})
 
-const logout = createAppAsyncThunk<undefined>(`${authSlice.name}/logout`, async (_, { dispatch, rejectWithValue }) => {
-  dispatch(appActions.setAppRequestStatus({ status: 'loading' }))
-  try {
+const logout = createAppAsyncThunk<undefined>(`${authSlice.name}/logout`, async (_, thunkAPI) => {
+  const { dispatch } = thunkAPI
+  return thunkTryCatch(thunkAPI, async () => {
     await authAPI.logout()
-    dispatch(appActions.setAppRequestStatus({ status: 'succeeded' }))
     dispatch(clearTodolistsAndTasks())
-    return
-  } catch (e) {
-    handleServerNetworkError(e, dispatch)
-    return rejectWithValue(null)
-  }
+    return undefined
+  })
 })
 
 export const authActions = authSlice.actions

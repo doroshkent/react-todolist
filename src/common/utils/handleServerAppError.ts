@@ -2,11 +2,8 @@ import { Dispatch } from '@reduxjs/toolkit'
 import { appActions } from 'app'
 import { ServerResponse } from '../types'
 
-export const handleServerAppError = <T>(data: ServerResponse<T>, dispatch: Dispatch) => {
-  if (data.messages.length) {
-    dispatch(appActions.setAppRequestError({ error: data.messages[0] }))
-  } else {
-    dispatch(appActions.setAppRequestError({ error: 'Some error occurred' }))
+export const handleServerAppError = <T>(data: ServerResponse<T>, dispatch: Dispatch, showError: boolean = true) => {
+  if (showError) {
+    dispatch(appActions.setAppRequestError({ error: data.messages.length ? data.messages[0] : 'Some error occurred' }))
   }
-  dispatch(appActions.setAppRequestStatus({ status: 'failed' }))
 }

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RequestStatus } from 'common/types'
-import { handleServerNetworkError } from 'common/utils'
+import { handleServerAppError, thunkTryCatch } from 'common/utils'
 import { authAPI } from 'features/auth'
-import { RESULT_CODE } from 'common/enums'
 import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
+import { RESULT_CODE } from 'common/enums'
 
 const appSlice = createSlice({
   name: 'app',
@@ -31,23 +31,19 @@ const appSlice = createSlice({
   },
 })
 
-const initializeApp = createAppAsyncThunk(
+const initializeApp = createAppAsyncThunk<undefined, undefined>(
   `${appSlice.name}/initializeApp`,
-  async (_, { dispatch, rejectWithValue }) => {
-    dispatch(appActions.setAppRequestStatus({ status: 'loading' }))
-    try {
+  async (_, thunkAPI) => {
+    const { dispatch, rejectWithValue } = thunkAPI
+    return thunkTryCatch(thunkAPI, async () => {
       const res = await authAPI.me()
       if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
-        dispatch(appActions.setAppRequestStatus({ status: 'succeeded' }))
-        return
+        return undefined
       } else {
-        dispatch(appActions.setAppRequestStatus({ status: 'failed' }))
+        handleServerAppError(res.data, dispatch, false)
         return rejectWithValue(null)
       }
-    } catch (e) {
-      handleServerNetworkError(e, dispatch)
-      return rejectWithValue(null)
-    }
+    })
   }
 )
 

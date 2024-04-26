@@ -16,9 +16,7 @@ export const Header = () => {
     <AppBar position="static">
       <Toolbar>
         <Grid container justifyContent={'space-between'} alignItems={'center'}>
-          <Grid>
-            {isLoggedIn && <AddItemForm disabled={status === 'loading'} addItem={onTodolistAdded} item="todolist" />}
-          </Grid>
+          <Grid>{isLoggedIn && <AddItemForm addItem={onTodolistAdded} item="todolist" />}</Grid>
           <Grid>
             <Typography variant="h4" component="div" marginRight={isLoggedIn ? '150px' : '0'}>
               {isLoggedIn ? 'Tasks Board' : 'Welcome!'}
