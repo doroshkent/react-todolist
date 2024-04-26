@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { appActions } from 'app'
-import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from 'common/utils'
+import { handleServerAppError, handleServerNetworkError } from 'common/utils'
 import { RESULT_CODE } from 'common/enums'
 import { authAPI, LoginParams } from './auth-api'
 import { appThunks } from 'app/app-slice'
 import { clearTodolistsAndTasks } from 'common/actions'
+import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
 
 const authSlice = createSlice({
   name: 'auth',
