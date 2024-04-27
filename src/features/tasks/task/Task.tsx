@@ -1,18 +1,14 @@
 import React, { memo } from 'react'
 import { useTask } from './useTask'
 import { DeleteButton, EditButton, EditItemField } from 'common/components'
-import { TaskStatuses } from 'common/enums'
+import { TASK_STATUSES } from 'common/enums'
 import Checkbox from '@mui/material/Checkbox'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 import { DomainTask } from 'features/tasks/tasks-slice'
-
-export type TaskProps = {
-  todolistId: string
-  task: DomainTask
-}
+import { TasksProps } from 'features/tasks/Tasks'
 
 export const Task = memo(({ todolistId, task }: TaskProps) => {
   const { id, status, fetchStatus, title } = task
@@ -30,12 +26,12 @@ export const Task = memo(({ todolistId, task }: TaskProps) => {
         <EditItemField title={title} renameItem={onTaskRenamed} toggleEditMode={toggleEditMode} />
       ) : (
         <ListItemButton disabled={buttonDisabled} onClick={() => onTaskChecked(status)} dense>
-          <Checkbox edge="start" checked={status === TaskStatuses.Completed} tabIndex={-1} disableRipple />
+          <Checkbox edge="start" checked={status === TASK_STATUSES.Completed} tabIndex={-1} disableRipple />
           <ListItemText>
             <Typography
               variant={'body1'}
               sx={{
-                opacity: `${status === TaskStatuses.Completed ? '0.5' : '1'}`,
+                opacity: `${status === TASK_STATUSES.Completed ? '0.5' : '1'}`,
                 whiteSpace: 'pre-wrap',
                 wordBreak: 'break-word',
               }}>
@@ -49,3 +45,8 @@ export const Task = memo(({ todolistId, task }: TaskProps) => {
     </ListItem>
   )
 })
+
+//types
+export type TaskProps = TasksProps & {
+  task: DomainTask
+}

@@ -8,13 +8,6 @@ import ButtonGroup from '@mui/material/ButtonGroup'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 
-type TodolistProps = {
-  id: string
-  title: string
-  filter: FilterValues
-  fetchStatus: RequestStatus
-}
-
 export const Todolist = memo(({ id, title, filter, fetchStatus }: TodolistProps) => {
   const { onTodoListDeleted, addNewTask, onFilterButtonClicked, onTodoListRenamed } = useTodolist(id)
 
@@ -49,3 +42,11 @@ export const Todolist = memo(({ id, title, filter, fetchStatus }: TodolistProps)
     </Card>
   )
 })
+
+// types
+type TodolistProps = {
+  id: string
+  title: string
+  filter: FilterValues
+  fetchStatus: RequestStatus
+}

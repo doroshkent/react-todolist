@@ -23,10 +23,5 @@ export type TodolistApi = {
   order: number
   title: string
 }
-export type RemoveTodolistArg = {
-  id: string
-}
-export type RenameTodolistArg = {
-  id: string
-  title: string
-}
+export type RemoveTodolistArg = Pick<TodolistApi, 'id'>
+export type RenameTodolistArg = Pick<TodolistApi, 'id' | 'title'>

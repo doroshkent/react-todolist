@@ -4,12 +4,6 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import { EditItemField } from '../editItemField/EditItemField'
 
-type EditableTitleProps = {
-  renameItemCallback: (title: string) => void
-  fetchStatus: RequestStatus
-  title: string
-}
-
 export const EditableTitle = ({ renameItemCallback, fetchStatus, title }: EditableTitleProps) => {
   const [titleEditMode, setTitleEditMode] = useState(false)
   const toggleTitleEditMode = useCallback(
@@ -36,4 +30,11 @@ export const EditableTitle = ({ renameItemCallback, fetchStatus, title }: Editab
       )}
     </>
   )
+}
+
+// types
+type EditableTitleProps = {
+  renameItemCallback: (title: string) => void
+  fetchStatus: RequestStatus
+  title: string
 }

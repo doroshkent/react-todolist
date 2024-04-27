@@ -99,11 +99,11 @@ test('should update the state with todolists and set the filter to "all"', ({ ex
 test('should update fetchStatus of todo with a given id', ({ expect }) => {
   const endState = todolistsReducer(
     startState,
-    todolistsActions.setTodolistEntityStatus({ id: todolistId1, entityStatus: 'loading' })
+    todolistsActions.setTodolistEntityStatus({ id: todolistId1, fetchStatus: 'loading' })
   )
 
   expect(endState).toEqual([
-    { id: todolistId1, title: 'To Learn', filter: 'all', addedDate: DATE, order: 0, entityStatus: 'loading' },
-    { id: todolistId2, title: 'To Buy', filter: 'all', addedDate: DATE, order: 0, entityStatus: 'idle' },
+    { id: todolistId1, title: 'To Learn', filter: 'all', addedDate: DATE, order: 0, fetchStatus: 'loading' },
+    { id: todolistId2, title: 'To Buy', filter: 'all', addedDate: DATE, order: 0, fetchStatus: 'idle' },
   ])
 })

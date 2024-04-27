@@ -5,10 +5,6 @@ import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useTasks } from './useTasks'
 import { Task } from './task/Task'
 
-export type TasksProps = {
-  todolistId: string
-}
-
 export const Tasks = memo(({ todolistId }: TasksProps) => {
   const [listRef] = useAutoAnimate<HTMLUListElement>()
   const { tasks } = useTasks(todolistId)
@@ -27,3 +23,8 @@ export const Tasks = memo(({ todolistId }: TasksProps) => {
     </>
   )
 })
+
+// types
+export type TasksProps = {
+  todolistId: string
+}

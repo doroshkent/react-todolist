@@ -10,12 +10,7 @@ import FormGroup from '@mui/material/FormGroup'
 import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-
-export type Inputs = {
-  email: string
-  password: string
-  rememberMe: boolean
-}
+import { LoginParams } from 'features/auth/auth-api'
 
 export const Login = () => {
   const {
@@ -110,3 +105,6 @@ export const Login = () => {
     </Grid>
   )
 }
+
+//types
+export type Inputs = Omit<LoginParams, 'captcha'>

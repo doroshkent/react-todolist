@@ -6,8 +6,8 @@ import { tasksReducer } from 'features/tasks/tasks-slice'
 import { todolistsReducer } from 'features/todolists'
 import { appReducer } from 'app'
 import { authReducer } from 'features/auth'
-import { TaskPriorities, TaskStatuses } from '../../enums'
-import { AppRootState } from '../../types'
+import { AppRootState } from 'common/types'
+import { TASK_PRIORITIES, TASK_STATUSES } from 'common/enums'
 
 const initialGlobalState: AppRootState = {
   todolists: [
@@ -19,12 +19,12 @@ const initialGlobalState: AppRootState = {
       {
         id: 'task1_1',
         title: 'HTML&CSS',
-        status: TaskStatuses.New,
+        status: TASK_STATUSES.New,
         addedDate: null,
         order: 0,
         deadline: null,
         description: '',
-        priority: TaskPriorities.Low,
+        priority: TASK_PRIORITIES.Low,
         startDate: null,
         todoListId: 'todolistId1',
         fetchStatus: 'idle',
@@ -32,12 +32,12 @@ const initialGlobalState: AppRootState = {
       {
         id: 'task1_2',
         title: 'JS',
-        status: TaskStatuses.Completed,
+        status: TASK_STATUSES.Completed,
         addedDate: null,
         order: 0,
         deadline: null,
         description: '',
-        priority: TaskPriorities.Low,
+        priority: TASK_PRIORITIES.Low,
         startDate: null,
         todoListId: 'todolistId1',
         fetchStatus: 'idle',
@@ -47,12 +47,12 @@ const initialGlobalState: AppRootState = {
       {
         id: v1(),
         title: 'Milk',
-        status: TaskStatuses.New,
+        status: TASK_STATUSES.New,
         addedDate: null,
         order: 0,
         deadline: null,
         description: '',
-        priority: TaskPriorities.Low,
+        priority: TASK_PRIORITIES.Low,
         startDate: null,
         todoListId: 'todolistId2',
         fetchStatus: 'idle',
@@ -60,12 +60,12 @@ const initialGlobalState: AppRootState = {
       {
         id: v1(),
         title: 'React Book',
-        status: TaskStatuses.Completed,
+        status: TASK_STATUSES.Completed,
         addedDate: null,
         order: 0,
         deadline: null,
         description: '',
-        priority: TaskPriorities.Low,
+        priority: TASK_PRIORITIES.Low,
         startDate: null,
         todoListId: 'todolistId2',
         fetchStatus: 'idle',

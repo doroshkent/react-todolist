@@ -1,7 +1,7 @@
 import { v4 } from 'uuid'
 import { test } from 'vitest'
 import { TodolistApi, todolistsThunks } from '../todolists/'
-import { TaskPriorities, TaskStatuses } from 'common/enums'
+import { TASK_PRIORITIES, TASK_STATUSES } from 'common/enums'
 import { tasksActions, tasksReducer, TasksState, tasksThunks } from './tasks-slice'
 import { ApiTask } from './tasks-api'
 
@@ -13,82 +13,82 @@ const startState: TasksState = {
     {
       id: '1',
       title: 'HTML&CSS',
-      status: TaskStatuses.Completed,
+      status: TASK_STATUSES.Completed,
       addedDate: null,
       order: 0,
       deadline: null,
       description: '',
-      priority: TaskPriorities.Low,
+      priority: TASK_PRIORITIES.Low,
       startDate: null,
       todoListId: todolistId1,
-      entityStatus: 'idle',
+      fetchStatus: 'idle',
     },
     {
       id: '2',
       title: 'JS',
-      status: TaskStatuses.Completed,
+      status: TASK_STATUSES.Completed,
       addedDate: null,
       order: 0,
       deadline: null,
       description: '',
-      priority: TaskPriorities.Low,
+      priority: TASK_PRIORITIES.Low,
       startDate: null,
       todoListId: todolistId1,
-      entityStatus: 'idle',
+      fetchStatus: 'idle',
     },
     {
       id: '3',
       title: 'React',
-      status: TaskStatuses.New,
+      status: TASK_STATUSES.New,
       addedDate: null,
       order: 0,
       deadline: null,
       description: '',
-      priority: TaskPriorities.Low,
+      priority: TASK_PRIORITIES.Low,
       startDate: null,
       todoListId: todolistId1,
-      entityStatus: 'idle',
+      fetchStatus: 'idle',
     },
   ],
   [todolistId2]: [
     {
       id: '1',
       title: 'milk',
-      status: TaskStatuses.Completed,
+      status: TASK_STATUSES.Completed,
       addedDate: null,
       order: 0,
       deadline: null,
       description: '',
-      priority: TaskPriorities.Low,
+      priority: TASK_PRIORITIES.Low,
       startDate: null,
       todoListId: todolistId2,
-      entityStatus: 'idle',
+      fetchStatus: 'idle',
     },
     {
       id: '2',
       title: 'book',
-      status: TaskStatuses.Completed,
+      status: TASK_STATUSES.Completed,
       addedDate: null,
       order: 0,
       deadline: null,
       description: '',
-      priority: TaskPriorities.Low,
+      priority: TASK_PRIORITIES.Low,
       startDate: null,
       todoListId: todolistId2,
-      entityStatus: 'idle',
+      fetchStatus: 'idle',
     },
     {
       id: '3',
       title: 'tea',
-      status: TaskStatuses.New,
+      status: TASK_STATUSES.New,
       addedDate: null,
       order: 0,
       deadline: null,
       description: '',
-      priority: TaskPriorities.Low,
+      priority: TASK_PRIORITIES.Low,
       startDate: null,
       todoListId: todolistId2,
-      entityStatus: 'idle',
+      fetchStatus: 'idle',
     },
   ],
 }
@@ -112,12 +112,12 @@ test('should remove the correct task from the correct todolist', ({ expect }) =>
       {
         id: '1',
         title: 'HTML&CSS',
-        status: TaskStatuses.Completed,
+        status: TASK_STATUSES.Completed,
         addedDate: '',
         order: 0,
         deadline: null,
         description: '',
-        priority: TaskPriorities.Low,
+        priority: TASK_PRIORITIES.Low,
         startDate: null,
         todoListId: todolistId1,
         entityStatus: 'idle',
@@ -125,12 +125,12 @@ test('should remove the correct task from the correct todolist', ({ expect }) =>
       {
         id: '2',
         title: 'JS',
-        status: TaskStatuses.Completed,
+        status: TASK_STATUSES.Completed,
         addedDate: '',
         order: 0,
         deadline: null,
         description: '',
-        priority: TaskPriorities.Low,
+        priority: TASK_PRIORITIES.Low,
         startDate: null,
         todoListId: todolistId1,
         entityStatus: 'idle',
@@ -138,12 +138,12 @@ test('should remove the correct task from the correct todolist', ({ expect }) =>
       {
         id: '3',
         title: 'React',
-        status: TaskStatuses.New,
+        status: TASK_STATUSES.New,
         addedDate: '',
         order: 0,
         deadline: null,
         description: '',
-        priority: TaskPriorities.Low,
+        priority: TASK_PRIORITIES.Low,
         startDate: null,
         todoListId: todolistId1,
         entityStatus: 'idle',
@@ -153,12 +153,12 @@ test('should remove the correct task from the correct todolist', ({ expect }) =>
       {
         id: '1',
         title: 'milk',
-        status: TaskStatuses.Completed,
+        status: TASK_STATUSES.Completed,
         addedDate: '',
         order: 0,
         deadline: null,
         description: '',
-        priority: TaskPriorities.Low,
+        priority: TASK_PRIORITIES.Low,
         startDate: null,
         todoListId: todolistId2,
         entityStatus: 'idle',
@@ -166,12 +166,12 @@ test('should remove the correct task from the correct todolist', ({ expect }) =>
       {
         id: '3',
         title: 'tea',
-        status: TaskStatuses.New,
+        status: TASK_STATUSES.New,
         addedDate: '',
         order: 0,
         deadline: null,
         description: '',
-        priority: TaskPriorities.Low,
+        priority: TASK_PRIORITIES.Low,
         startDate: null,
         todoListId: todolistId2,
         entityStatus: 'idle',
@@ -186,12 +186,12 @@ test('should update the correct task', ({ expect }) => {
   const updatedTask: ApiTask = {
     id: '2',
     title: newTitle,
-    status: TaskStatuses.New,
+    status: TASK_STATUSES.New,
     description: null,
     deadline: null,
     addedDate: null,
     startDate: null,
-    priority: TaskPriorities.Low,
+    priority: TASK_PRIORITIES.Low,
     order: 0,
     todoListId: todolistId2,
   }
@@ -208,19 +208,19 @@ test('should update the correct task', ({ expect }) => {
 
   expect(endState[todolistId1][1].title).toBe('JS')
   expect(endState[todolistId2][1].title).toBe(newTitle)
-  expect(endState[todolistId2][1].status).toBe(TaskStatuses.New)
+  expect(endState[todolistId2][1].status).toBe(TASK_STATUSES.New)
 })
 
 test('should not affect other properties of the task', ({ expect }) => {
   const taskWithUpdatedTitle = {
     id: '2',
     title: newTitle,
-    status: TaskStatuses.Completed,
+    status: TASK_STATUSES.Completed,
     description: null,
     deadline: null,
     addedDate: null,
     startDate: null,
-    priority: TaskPriorities.Low,
+    priority: TASK_PRIORITIES.Low,
     order: 0,
     todoListId: todolistId2,
   }
@@ -236,13 +236,13 @@ test('should not affect other properties of the task', ({ expect }) => {
   const endState = tasksReducer(startState, action)
 
   expect(endState[todolistId2][1].title).toBe(newTitle)
-  expect(endState[todolistId2][1].status).toBe(TaskStatuses.Completed) // or whatever it was initially
+  expect(endState[todolistId2][1].status).toBe(TASK_STATUSES.Completed) // or whatever it was initially
 })
 
 test('should change status of task in correct todolist', ({ expect }) => {
   const endState = tasksReducer(
     startState,
-    tasksActions.setTaskEntityStatus({ todolistId: todolistId1, taskId: '1', entityStatus: 'succeeded' })
+    tasksActions.setTaskEntityStatus({ todolistId: todolistId1, taskId: '1', fetchStatus: 'succeeded' })
   )
 
   expect(endState[todolistId1][0].fetchStatus).toBe('succeeded')
@@ -253,12 +253,12 @@ test('should add new task with entity status', ({ expect }) => {
   const newTask: ApiTask = {
     id: '1',
     title: newTitle,
-    status: TaskStatuses.New,
+    status: TASK_STATUSES.New,
     addedDate: null,
     order: 0,
     deadline: null,
     description: '',
-    priority: TaskPriorities.Low,
+    priority: TASK_PRIORITIES.Low,
     startDate: null,
     todoListId: todolistId2,
   }
@@ -279,7 +279,7 @@ test('should add new task with entity status', ({ expect }) => {
   expect(endState[todolistId2].length).toBe(4)
   expect(endState[todolistId2][0].id).toBeDefined()
   expect(endState[todolistId2][0].title).toBe(newTitle)
-  expect(endState[todolistId2][0].status).toBe(TaskStatuses.New)
+  expect(endState[todolistId2][0].status).toBe(TASK_STATUSES.New)
 })
 
 test('should add a new property with a new array when a new todolist is added', ({ expect }) => {
@@ -352,12 +352,12 @@ test('should set tasks with entity status for todolist', ({ expect }) => {
     {
       id: '1',
       title: 'HTML&CSS',
-      status: TaskStatuses.Completed,
+      status: TASK_STATUSES.Completed,
       addedDate: null,
       order: 0,
       deadline: null,
       description: '',
-      priority: TaskPriorities.Low,
+      priority: TASK_PRIORITIES.Low,
       startDate: null,
       todoListId: todolistId1,
     },

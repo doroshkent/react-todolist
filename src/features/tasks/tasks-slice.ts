@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { handleServerAppError, thunkTryCatch } from 'common/utils'
-import { RESULT_CODE, TaskPriorities, TaskStatuses } from 'common/enums'
+import { RESULT_CODE } from 'common/enums'
 import { ApiTask, CreateTaskArg, RemoveTaskArg, tasksApi, UpdateApiTaskModel, UpdateTaskArg } from './tasks-api'
 import { RequestStatus } from 'common/types'
 import { clearTodolistsAndTasks } from 'common/actions'
@@ -9,7 +9,7 @@ import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
 
 const tasksSlice = createSlice({
   name: 'tasks',
-  initialState: {} as { [key: string]: DomainTask[] },
+  initialState: {} as Record<string, DomainTask[]>,
   reducers: {
     setTaskEntityStatus: (
       state,
@@ -150,20 +150,13 @@ const removeTask = createAppAsyncThunk<RemoveTaskArg, RemoveTaskArg>(
   }
 )
 
+export const tasksReducer = tasksSlice.reducer
+export const tasksActions = tasksSlice.actions
+export const tasksThunks = { fetchTasks, addTask, updateTask, removeTask }
+
 // types
-type UpdateDomainTaskModel = {
-  title?: string
-  status?: TaskStatuses
-  description?: string
-  priority?: TaskPriorities
-  startDate?: Date | null
-  deadline?: Date | null
-}
+type UpdateDomainTaskModel = Partial<UpdateApiTaskModel>
 export type DomainTask = ApiTask & {
   fetchStatus: RequestStatus
 }
 export type TasksState = ReturnType<typeof tasksSlice.getInitialState>
-
-export const tasksReducer = tasksSlice.reducer
-export const tasksActions = tasksSlice.actions
-export const tasksThunks = { fetchTasks, addTask, updateTask, removeTask }
