@@ -24,6 +24,9 @@ const authSlice = createSlice({
         state.isLoggedIn = true
       })
   },
+  selectors: {
+    selectIsLoggedIn: (sliceState) => sliceState.isLoggedIn,
+  },
 })
 
 // thunks
@@ -52,3 +55,4 @@ const logout = createAppAsyncThunk<undefined>(`${authSlice.name}/logout`, async 
 export const authActions = authSlice.actions
 export const authReducer = authSlice.reducer
 export const authThunks = { login, logout }
+export const { selectIsLoggedIn } = authSlice.selectors

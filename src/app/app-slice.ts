@@ -29,6 +29,11 @@ const appSlice = createSlice({
         state.isInitialized = true
       })
   },
+  selectors: {
+    selectAppIsInitialized: (sliceState) => sliceState.isInitialized,
+    selectAppError: (sliceState) => sliceState.error,
+    selectAppStatus: (sliceState) => sliceState.status,
+  },
 })
 
 const initializeApp = createAppAsyncThunk<undefined, undefined>(
@@ -50,3 +55,4 @@ const initializeApp = createAppAsyncThunk<undefined, undefined>(
 export const appReducer = appSlice.reducer
 export const appActions = appSlice.actions
 export const appThunks = { initializeApp }
+export const { selectAppIsInitialized, selectAppStatus, selectAppError } = appSlice.selectors

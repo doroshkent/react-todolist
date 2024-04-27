@@ -9,7 +9,7 @@ import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 
 export const Todolist = memo(({ id, title, filter, fetchStatus }: TodolistProps) => {
-  const { onTodoListDeleted, addNewTask, onFilterButtonClicked, onTodoListRenamed } = useTodolist(id)
+  const { onTodoListDeleted, onNewTaskAdded, onFilterButtonClicked, onTodoListRenamed } = useTodolist(id)
 
   return (
     <Card sx={{ padding: '15px', minWidth: '300px', maxWidth: '450px' }}>
@@ -24,7 +24,7 @@ export const Todolist = memo(({ id, title, filter, fetchStatus }: TodolistProps)
         </Grid>
 
         <Grid item>
-          <AddItemForm disabled={fetchStatus === 'loading'} addItem={addNewTask} item="task" />
+          <AddItemForm disabled={fetchStatus === 'loading'} addItem={onNewTaskAdded} item="task" />
         </Grid>
 
         <Grid item>
