@@ -1,7 +1,7 @@
 import { test } from 'vitest'
 import { v4 } from 'uuid'
 import {
-  FilterValues,
+  Filter,
   TodolistDomain,
   todolistsActions,
   todolistsReducer,
@@ -72,7 +72,7 @@ test('should add a new correct todolist', ({ expect }) => {
 })
 
 test('should change the filter of the correct todolist', ({ expect }) => {
-  const newFilter: FilterValues = 'completed'
+  const newFilter: Filter = 'completed'
 
   const endState = todolistsReducer(startState, todolistsActions.changeFilter({ id: todolistId2, filter: newFilter }))
 

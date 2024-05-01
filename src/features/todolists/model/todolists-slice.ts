@@ -10,7 +10,7 @@ const todolistsSlice = createSlice({
   name: 'todolists',
   initialState: [] as TodolistDomain[],
   reducers: {
-    changeFilter: (state, action: PayloadAction<{ id: string; filter: FilterValues }>) => {
+    changeFilter: (state, action: PayloadAction<{ id: string; filter: Filter }>) => {
       const index = state.findIndex((tl) => tl.id === action.payload.id)
       if (index !== -1) state[index].filter = action.payload.filter
     },
@@ -40,6 +40,9 @@ const todolistsSlice = createSlice({
       .addCase(clearTodolistsAndTasks, () => {
         return []
       })
+  },
+  selectors: {
+    selectTodolists: (todolists) => todolists,
   },
 })
 
@@ -109,10 +112,11 @@ const renameTodolist = createAppAsyncThunk<RenameTodolistArg, RenameTodolistArg>
 export const todolistsReducer = todolistsSlice.reducer
 export const todolistsActions = todolistsSlice.actions
 export const todolistsThunks = { fetchTodolists, removeTodolist, renameTodolist, addTodolist }
+export const { selectTodolists } = todolistsSlice.selectors
 
 //types
-export type FilterValues = 'all' | 'active' | 'completed'
+export type Filter = 'all' | 'active' | 'completed'
 export type TodolistDomain = TodolistApi & {
-  filter: FilterValues
+  filter: Filter
   fetchStatus: RequestStatus
 }

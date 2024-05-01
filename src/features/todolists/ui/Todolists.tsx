@@ -1,14 +1,24 @@
-import React, { memo } from 'react'
+import React, { useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { PATH } from 'pages'
 import { NoItemsPrompt } from 'common/components'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
-import { useTodolists } from 'features/todolists/lib/useTodolists'
-import { Todolist } from 'features/todolists/todolist/Todolist'
+import { Todolist } from 'features/todolists/ui/todolist/Todolist'
+import { useSelector } from 'react-redux'
+import { selectIsLoggedIn } from 'features/auth'
+import { useActions } from 'common/hooks'
+import { selectTodolists } from 'features/todolists/model/todolists-slice'
 
-export const Todolists = memo(() => {
-  const { todolists, isLoggedIn } = useTodolists()
+export const Todolists = () => {
+  const todolists = useSelector(selectTodolists)
+  const isLoggedIn = useSelector(selectIsLoggedIn)
+  const { fetchTodolists } = useActions()
+
+  useEffect(() => {
+    if (!isLoggedIn) return
+    fetchTodolists()
+  }, [])
 
   if (!isLoggedIn) {
     return <Navigate to={PATH.LOGIN} />
@@ -21,7 +31,7 @@ export const Todolists = memo(() => {
           {todolists.map((tl) => {
             return (
               <Grid item key={tl.id}>
-                <Todolist {...tl} />
+                <Todolist todolist={tl} />
               </Grid>
             )
           })}
@@ -31,4 +41,4 @@ export const Todolists = memo(() => {
       )}
     </Container>
   )
-})
+}

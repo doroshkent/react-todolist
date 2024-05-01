@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useSelector } from 'react-redux'
 import { ReduxStoreProviderDecorator, ThemeProviderDecorator } from 'common/stories/decorators'
-import { Todolist } from './Todolist'
-import { selectTodolists } from 'features/todolists/model/todolists-selectors'
+import { Todolist } from 'features/todolists/ui/todolist/Todolist'
+import { selectTodolists } from '../model/todolists-slice'
 
 const meta: Meta<typeof Todolist> = {
   title: 'TODOLISTS/Todolist',
@@ -17,14 +17,7 @@ type Story = StoryObj<typeof Todolist>
 
 const Component = () => {
   const todolists = useSelector(selectTodolists)
-  return (
-    <Todolist
-      id={todolists[0].id}
-      filter={todolists[0].filter}
-      title={todolists[0].title}
-      fetchStatus={todolists[0].fetchStatus}
-    />
-  )
+  return <Todolist todolist={todolists[0]} />
 }
 
 export const TodolistStory: Story = {

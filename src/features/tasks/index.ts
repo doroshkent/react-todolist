@@ -1,13 +1,11 @@
 // task
-export { Task } from './task/Task'
-export { useTask } from './task/useTask'
+export { Task } from 'features/tasks/ui/task/Task'
 
 // tasks
 export { tasksApi } from 'features/tasks/api/tasks-api'
 export * from 'features/tasks/model/tasks-selectors'
 export { tasksReducer, tasksActions, tasksThunks } from 'features/tasks/model/tasks-slice'
 export { Tasks } from 'features/tasks/ui/Tasks'
-export { useTasks } from 'features/tasks/lib/useTasks'
 
 // types
 export type { ApiTask, UpdateApiTaskModel } from 'features/tasks/api/tasks-api.types'

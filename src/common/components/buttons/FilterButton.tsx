@@ -1,8 +1,7 @@
-import { memo } from 'react'
 import Button, { ButtonProps } from '@mui/material/Button'
-import { FilterValues } from 'features/todolists'
+import { Filter } from 'features/todolists'
 
-export const FilterButton = memo(({ filterName, filter, onClickCallback, ...rest }: FilterButtonProps) => {
+export const FilterButton = ({ filterName, filter, onClickCallback, ...rest }: FilterButtonProps) => {
   return (
     <Button
       variant={filter === filterName ? 'contained' : 'outlined'}
@@ -11,11 +10,11 @@ export const FilterButton = memo(({ filterName, filter, onClickCallback, ...rest
       {filterName}
     </Button>
   )
-})
+}
 
 // types
 type FilterButtonProps = {
-  filter: FilterValues
-  onClickCallback: (filter: FilterValues) => void
-  filterName: FilterValues
+  filter: Filter
+  onClickCallback: (filter: Filter) => void
+  filterName: Filter
 } & ButtonProps

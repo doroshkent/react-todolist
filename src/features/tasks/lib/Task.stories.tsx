@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useSelector } from 'react-redux'
 import { ReduxStoreProviderDecorator } from 'common/stories/decorators'
-import { Task } from './Task'
+import { Task } from 'features/tasks/ui/task/Task'
 import { selectTasks } from 'features/tasks/model/tasks-selectors'
 
 const meta: Meta<typeof Task> = {
