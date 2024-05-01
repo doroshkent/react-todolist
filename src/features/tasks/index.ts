@@ -3,12 +3,12 @@ export { Task } from './task/Task'
 export { useTask } from './task/useTask'
 
 // tasks
-export { tasksApi } from './tasks-api'
-export * from './tasks-selectors'
-export { tasksReducer, tasksActions, tasksThunks } from './tasks-slice'
-export { Tasks } from './Tasks'
-export { useTasks } from './useTasks'
+export { tasksApi } from 'features/tasks/api/tasks-api'
+export * from 'features/tasks/model/tasks-selectors'
+export { tasksReducer, tasksActions, tasksThunks } from 'features/tasks/model/tasks-slice'
+export { Tasks } from 'features/tasks/ui/Tasks'
+export { useTasks } from 'features/tasks/lib/useTasks'
 
 // types
-export type { ApiTask, UpdateApiTaskModel } from './tasks-api'
-export type { TasksState } from './tasks-slice'
+export type { ApiTask, UpdateApiTaskModel } from 'features/tasks/api/tasks-api.types'
+export type { TasksState } from 'features/tasks/model/tasks-slice'

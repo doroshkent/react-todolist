@@ -1,19 +1,26 @@
-import { useCallback } from 'react'
-import { FilterValues } from 'features/todolists/todolists-slice'
+import { FilterValues } from 'features/todolists/model/todolists-slice'
 import { useActions } from 'common/hooks'
 
 export const useTodolist = (id: string) => {
   const { removeTodolist, renameTodolist, addTask, changeFilter } = useActions()
 
-  const onTodoListDeleted = useCallback(() => removeTodolist({ id }), [id])
-  const onTodoListRenamed = useCallback((title: string) => renameTodolist({ id, title }), [id])
-  const onNewTaskAdded = useCallback((title: string) => addTask({ todolistId: id, title }), [id])
-  const onFilterButtonClicked = useCallback((value: FilterValues) => changeFilter({ id, filter: value }), [id])
+  const onRemoveTodoList = () => {
+    removeTodolist({ id })
+  }
+  const onRenameTodoList = (title: string) => {
+    renameTodolist({ id, title })
+  }
+  const onAddTask = (title: string) => {
+    addTask({ todolistId: id, title })
+  }
+  const onChangeFilter = (value: FilterValues) => {
+    changeFilter({ id, filter: value })
+  }
 
   return {
-    onTodoListRenamed,
-    onTodoListDeleted,
-    onNewTaskAdded,
-    onFilterButtonClicked,
+    onRenameTodoList,
+    onRemoveTodoList,
+    onAddTask,
+    onChangeFilter,
   }
 }

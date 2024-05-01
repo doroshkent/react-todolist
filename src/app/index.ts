@@ -1,4 +1,11 @@
-export { useApp } from './useApp'
-export { appActions, appReducer, appThunks, selectAppError, selectAppStatus, selectAppIsInitialized } from './app-slice'
+export { useApp } from 'app/lib/useApp'
+export {
+  appActions,
+  appReducer,
+  appThunks,
+  selectAppError,
+  selectAppStatus,
+  selectAppIsInitialized,
+} from 'app/model/app-slice'
 export { store } from './store'
-export { App } from './App'
+export { App } from 'app/ui/App'

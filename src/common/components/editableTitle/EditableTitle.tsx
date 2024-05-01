@@ -1,18 +1,15 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { RequestStatus } from '../../types'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-import { EditItemField } from '../editItemField/EditItemField'
+import { EditItemField } from 'common/components/editItemField/ui/EditItemField'
 
 export const EditableTitle = ({ renameItemCallback, fetchStatus, title }: EditableTitleProps) => {
   const [titleEditMode, setTitleEditMode] = useState(false)
-  const toggleTitleEditMode = useCallback(
-    (toggleValue: boolean) => {
-      if (fetchStatus === 'loading') return
-      setTitleEditMode(toggleValue)
-    },
-    [fetchStatus]
-  )
+  const toggleTitleEditMode = (toggleValue: boolean) => {
+    if (fetchStatus === 'loading') return
+    setTitleEditMode(toggleValue)
+  }
 
   return (
     <>

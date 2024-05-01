@@ -7,15 +7,14 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
-import { DomainTask } from 'features/tasks/tasks-slice'
-import { TasksProps } from 'features/tasks/Tasks'
+import { DomainTask } from 'features/tasks/model/tasks-slice'
+import { TasksProps } from 'features/tasks/ui/Tasks'
 
 export const Task = memo(({ todolistId, task }: TaskProps) => {
   const { id, status, fetchStatus, title } = task
-  const { editMode, toggleEditMode, onTaskRenamed, onTaskChecked, onTaskRemoved, todolistFetchStatus } = useTask(
+  const { editMode, toggleEditMode, onRenameTask, onCheckTask, onRemoveTask, todolistFetchStatus } = useTask(
     id,
-    todolistId,
-    status
+    todolistId
   )
 
   const buttonDisabled = fetchStatus === 'loading' || todolistFetchStatus === 'loading'
@@ -23,9 +22,9 @@ export const Task = memo(({ todolistId, task }: TaskProps) => {
   return (
     <ListItem disablePadding>
       {editMode ? (
-        <EditItemField title={title} renameItem={onTaskRenamed} toggleEditMode={toggleEditMode} />
+        <EditItemField title={title} renameItem={onRenameTask} toggleEditMode={toggleEditMode} />
       ) : (
-        <ListItemButton disabled={buttonDisabled} onClick={() => onTaskChecked(status)} dense>
+        <ListItemButton disabled={buttonDisabled} onClick={() => onCheckTask(status)} dense>
           <Checkbox edge="start" checked={status === TASK_STATUSES.Completed} tabIndex={-1} disableRipple />
           <ListItemText>
             <Typography
@@ -41,7 +40,7 @@ export const Task = memo(({ todolistId, task }: TaskProps) => {
         </ListItemButton>
       )}
       <EditButton disabled={buttonDisabled} onClick={() => toggleEditMode(true)} />
-      <DeleteButton disabled={buttonDisabled} onClick={onTaskRemoved} />
+      <DeleteButton disabled={buttonDisabled} onClick={onRemoveTask} />
     </ListItem>
   )
 })

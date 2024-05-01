@@ -1,2 +1,2 @@
-export { useHeader } from './useHeader'
-export { Header } from './Header'
+export { useHeader } from 'widgets/header/lib/useHeader'
+export { Header } from 'widgets/header/ui/Header'
