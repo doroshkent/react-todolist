@@ -1,5 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { handleServerAppError, thunkTryCatch } from 'common/utils'
+import { createSlice, isFulfilled } from '@reduxjs/toolkit'
 import { RESULT_CODE } from 'common/enums'
 import { authAPI } from 'features/auth/api/auth-api'
 import { appThunks } from 'app/model/app-slice'
@@ -15,42 +14,35 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(authThunks.login.fulfilled, (state) => {
-        state.isLoggedIn = true
-      })
       .addCase(authThunks.logout.fulfilled, (state) => {
         state.isLoggedIn = false
       })
-      .addCase(appThunks.initializeApp.fulfilled, (state) => {
+      .addMatcher(isFulfilled(authThunks.login, appThunks.initializeApp), (state) => {
         state.isLoggedIn = true
       })
   },
   selectors: {
-    selectIsLoggedIn: (sliceState) => sliceState.isLoggedIn,
+    selectIsLoggedIn: (auth) => auth.isLoggedIn,
   },
 })
 
 // thunks
-const login = createAppAsyncThunk<undefined, LoginParams>(`${authSlice.name}/login`, async (arg, thunkAPI) => {
-  const { dispatch, rejectWithValue } = thunkAPI
-  return thunkTryCatch(thunkAPI, async () => {
+const login = createAppAsyncThunk<undefined, LoginParams>(
+  `${authSlice.name}/login`,
+  async (arg, { rejectWithValue }) => {
     const res = await authAPI.login(arg)
     if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
       return undefined
     } else {
-      handleServerAppError(res.data, dispatch)
-      return rejectWithValue(null)
+      return rejectWithValue(res.data)
     }
-  })
-})
+  }
+)
 
-const logout = createAppAsyncThunk<undefined>(`${authSlice.name}/logout`, async (_, thunkAPI) => {
-  const { dispatch } = thunkAPI
-  return thunkTryCatch(thunkAPI, async () => {
-    await authAPI.logout()
-    dispatch(clearTodolistsAndTasks())
-    return undefined
-  })
+const logout = createAppAsyncThunk<undefined>(`${authSlice.name}/logout`, async (_, { dispatch }) => {
+  await authAPI.logout()
+  dispatch(clearTodolistsAndTasks())
+  return undefined
 })
 
 export const authActions = authSlice.actions

@@ -2,7 +2,7 @@ import { v4 } from 'uuid'
 import { test } from 'vitest'
 import { TodolistApi, todolistsThunks } from 'features/todolists'
 import { TASK_PRIORITIES, TASK_STATUSES } from 'common/enums'
-import { tasksActions, tasksReducer, TasksState, tasksThunks } from 'features/tasks/model/tasks-slice'
+import { tasksReducer, TasksState, tasksThunks } from 'features/tasks/model/tasks-slice'
 import { ApiTask } from 'features/tasks/api/tasks-api.types'
 
 const todolistId1 = v4()
@@ -96,13 +96,21 @@ const startState: TasksState = {
 const newTitle = 'new task'
 
 test('should remove the correct task from the correct todolist', ({ expect }) => {
-  type RemoveTask = Omit<ReturnType<typeof tasksThunks.removeTask.fulfilled>, 'meta'>
+  type RemoveTask = ReturnType<typeof tasksThunks.removeTask.fulfilled>
 
   const action: RemoveTask = {
     type: tasksThunks.removeTask.fulfilled.type,
     payload: {
       todolistId: todolistId2,
       taskId: '2',
+    },
+    meta: {
+      arg: {
+        todolistId: todolistId2,
+        taskId: '2',
+      },
+      requestStatus: 'fulfilled',
+      requestId: 'requestId',
     },
   }
   const endState = tasksReducer(startState, action)
@@ -113,40 +121,40 @@ test('should remove the correct task from the correct todolist', ({ expect }) =>
         id: '1',
         title: 'HTML&CSS',
         status: TASK_STATUSES.Completed,
-        addedDate: '',
+        addedDate: null,
         order: 0,
         deadline: null,
         description: '',
         priority: TASK_PRIORITIES.Low,
         startDate: null,
         todoListId: todolistId1,
-        entityStatus: 'idle',
+        fetchStatus: 'idle',
       },
       {
         id: '2',
         title: 'JS',
         status: TASK_STATUSES.Completed,
-        addedDate: '',
+        addedDate: null,
         order: 0,
         deadline: null,
         description: '',
         priority: TASK_PRIORITIES.Low,
         startDate: null,
         todoListId: todolistId1,
-        entityStatus: 'idle',
+        fetchStatus: 'idle',
       },
       {
         id: '3',
         title: 'React',
         status: TASK_STATUSES.New,
-        addedDate: '',
+        addedDate: null,
         order: 0,
         deadline: null,
         description: '',
         priority: TASK_PRIORITIES.Low,
         startDate: null,
         todoListId: todolistId1,
-        entityStatus: 'idle',
+        fetchStatus: 'idle',
       },
     ],
     [todolistId2]: [
@@ -154,33 +162,33 @@ test('should remove the correct task from the correct todolist', ({ expect }) =>
         id: '1',
         title: 'milk',
         status: TASK_STATUSES.Completed,
-        addedDate: '',
+        addedDate: null,
         order: 0,
         deadline: null,
         description: '',
         priority: TASK_PRIORITIES.Low,
         startDate: null,
         todoListId: todolistId2,
-        entityStatus: 'idle',
+        fetchStatus: 'idle',
       },
       {
         id: '3',
         title: 'tea',
         status: TASK_STATUSES.New,
-        addedDate: '',
+        addedDate: null,
         order: 0,
         deadline: null,
         description: '',
         priority: TASK_PRIORITIES.Low,
         startDate: null,
         todoListId: todolistId2,
-        entityStatus: 'idle',
+        fetchStatus: 'idle',
       },
     ],
   })
 })
 
-type UpdateTask = Omit<ReturnType<typeof tasksThunks.updateTask.fulfilled>, 'meta'>
+type UpdateTask = ReturnType<typeof tasksThunks.updateTask.fulfilled>
 
 test('should update the correct task', ({ expect }) => {
   const updatedTask: ApiTask = {
@@ -201,6 +209,15 @@ test('should update the correct task', ({ expect }) => {
     payload: {
       task: updatedTask,
       todolistId: todolistId2,
+    },
+    meta: {
+      arg: {
+        taskId: updatedTask.id,
+        todolistId: todolistId2,
+        model: updatedTask,
+      },
+      requestStatus: 'fulfilled',
+      requestId: 'requestId',
     },
   }
 
@@ -231,22 +248,21 @@ test('should not affect other properties of the task', ({ expect }) => {
       task: taskWithUpdatedTitle,
       todolistId: todolistId2,
     },
+    meta: {
+      arg: {
+        taskId: taskWithUpdatedTitle.id,
+        todolistId: todolistId2,
+        model: taskWithUpdatedTitle,
+      },
+      requestStatus: 'fulfilled',
+      requestId: 'requestId',
+    },
   }
 
   const endState = tasksReducer(startState, action)
 
   expect(endState[todolistId2][1].title).toBe(newTitle)
   expect(endState[todolistId2][1].status).toBe(TASK_STATUSES.Completed) // or whatever it was initially
-})
-
-test('should change status of task in correct todolist', ({ expect }) => {
-  const endState = tasksReducer(
-    startState,
-    tasksActions.setTaskEntityStatus({ todolistId: todolistId1, taskId: '1', fetchStatus: 'succeeded' })
-  )
-
-  expect(endState[todolistId1][0].fetchStatus).toBe('succeeded')
-  expect(endState[todolistId2][0].fetchStatus).toBe('idle')
 })
 
 test('should add new task with entity status', ({ expect }) => {

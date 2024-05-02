@@ -1,7 +1,7 @@
 import { test } from 'vitest'
 import { tasksReducer, TasksState } from 'features/tasks/model/tasks-slice'
 import { TodolistDomain, todolistsReducer, todolistsThunks } from 'features/todolists/model/todolists-slice'
-import { TodolistApi } from 'features/todolists/api/todolists-api'
+import { TodolistApi } from 'features/todolists'
 
 test('new array should be added when new todolist is added', ({ expect }) => {
   const newTodolist: TodolistApi = {

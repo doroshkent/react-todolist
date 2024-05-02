@@ -1,4 +1,5 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react'
+import { maxLengthError, maxTodolistsCount } from 'common/constants'
 
 export const useAddItemForm = (onItemAdded: (title: string) => Promise<unknown>) => {
   const [newItemTitle, setNewItemTitle] = useState('')
@@ -15,7 +16,10 @@ export const useAddItemForm = (onItemAdded: (title: string) => Promise<unknown>)
           setNewItemTitle('')
         })
         .catch((e) => {
-          setError(e)
+          debugger
+          if (e.resultCode) {
+            e.messages[0].includes('Title') ? setError(maxLengthError) : setError(maxTodolistsCount)
+          }
         })
     } else {
       setError('Input is required')

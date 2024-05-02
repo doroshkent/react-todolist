@@ -22,11 +22,16 @@ const startState: TodolistDomain[] = [
 const newTitle = 'new title'
 
 test('should remove the correct todolist', ({ expect }) => {
-  type RemoveTodolist = Omit<ReturnType<typeof todolistsThunks.removeTodolist.fulfilled>, 'meta'>
+  type RemoveTodolist = ReturnType<typeof todolistsThunks.removeTodolist.fulfilled>
   const action: RemoveTodolist = {
     type: todolistsThunks.removeTodolist.fulfilled.type,
     payload: {
       id: todolistId2,
+    },
+    meta: {
+      arg: { id: todolistId2 },
+      requestId: 'requestId',
+      requestStatus: 'fulfilled',
     },
   }
   const endState = todolistsReducer(startState, action)
@@ -36,12 +41,20 @@ test('should remove the correct todolist', ({ expect }) => {
 })
 
 test('should rename the correct todolist', ({ expect }) => {
-  type RenameTodolist = Omit<ReturnType<typeof todolistsThunks.renameTodolist.fulfilled>, 'meta'>
+  type RenameTodolist = ReturnType<typeof todolistsThunks.renameTodolist.fulfilled>
   const action: RenameTodolist = {
     type: todolistsThunks.renameTodolist.fulfilled.type,
     payload: {
       id: todolistId2,
       title: newTitle,
+    },
+    meta: {
+      arg: {
+        id: todolistId2,
+        title: newTitle,
+      },
+      requestId: 'requestId',
+      requestStatus: 'fulfilled',
     },
   }
   const endState = todolistsReducer(startState, action)
@@ -94,16 +107,4 @@ test('should update the state with todolists and set the filter to "all"', ({ ex
   }
 
   expect(todolistsReducer([], action)).toEqual(startState)
-})
-
-test('should update fetchStatus of todo with a given id', ({ expect }) => {
-  const endState = todolistsReducer(
-    startState,
-    todolistsActions.setTodolistEntityStatus({ id: todolistId1, fetchStatus: 'loading' })
-  )
-
-  expect(endState).toEqual([
-    { id: todolistId1, title: 'To Learn', filter: 'all', addedDate: DATE, order: 0, fetchStatus: 'loading' },
-    { id: todolistId2, title: 'To Buy', filter: 'all', addedDate: DATE, order: 0, fetchStatus: 'idle' },
-  ])
 })

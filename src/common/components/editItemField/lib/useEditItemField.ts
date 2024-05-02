@@ -1,4 +1,5 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react'
+import { maxLengthError } from 'common/constants'
 
 export const useEditItemField = (
   title: string,
@@ -12,7 +13,9 @@ export const useEditItemField = (
     if (newTitle.trim()) {
       renameItem(newTitle.trim())
         .then(() => toggleEditMode(false))
-        .catch((e) => setError(e))
+        .catch((e) => {
+          if (e.resultCode) setError(maxLengthError)
+        })
     } else {
       setError('Input is required')
     }

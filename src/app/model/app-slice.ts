@@ -1,9 +1,10 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit'
 import { RequestStatus } from 'common/types'
-import { handleServerAppError, thunkTryCatch } from 'common/utils'
 import { authAPI } from 'features/auth'
 import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
 import { RESULT_CODE } from 'common/enums'
+import { todolistsThunks } from 'features/todolists'
+import { tasksThunks } from 'features/tasks'
 
 const appSlice = createSlice({
   name: 'app',
@@ -12,14 +13,7 @@ const appSlice = createSlice({
     error: null as string | null,
     isInitialized: false,
   },
-  reducers: {
-    setAppRequestStatus: (state, action: PayloadAction<{ status: RequestStatus }>) => {
-      state.status = action.payload.status
-    },
-    setAppRequestError: (state, action: PayloadAction<{ error: string | null }>) => {
-      state.error = action.payload.error
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(initializeApp.fulfilled, (state) => {
@@ -27,6 +21,30 @@ const appSlice = createSlice({
       })
       .addCase(initializeApp.rejected, (state) => {
         state.isInitialized = true
+      })
+      .addMatcher(isPending, (state) => {
+        state.status = 'loading'
+      })
+      .addMatcher(isFulfilled, (state) => {
+        state.status = 'succeeded'
+      })
+      .addMatcher(isRejected, (state, action: any) => {
+        state.status = 'failed'
+        if (action.payload && action.payload.messages && action.payload.messages.length > 0) {
+          if (
+            action.type === todolistsThunks.addTodolist.rejected.type ||
+            todolistsThunks.renameTodolist.rejected.type ||
+            tasksThunks.updateTask.rejected.type ||
+            tasksThunks.addTask.rejected.type ||
+            initializeApp.rejected.type
+          ) {
+            return
+          }
+
+          state.error = action.payload.messages[0]
+        } else {
+          state.error = action.error.message
+        }
       })
   },
   selectors: {
@@ -38,17 +56,13 @@ const appSlice = createSlice({
 
 const initializeApp = createAppAsyncThunk<undefined, undefined>(
   `${appSlice.name}/initializeApp`,
-  async (_, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI
-    return thunkTryCatch(thunkAPI, async () => {
-      const res = await authAPI.me()
-      if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
-        return undefined
-      } else {
-        handleServerAppError(res.data, dispatch, false)
-        return rejectWithValue(null)
-      }
-    })
+  async (_, { rejectWithValue }) => {
+    const res = await authAPI.me()
+    if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
+      return undefined
+    } else {
+      return rejectWithValue(res.data)
+    }
   }
 )
 
