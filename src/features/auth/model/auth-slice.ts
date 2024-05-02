@@ -45,7 +45,6 @@ const logout = createAppAsyncThunk<undefined>(`${authSlice.name}/logout`, async 
   return undefined
 })
 
-export const authActions = authSlice.actions
 export const authReducer = authSlice.reducer
 export const authThunks = { login, logout }
 export const { selectIsLoggedIn } = authSlice.selectors

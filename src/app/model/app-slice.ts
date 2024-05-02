@@ -1,4 +1,4 @@
-import { createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit'
+import { createSlice, isFulfilled, isPending, isRejected, PayloadAction } from '@reduxjs/toolkit'
 import { RequestStatus } from 'common/types'
 import { authAPI } from 'features/auth'
 import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
@@ -13,7 +13,11 @@ const appSlice = createSlice({
     error: null as string | null,
     isInitialized: false,
   },
-  reducers: {},
+  reducers: {
+    setAppRequestError: (state, action: PayloadAction<{ error: string | null }>) => {
+      state.error = action.payload.error
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(initializeApp.fulfilled, (state) => {
@@ -30,7 +34,7 @@ const appSlice = createSlice({
       })
       .addMatcher(isRejected, (state, action: any) => {
         state.status = 'failed'
-        if (action.payload && action.payload.messages && action.payload.messages.length > 0) {
+        if (action?.payload?.messages?.length > 0) {
           if (
             action.type === todolistsThunks.addTodolist.rejected.type ||
             todolistsThunks.renameTodolist.rejected.type ||

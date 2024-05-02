@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import Box from '@mui/material/Box'
 import { ErrorSnackbar, InitializeProgress } from 'common/components'
 import { Header } from 'widgets/header'
-import { Pages } from 'pages'
+import { Pages } from 'widgets/pages'
 import { useApp } from 'app/lib/useApp'
 
 export function App() {

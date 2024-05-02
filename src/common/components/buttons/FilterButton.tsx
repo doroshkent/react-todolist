@@ -1,7 +1,13 @@
 import Button, { ButtonProps } from '@mui/material/Button'
 import { Filter } from 'features/todolists'
 
-export const FilterButton = ({ filterName, filter, onClickCallback, ...rest }: FilterButtonProps) => {
+type Props = {
+  filter: Filter
+  onClickCallback: (filter: Filter) => void
+  filterName: Filter
+} & ButtonProps
+
+export const FilterButton = ({ filterName, filter, onClickCallback, ...rest }: Props) => {
   return (
     <Button
       variant={filter === filterName ? 'contained' : 'outlined'}
@@ -11,10 +17,3 @@ export const FilterButton = ({ filterName, filter, onClickCallback, ...rest }: F
     </Button>
   )
 }
-
-// types
-type FilterButtonProps = {
-  filter: Filter
-  onClickCallback: (filter: Filter) => void
-  filterName: Filter
-} & ButtonProps

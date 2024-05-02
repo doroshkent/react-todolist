@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
-import { PATH } from 'pages'
+import { PATH } from 'widgets/pages'
 import { NoItemsPrompt } from 'common/components'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
