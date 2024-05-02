@@ -2,7 +2,13 @@ import React, { memo } from 'react'
 import TextField from '@mui/material/TextField'
 import { useEditItemField } from 'common/components/editItemField/lib/useEditItemField'
 
-export const EditItemField = memo(({ title, renameItem, toggleEditMode }: EditableItemPropsType) => {
+type Props = {
+  title: string
+  renameItem: (title: string) => Promise<unknown>
+  toggleEditMode: (toggleValue: boolean) => void
+}
+
+export const EditItemField = memo(({ title, renameItem, toggleEditMode }: Props) => {
   const { newTitle, error, onTitleChanged, activateViewMode, onKeyPressed } = useEditItemField(
     title,
     toggleEditMode,
@@ -20,13 +26,7 @@ export const EditItemField = memo(({ title, renameItem, toggleEditMode }: Editab
       autoFocus
       error={!!error}
       fullWidth
+      helperText={error ? error : ''}
     />
   )
 })
-
-//types
-export type EditableItemPropsType = {
-  title: string
-  renameItem: (title: string) => void
-  toggleEditMode: (toggleValue: boolean) => void
-}

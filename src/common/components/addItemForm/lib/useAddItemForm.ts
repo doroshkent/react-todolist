@@ -1,6 +1,6 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react'
 
-export const useAddItemForm = (onItemAdded: (title: string) => void) => {
+export const useAddItemForm = (onItemAdded: (title: string) => Promise<unknown>) => {
   const [newItemTitle, setNewItemTitle] = useState('')
   const [error, setError] = useState('')
 
@@ -11,7 +11,12 @@ export const useAddItemForm = (onItemAdded: (title: string) => void) => {
   const onAddItem = () => {
     if (newItemTitle.trim()) {
       onItemAdded(newItemTitle.trim())
-      setNewItemTitle('')
+        .then(() => {
+          setNewItemTitle('')
+        })
+        .catch((e) => {
+          setError(e)
+        })
     } else {
       setError('Input is required')
     }

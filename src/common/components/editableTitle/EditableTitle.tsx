@@ -4,7 +4,13 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import { EditItemField } from 'common/components/editItemField/ui/EditItemField'
 
-export const EditableTitle = ({ renameItemCallback, fetchStatus, title }: EditableTitleProps) => {
+type Props = {
+  renameItemCallback: (title: string) => Promise<unknown>
+  fetchStatus: RequestStatus
+  title: string
+}
+
+export const EditableTitle = ({ renameItemCallback, fetchStatus, title }: Props) => {
   const [titleEditMode, setTitleEditMode] = useState(false)
   const toggleTitleEditMode = (toggleValue: boolean) => {
     if (fetchStatus === 'loading') return
@@ -27,11 +33,4 @@ export const EditableTitle = ({ renameItemCallback, fetchStatus, title }: Editab
       )}
     </>
   )
-}
-
-// types
-type EditableTitleProps = {
-  renameItemCallback: (title: string) => void
-  fetchStatus: RequestStatus
-  title: string
 }

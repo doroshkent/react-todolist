@@ -17,7 +17,7 @@ export const TodolistHeader = ({ title, fetchStatus, id }: Props) => {
     removeTodolist({ id })
   }
   const onRenameTodolist = (title: string) => {
-    renameTodolist({ id, title })
+    return renameTodolist({ id, title }).unwrap()
   }
 
   return (

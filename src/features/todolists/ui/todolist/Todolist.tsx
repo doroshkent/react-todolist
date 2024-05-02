@@ -17,7 +17,7 @@ export const Todolist = ({ todolist }: Props) => {
   const { addTask } = useActions()
 
   const onAddTask = (title: string) => {
-    addTask({ todolistId: id, title })
+    return addTask({ todolistId: id, title }).unwrap()
   }
 
   return (

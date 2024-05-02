@@ -13,6 +13,7 @@ import { clearTodolistsAndTasks } from 'common/actions'
 import { todolistsThunks } from 'features/todolists'
 import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
 import { tasksApi } from 'features/tasks/api/tasks-api'
+import { maxLengthError } from 'common/constants'
 
 const tasksSlice = createSlice({
   name: 'tasks',
@@ -95,8 +96,8 @@ const addTask = createAppAsyncThunk<{ task: ApiTask; todolistId: string }, Creat
         const task = res.data.data.item
         return { task, todolistId }
       } else {
-        handleServerAppError(res.data, dispatch)
-        return rejectWithValue(null)
+        handleServerAppError(res.data, dispatch, false)
+        return rejectWithValue(maxLengthError)
       }
     })
   }
@@ -131,8 +132,8 @@ const updateTask = createAppAsyncThunk<{ task: ApiTask; todolistId: string }, Up
         const task = res.data.data.item
         return { todolistId, task }
       } else {
-        handleServerAppError(res.data, dispatch)
-        return rejectWithValue(null)
+        handleServerAppError(res.data, dispatch, false)
+        return rejectWithValue(maxLengthError)
       }
     }).finally(() => dispatch(tasksActions.setTaskEntityStatus({ todolistId, taskId, fetchStatus: 'idle' })))
   }

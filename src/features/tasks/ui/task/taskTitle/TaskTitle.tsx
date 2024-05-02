@@ -20,7 +20,7 @@ export const TaskTitle = ({ task, editMode, toggleEditMode, buttonDisabled }: Pr
   const { updateTask } = useActions()
 
   const onRenameTask = (title: string) => {
-    updateTask({ todolistId: todoListId, taskId: id, model: { title } })
+    return updateTask({ todolistId: todoListId, taskId: id, model: { title } }).unwrap()
   }
 
   const onCheckTask = () => {

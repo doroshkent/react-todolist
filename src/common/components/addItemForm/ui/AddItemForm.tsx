@@ -4,7 +4,13 @@ import AddIcon from '@mui/icons-material/Add'
 import { useAddItemForm } from 'common/components/addItemForm/lib/useAddItemForm'
 import { ItemType } from 'common/types'
 
-export const AddItemForm = memo(({ addItem, item, disabled = false }: AddItemFormPropsType) => {
+type Props = {
+  addItem: (title: string) => Promise<unknown>
+  item: ItemType
+  disabled?: boolean
+}
+
+export const AddItemForm = memo(({ addItem, item, disabled = false }: Props) => {
   const { newItemTitle, error, onChangeTitle, onEnterPress, onAddItem } = useAddItemForm(addItem)
 
   return (
@@ -34,10 +40,3 @@ export const AddItemForm = memo(({ addItem, item, disabled = false }: AddItemFor
     </Grid>
   )
 })
-
-// types
-type AddItemFormPropsType = {
-  addItem: (title: string) => void
-  item: ItemType
-  disabled?: boolean
-}

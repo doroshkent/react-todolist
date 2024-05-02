@@ -5,6 +5,7 @@ import { RequestStatus } from 'common/types'
 import { RemoveTodolistArg, RenameTodolistArg, TodolistApi } from 'features/todolists/api/todolists-api.types'
 import { clearTodolistsAndTasks } from 'common/actions'
 import { todolistsApi } from 'features/todolists/api/todolists-api'
+import { maxLengthError } from 'common/constants'
 
 const todolistsSlice = createSlice({
   name: 'todolists',
@@ -34,8 +35,9 @@ const todolistsSlice = createSlice({
         if (index !== -1) state.splice(index, 1)
       })
       .addCase(renameTodolist.fulfilled, (state, action) => {
+        debugger
         const index = state.findIndex((todo) => todo.id === action.payload.id)
-        if (index) state[index].title = action.payload.title
+        if (index !== -1) state[index].title = action.payload.title
       })
       .addCase(clearTodolistsAndTasks, () => {
         return []
@@ -67,8 +69,8 @@ const addTodolist = createAppAsyncThunk<{ todolist: TodolistApi }, { title: stri
         const todolist = res.data.data.item
         return { todolist }
       } else {
-        handleServerAppError(res.data, dispatch)
-        return rejectWithValue(null)
+        handleServerAppError(res.data, dispatch, false)
+        return rejectWithValue(maxLengthError)
       }
     })
   }
@@ -102,8 +104,8 @@ const renameTodolist = createAppAsyncThunk<RenameTodolistArg, RenameTodolistArg>
       if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
         return arg
       } else {
-        handleServerAppError(res.data, dispatch)
-        return rejectWithValue(null)
+        handleServerAppError(res.data, dispatch, false)
+        return rejectWithValue(maxLengthError)
       }
     }).finally(() => dispatch(todolistsActions.setTodolistEntityStatus({ id, fetchStatus: 'idle' })))
   }

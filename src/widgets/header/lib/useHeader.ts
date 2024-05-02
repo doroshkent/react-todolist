@@ -9,7 +9,7 @@ export const useHeader = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn)
 
   const onAddTodolist = (title: string) => {
-    addTodolist({ title })
+    return addTodolist({ title }).unwrap()
   }
 
   const onLogout = () => {
