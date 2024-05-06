@@ -4,6 +4,7 @@ import { TodolistApi, todolistsThunks } from 'features/todolists'
 import { TASK_PRIORITIES, TASK_STATUSES } from 'common/enums'
 import { tasksReducer, TasksState, tasksThunks } from 'features/tasks/model/tasks-slice'
 import { ApiTask } from 'features/tasks/api/tasks-api.types'
+import { createFulfilledAction } from 'common/utils/createFullfilledAction'
 
 const todolistId1 = v4()
 const todolistId2 = v4()
@@ -278,18 +279,15 @@ test('should add new task with entity status', ({ expect }) => {
     startDate: null,
     todoListId: todolistId2,
   }
+  const addTaskFulfilled = createFulfilledAction(tasksThunks.addTask)
 
-  type AddTask = Omit<ReturnType<typeof tasksThunks.addTask.fulfilled>, 'meta'>
-
-  const action: AddTask = {
-    type: tasksThunks.addTask.fulfilled.type,
-    payload: {
+  const endState = tasksReducer(
+    startState,
+    addTaskFulfilled({
       task: newTask,
       todolistId: todolistId2,
-    },
-  }
-
-  const endState = tasksReducer(startState, action)
+    })
+  )
 
   expect(endState[todolistId1].length).toBe(3)
   expect(endState[todolistId2].length).toBe(4)
@@ -305,14 +303,13 @@ test('should add a new property with a new array when a new todolist is added', 
     addedDate: new Date(),
     order: 0,
   }
-  type AddTodolist = Omit<ReturnType<typeof todolistsThunks.addTodolist.fulfilled>, 'meta'>
-  const action: AddTodolist = {
-    type: todolistsThunks.addTodolist.fulfilled.type,
-    payload: {
+  const addTodolistFulfilled = createFulfilledAction(todolistsThunks.addTodolist)
+  const endState = tasksReducer(
+    startState,
+    addTodolistFulfilled({
       todolist: newTodolist,
-    },
-  }
-  const endState = tasksReducer(startState, action)
+    })
+  )
 
   const keys = Object.keys(endState)
   const newKey = keys.find((k) => k !== todolistId1 && k !== todolistId2)
@@ -325,14 +322,13 @@ test('should add a new property with a new array when a new todolist is added', 
 })
 
 test('should delete the property with todolistId', ({ expect }) => {
-  type RemoveTodolist = Omit<ReturnType<typeof todolistsThunks.removeTodolist.fulfilled>, 'meta'>
-  const action: RemoveTodolist = {
-    type: todolistsThunks.removeTodolist.fulfilled.type,
-    payload: {
+  const removeTodolistFulfilled = createFulfilledAction(todolistsThunks.removeTodolist)
+  const endState = tasksReducer(
+    startState,
+    removeTodolistFulfilled({
       id: todolistId2,
-    },
-  }
-  const endState = tasksReducer(startState, action)
+    })
+  )
 
   const keys = Object.keys(endState)
 
@@ -345,14 +341,13 @@ test('should add a new property with a new array when a new todolists are set', 
     { id: todolistId1, title: 'To Learn', addedDate: new Date(), order: 0 },
     { id: todolistId2, title: 'To Buy', addedDate: new Date(), order: 0 },
   ]
-  type SetTodolists = Omit<ReturnType<typeof todolistsThunks.fetchTodolists.fulfilled>, 'meta'>
-  const action: SetTodolists = {
-    type: todolistsThunks.fetchTodolists.fulfilled.type,
-    payload: {
+  const fetchTodolistsFulfilled = createFulfilledAction(todolistsThunks.fetchTodolists)
+  const endState = tasksReducer(
+    {},
+    fetchTodolistsFulfilled({
       todolists: dataFromApi,
-    },
-  }
-  const endState = tasksReducer({}, action)
+    })
+  )
 
   const keys = Object.keys(endState)
 
@@ -362,8 +357,6 @@ test('should add a new property with a new array when a new todolists are set', 
 })
 
 test('should set tasks with entity status for todolist', ({ expect }) => {
-  type FetchTasks = Omit<ReturnType<typeof tasksThunks.fetchTasks.fulfilled>, 'meta'>
-
   const taskFromApi: ApiTask[] = [
     {
       id: '1',
@@ -379,15 +372,11 @@ test('should set tasks with entity status for todolist', ({ expect }) => {
     },
   ]
 
-  const action: FetchTasks = {
-    type: tasksThunks.fetchTasks.fulfilled.type,
-    payload: {
-      tasks: taskFromApi,
-      todolistId: todolistId1,
-    },
-  }
-
-  const endState = tasksReducer({ [todolistId1]: [], [todolistId2]: [] }, action)
+  const fetchTasksFulfilled = createFulfilledAction(tasksThunks.fetchTasks)
+  const endState = tasksReducer(
+    { [todolistId1]: [], [todolistId2]: [] },
+    fetchTasksFulfilled({ tasks: taskFromApi, todolistId: todolistId1 })
+  )
 
   expect(endState[todolistId1].length).toBe(1)
   expect(endState[todolistId1][0].fetchStatus).toBe('idle')

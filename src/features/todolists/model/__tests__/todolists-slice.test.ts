@@ -8,6 +8,7 @@ import {
   todolistsThunks,
 } from 'features/todolists/model/todolists-slice'
 import { TodolistApi } from 'features/todolists/api/todolists-api.types'
+import { createFulfilledAction } from 'common/utils/createFullfilledAction'
 
 const todolistId1 = v4()
 const todolistId2 = v4()
@@ -70,14 +71,8 @@ test('should add a new correct todolist', ({ expect }) => {
     addedDate: DATE,
     order: 0,
   }
-  type AddTodolist = Omit<ReturnType<typeof todolistsThunks.addTodolist.fulfilled>, 'meta'>
-  const action: AddTodolist = {
-    type: todolistsThunks.addTodolist.fulfilled.type,
-    payload: {
-      todolist: newTodolist,
-    },
-  }
-  const endState = todolistsReducer(startState, action)
+  const addTodolistFulfilled = createFulfilledAction(todolistsThunks.addTodolist)
+  const endState = todolistsReducer(startState, addTodolistFulfilled({ todolist: newTodolist }))
 
   expect(endState.length).toBe(3)
   expect(endState[0].title).toBe(newTitle)
@@ -98,13 +93,8 @@ test('should update the state with todolists and set the filter to "all"', ({ ex
     { id: todolistId1, title: 'To Learn', addedDate: DATE, order: 0 },
     { id: todolistId2, title: 'To Buy', addedDate: DATE, order: 0 },
   ]
-  type SetTodolists = Omit<ReturnType<typeof todolistsThunks.fetchTodolists.fulfilled>, 'meta'>
-  const action: SetTodolists = {
-    type: todolistsThunks.fetchTodolists.fulfilled.type,
-    payload: {
-      todolists: dataFromApi,
-    },
-  }
 
-  expect(todolistsReducer([], action)).toEqual(startState)
+  const fetchTodolistsFulfilled = createFulfilledAction(todolistsThunks.fetchTodolists)
+
+  expect(todolistsReducer([], fetchTodolistsFulfilled({ todolists: dataFromApi }))).toEqual(startState)
 })

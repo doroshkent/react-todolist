@@ -2,6 +2,9 @@ import { test } from 'vitest'
 import { tasksReducer, TasksState } from 'features/tasks/model/tasks-slice'
 import { TodolistDomain, todolistsReducer, todolistsThunks } from 'features/todolists/model/todolists-slice'
 import { TodolistApi } from 'features/todolists'
+import { createFulfilledAction } from 'common/utils/createFullfilledAction'
+
+const addTodolistFulfilled = createFulfilledAction(todolistsThunks.addTodolist)
 
 test('new array should be added when new todolist is added', ({ expect }) => {
   const newTodolist: TodolistApi = {
@@ -10,16 +13,10 @@ test('new array should be added when new todolist is added', ({ expect }) => {
     addedDate: new Date(),
     order: 0,
   }
-  const startState: TasksState = {}
-  type AddTodolist = Omit<ReturnType<typeof todolistsThunks.addTodolist.fulfilled>, 'meta'>
-  const action: AddTodolist = {
-    type: todolistsThunks.addTodolist.fulfilled.type,
-    payload: {
-      todolist: newTodolist,
-    },
-  }
 
-  const endState = tasksReducer(startState, action)
+  const startState: TasksState = {}
+
+  const endState = tasksReducer(startState, addTodolistFulfilled({ todolist: newTodolist }))
 
   const keys = Object.keys(endState)
   const newKey = keys.find((k) => k != 'todolistId1' && k != 'todolistId2')
@@ -41,21 +38,14 @@ test('ids should be equal', ({ expect }) => {
     addedDate: new Date(),
     order: 0,
   }
-  type AddTodolist = Omit<ReturnType<typeof todolistsThunks.addTodolist.fulfilled>, 'meta'>
-  const action: AddTodolist = {
-    type: todolistsThunks.addTodolist.fulfilled.type,
-    payload: {
-      todolist: newTodolist,
-    },
-  }
 
-  const tasksEndState = tasksReducer(tasksStartState, action)
-  const todolistsEndState = todolistsReducer(todolistsStartState, action)
+  const tasksEndState = tasksReducer(tasksStartState, addTodolistFulfilled({ todolist: newTodolist }))
+  const todolistsEndState = todolistsReducer(todolistsStartState, addTodolistFulfilled({ todolist: newTodolist }))
 
   const keys = Object.keys(tasksEndState)
   const idFromTasks = keys[0]
   const idFromTodolists = todolistsEndState[0].id
 
-  expect(idFromTasks).toBe(action.payload.todolist.id)
-  expect(idFromTodolists).toBe(action.payload.todolist.id)
+  expect(idFromTasks).toBe(newTodolist.id)
+  expect(idFromTodolists).toBe(newTodolist.id)
 })
