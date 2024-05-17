@@ -7,7 +7,7 @@ export const authAPI = {
     return instance.get<ServerResponse<User>>('auth/me')
   },
   login(params: LoginParams) {
-    return instance.post<ServerResponse<{ userId: number }>>('auth/login', params)
+    return instance.post<ServerResponse<{ userId: number; token: string }>>('auth/login', params)
   },
   logout() {
     return instance.delete<ServerResponse>('auth/login')
