@@ -6,7 +6,7 @@ import { clearTodolistsAndTasks } from 'common/actions'
 import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
 import { LoginParams } from 'features/auth/api/auth-api.types'
 
-const authSlice = createSlice( {
+const authSlice = createSlice({
   name: 'auth',
   initialState: {
     isLoggedIn: false,
@@ -14,38 +14,38 @@ const authSlice = createSlice( {
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase( authThunks.logout.fulfilled, (state) => {
+      .addCase(authThunks.logout.fulfilled, (state) => {
         state.isLoggedIn = false
-      } )
-      .addMatcher( isFulfilled( authThunks.login, appThunks.initializeApp ), (state) => {
+      })
+      .addMatcher(isFulfilled(authThunks.login, appThunks.initializeApp), (state) => {
         state.isLoggedIn = true
-      } )
+      })
   },
   selectors: {
     selectIsLoggedIn: (auth) => auth.isLoggedIn,
   },
-} )
+})
 
 // thunks
 const login = createAppAsyncThunk<undefined, LoginParams>(
-  `${ authSlice.name }/login`,
+  `${authSlice.name}/login`,
   async (arg, { rejectWithValue }) => {
-    const res = await authAPI.login( arg )
+    const res = await authAPI.login(arg)
     if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
       let { token } = res.data.data
-      localStorage.setItem( 'sn-token', token )
+      localStorage.setItem('sn-token', token)
       return undefined
     } else {
-      return rejectWithValue( res.data )
+      return rejectWithValue(res.data)
     }
-  },
+  }
 )
 
-const logout = createAppAsyncThunk<undefined>( `${ authSlice.name }/logout`, async (_, { dispatch }) => {
+const logout = createAppAsyncThunk<undefined>(`${authSlice.name}/logout`, async (_, { dispatch }) => {
   await authAPI.logout()
-  dispatch( clearTodolistsAndTasks() )
+  dispatch(clearTodolistsAndTasks())
   return undefined
-} )
+})
 
 export const authReducer = authSlice.reducer
 export const authThunks = { login, logout }

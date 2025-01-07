@@ -39,7 +39,7 @@
     "build": "GENERATE_SOURCEMAP=false vite build",
     "serve": "vite preview",
     "test": "vitest",
-    "predeploy": "yarn build",
+    "predeploy": "pnpm build",
     "deploy": "gh-pages -d dist",
     "lint": "eslint --fix main.js",
     "format": "prettier -w .",
